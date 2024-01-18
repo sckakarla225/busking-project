@@ -1,0 +1,24 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { auth } from '../../firebase/firebaseConfig';
+import { useAuth } from '../../firebase/useAuth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import Image from 'next/image';
+import logo from '../logo.png';
+
+export default function Login() {
+  return (
+    <main className="flex min-h-screen flex-col">
+      <nav className= "border-gray-200 bg-zinc-800">
+        <div className="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl p-4">
+          <div className="flex flex-row items-center">
+            <a href="/" className="flex items-center">
+              <Image src={logo} alt="logo" width={35} height={35} />
+            </a>
+          </div>
+        </div>
+      </nav>
+      <h1 className="mx-auto justify-center text-purple-800 text-xl font-bold">LOGIN</h1>
+    </main>
+  )
+}
