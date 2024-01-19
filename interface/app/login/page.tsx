@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +17,32 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log(user?.email + 'is logged in');
+    } catch (error: any) {
+      console.log(error.code);
+      switch (error.code) {
+        case 'auth/invalid-email':
+          setError('Please enter a valid email.');
+          break;
+        case 'auth/missing-password':
+          setError('Please enter a password.');
+          break;
+        case 'auth/invalid-password':
+          setError('Please enter a valid password.');
+          break;
+        case 'auth/invalid-credential':
+          setError('Incorrect email or password.');
+          break;
+        default:
+          setError('Unknown error.');
+      }
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col">
       <nav className= "border-gray-200 bg-zinc-800">
@@ -32,7 +58,7 @@ export default function Login() {
         <h1 className="justify-center text-black text-3xl font-bold pt-24">
           Welcome Back!
         </h1>
-        <form className="flex flex-col mx-auto mt-16">
+        <form onSubmit={handleLogin} className="flex flex-col mx-auto mt-16">
           <h1 className="font-semibold text-black mb-2">Email</h1>
           <input 
             type="email" 
@@ -62,12 +88,12 @@ export default function Login() {
           </div>
           <button 
             type="submit"
-            className=" hover:bg-purple-600 bg-purple-500 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mb-10 mt-10"
+            className=" hover:bg-purple-600 bg-purple-500 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-10"
           >
             Login
           </button>
-          {error && <p>{error}</p>}
-          <div className="flex flex-row items-center justify-center mb-2">
+          {error && <p className="text-red-600 font-medium mt-4 text-center">{error}</p>}
+          <div className="flex flex-row items-center justify-center mb-2 mt-10">
             <p className=" text-gray-700 text-sm font-light">Not a performer yet?</p>
             <Link href="/register">
               <p className="text-gray-700 text-sm font-semibold ml-2">Get Started</p>

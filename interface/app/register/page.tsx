@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,6 +35,37 @@ export default function Register() {
     });
   }
 
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      console.log(name);
+      console.log(selectedItems);
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user?.email + 'is registered and logged in');
+    } catch (error: any) {
+      console.log(error.code);
+      switch (error.code) {
+        case 'auth/missing-email':
+          setError('Please enter an email.');
+          break;
+        case 'auth/invalid-email':
+          setError('Please enter a valid email.');
+          break;
+        case 'auth/missing-password':
+          setError('Please enter a password.');
+          break;
+        case 'auth/invalid-password':
+          setError('Please enter a valid password.');
+          break;
+        case 'auth/email-already-in-use':
+          setError('User already exists. Please login.');
+          break;
+        default:
+          setError('Unknown error.');
+      }
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col">
       <nav className= "border-gray-200 bg-zinc-800">
@@ -50,7 +81,7 @@ export default function Register() {
         <h1 className="justify-center text-black text-xl font-bold pt-24">
           Start your Busking Journey!
         </h1>
-        <form className="flex flex-col mx-auto mt-10">
+        <form onSubmit={handleRegister} className="flex flex-col mx-auto mt-10">
           <h1 className="font-semibold text-black mb-2">Your Name</h1>
           <input 
             type="text" 
@@ -139,12 +170,12 @@ export default function Register() {
           </div>
           <button 
             type="submit"
-            className=" hover:bg-purple-600 bg-purple-500 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mb-10 mt-10"
+            className=" hover:bg-purple-600 bg-purple-500 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-10"
           >
             Get Started
           </button>
-          {error && <p>{error}</p>}
-          <div className="flex flex-row items-center justify-center mb-2">
+          {error && <p className="text-red-600 font-medium mt-4 text-center">{error}</p>}
+          <div className="flex flex-row items-center justify-center mt-10 mb-2">
             <p className=" text-gray-700 text-sm font-light">Already a performer?</p>
             <Link href="/login">
               <p className="text-gray-700 text-sm font-semibold ml-2">Login</p>
