@@ -99,13 +99,17 @@ export default function Home() {
           </div>
           <div className="flex flex-row items-center mt-3 w-full">
             <div className="w-1/2 bg-gray-100 border-2 border-gray-200 text-center py-3 mr-2 rounded-md">
-              {coordLat && (
+              {coordLat ? (
                 <h1 className="text-gray-700 font-light text-md">{coordLat}</h1>
+              ) : (
+                <h1 className="text-gray-700 font-light text-md">{0.0}</h1>
               )}
             </div>
             <div className="w-1/2 bg-gray-100 border-2 border-gray-200 text-center py-3 ml-2 rounded-md">
-              {coordLong && (
+              {coordLong ? (
                 <h1 className="text-gray-700 font-light text-md">{coordLong}</h1>
+              ) : (
+                <h1 className="text-gray-700 font-light text-md">{0.0}</h1>
               )}
             </div>
           </div>
@@ -123,6 +127,9 @@ export default function Home() {
               <MdFileUpload size={20} color="white" />
             </button>
           </div>
+          {files.length == 0 && (
+            <p className="text-sm font-medium text-black">No media uploaded.</p>
+          )}
           {files.map((file, index) => (
             <p key={index} className="text-sm font-medium text-black">
               {file.type + "- " + file.name}
@@ -134,6 +141,7 @@ export default function Home() {
           >
             Send Spot
           </button>
+          {uploadError && <p className="text-red-600 font-medium mt-3 text-center">{uploadError}</p>}
         </div>
       </section>
     </main>
