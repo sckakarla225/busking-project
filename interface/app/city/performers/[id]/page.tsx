@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { MdKeyboardArrowLeft } from 'react-icons/md';
 
 import { Performer, samplePerformerData } from '../../types';
 import logo from '../../../logo.png';

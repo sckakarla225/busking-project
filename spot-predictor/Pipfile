@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+streamlit = "*"
+numpy = "*"
+scipy = "*"
+beautifulsoup4 = "*"
+scikit-learn = "*"
+pandas = "*"
+seaborn = "*"
+tensorflow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
