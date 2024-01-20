@@ -82,7 +82,7 @@ export default function Home() {
         </div>
       </nav>
       <section className="px-16 py-10">
-        <div className="flex flex-col mx-auto mt-20">
+        <div className="flex flex-col mx-auto mt-10">
           <h1 className="font-semibold text-black mb-2">Spot Name</h1>
           <input 
             type="text" 
