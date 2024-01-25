@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,10 +9,13 @@ import { IoEyeSharp } from 'react-icons/io5';
 
 import { auth } from '../../firebase/firebaseConfig';
 import { useAuth } from '../../firebase/useAuth';
+import { AppDispatch } from '@/redux/store';
+import { login, logout } from '@/redux/reducers/auth';
 import logo from '../logo.png';
 
 export default function Login() {
   const user = useAuth();
+  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +26,10 @@ export default function Login() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log(user?.email + 'is logged in');
+      if (user?.email && user?.uid) {
+        dispatch(login({ userId: user?.uid, email: user?.email }));
+        console.log("loaded to state");
+      };
     } catch (error: any) {
       console.log(error.code);
       switch (error.code) {
@@ -40,6 +48,7 @@ export default function Login() {
         default:
           setError('Unknown error.');
       }
+      dispatch(logout());
     }
   }
 
