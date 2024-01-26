@@ -12,6 +12,7 @@ scikit-learn = "*"
 pandas = "*"
 seaborn = "*"
 tensorflow = "*"
+firebase-admin = "*"
 
 [dev-packages]
 
