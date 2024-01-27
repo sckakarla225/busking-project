@@ -1,3 +1,9 @@
 import TimeSlider from "./TimeSlider";
+import Profile from "./Profile";
+import Key from "./Key";
 
-export { TimeSlider };
+export { 
+  TimeSlider, 
+  Profile,
+  Key 
+};
