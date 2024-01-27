@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Map, { Marker } from 'react-map-gl';
 import { HiMiniUserCircle } from 'react-icons/hi2';
+import { TbMapPinPlus } from 'react-icons/tb';
 
+import { TimeSlider } from '../components';
 import { firestore } from '@/firebase/spotsData';
 import { collection, getDocs } from 'firebase/firestore';
 import { useAppSelector } from '@/redux/store';
@@ -51,6 +53,15 @@ export default function Home() {
           <HiMiniUserCircle size={30} color="white" />
         </div>
       </nav>
+      <button className="absolute top-24 right-5 z-10 px-4 py-2 border-2 border-purple-800 bg-purple-700 rounded-lg">
+        <div className="flex flex-row items-center justify-center">
+          <TbMapPinPlus size={20} color="white" />
+          <p className="text-white font-semibold text-xs ml-2">Key</p>
+        </div>
+      </button>
+      <div className="absolute bottom-10 px-5 z-10 w-full">
+        <TimeSlider />
+      </div>
       <Map
         mapboxAccessToken={MAPBOX_API_KEY}
         initialViewState={{
