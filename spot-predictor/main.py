@@ -1,6 +1,8 @@
 import streamlit as st 
+from streamlit_folium import folium_static
 import pandas as pd
-from spots_data import get_spots
+from spots_data import get_spots, get_spot
+from map_visuals import create_map
 
 st.title("Spot Prediction API")
 st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
@@ -14,8 +16,17 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # Nearby POIs data: distance from spot, estimated capacity of indoor space, hours and timings, popularity of space
 # Connected walkways data: all paths that go through spot (with corresponding point A and point B + type of place)
 
+st.write("Spots Data")
 spots = get_spots()
 df = pd.DataFrame(spots)
 df = df.drop('id', axis=1)
-st.write("Spots Data")
 st.write(df)
+
+st.write("Test Spot (for data collection)")
+spot = get_spot('XMo7AYD1SHKkPSdnWRXe')
+spot_df = pd.DataFrame([spot])
+spot_df = spot_df.drop('id', axis=1)
+st.write(spot_df)
+spot_map = create_map((spot["latitude"], spot["longitude"]))
+folium_static(spot_map)
+

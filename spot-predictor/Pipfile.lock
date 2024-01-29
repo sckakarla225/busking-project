@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "93e3f07fa47f54cc86cc3b82bd9693d4c42fad2f3f0cfe9145ef8ded02f1f8f1"
+            "sha256": "5a181c6c678db46fd2f8ad0eba12c3dc928a2dcbc3794d6af3f40a0639e08786"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -62,6 +62,14 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==1.7.0"
+        },
+        "branca": {
+            "hashes": [
+                "sha256:503ccb589a9ee9464cb7b5b17e5ffd8d5082c5c28624197f58f20d4d377a68bb",
+                "sha256:c653d9a3fef1e6cd203757c77d3eb44810f11998506451f9a27d52b983500c16"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==0.7.0"
         },
         "cachecontrol": {
             "hashes": [
@@ -359,6 +367,14 @@
             ],
             "version": "==23.5.26"
         },
+        "folium": {
+            "hashes": [
+                "sha256:480f217b80d27530eef22e0535030f1696d61a2d55e6cc17acc36750cca89463",
+                "sha256:cb792d11e8049a455d3dc6416cdd8e7a1623d6b949f6e42c45a5d8fa4d1e24f4"
+            ],
+            "index": "pypi",
+            "version": "==0.15.1"
+        },
         "fonttools": {
             "hashes": [
                 "sha256:0255dbc128fee75fb9be364806b940ed450dd6838672a150d501ee86523ac61e",
@@ -594,6 +610,13 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==1.62.0"
+        },
+        "googlemaps": {
+            "hashes": [
+                "sha256:3055fcbb1aa262a9159b589b5e6af762b10e80634ae11c59495bd44867e47d88"
+            ],
+            "index": "pypi",
+            "version": "==4.10.0"
         },
         "grpcio": {
             "hashes": [
@@ -1411,11 +1434,11 @@
         },
         "referencing": {
             "hashes": [
-                "sha256:3c57da0513e9563eb7e203ebe9bb3a1b509b042016433bd1e45a2853466c3dd3",
-                "sha256:7e4dc12271d8e15612bfe35792f5ea1c40970dadf8624602e33db2758f7ee554"
+                "sha256:39240f2ecc770258f28b642dd47fd74bc8b02484de54e1882b74b35ebd779bd5",
+                "sha256:c775fedf74bc0f9189c2a3be1c12fd03e8c23f4d371dce795df44e06c5b412f7"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==0.32.1"
+            "version": "==0.33.0"
         },
         "requests": {
             "hashes": [
@@ -1679,6 +1702,14 @@
             ],
             "index": "pypi",
             "version": "==1.30.0"
+        },
+        "streamlit-folium": {
+            "hashes": [
+                "sha256:3a23ea67b3ce06d269ae9e999f9040a685ad194486dd51689abf9eefb6bcb936",
+                "sha256:a1079a7b0a4dda462e387ce622ad2dd0269c3e72d7de4f0cbda50e8764340fb5"
+            ],
+            "index": "pypi",
+            "version": "==0.18.0"
         },
         "tenacity": {
             "hashes": [
@@ -1958,6 +1989,14 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "version": "==1.14.1"
+        },
+        "xyzservices": {
+            "hashes": [
+                "sha256:091229269043bc8258042edbedad4fcb44684b0473ede027b5672ad40dc9fa02",
+                "sha256:6a4c38d3a9f89d3e77153eff9414b36a8ee0850c9e8b85796fd1b2a85b8dfd68"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==2023.10.1"
         },
         "zipp": {
             "hashes": [

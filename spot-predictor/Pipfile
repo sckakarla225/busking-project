@@ -13,6 +13,9 @@ pandas = "*"
 seaborn = "*"
 tensorflow = "*"
 firebase-admin = "*"
+googlemaps = "*"
+folium = "*"
+streamlit-folium = "*"
 
 [dev-packages]
 
