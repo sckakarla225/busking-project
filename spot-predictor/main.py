@@ -2,7 +2,8 @@ import streamlit as st
 from streamlit_folium import folium_static
 import pandas as pd
 from spots_data import get_spots, get_spot
-from map_visuals import create_map
+from map_visuals import create_map, add_markers
+from static import get_nearby_spots
 
 st.title("Spot Prediction API")
 st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
@@ -22,11 +23,19 @@ df = pd.DataFrame(spots)
 df = df.drop('id', axis=1)
 st.write(df)
 
-st.write("Test Spot (for data collection)")
+st.write("Test Spot (for data collection using Google Maps API)")
 spot = get_spot('XMo7AYD1SHKkPSdnWRXe')
 spot_df = pd.DataFrame([spot])
 spot_df = spot_df.drop('id', axis=1)
 st.write(spot_df)
+
+nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
+nearby_spots_df = pd.DataFrame(nearby_spots)
+st.write(nearby_spots_df)
+
 spot_map = create_map((spot["latitude"], spot["longitude"]))
-folium_static(spot_map)
+updated_map = add_markers(map=spot_map, spots=nearby_spots)
+folium_static(updated_map)
+
+
 

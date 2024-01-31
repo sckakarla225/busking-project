@@ -16,6 +16,7 @@ firebase-admin = "*"
 googlemaps = "*"
 folium = "*"
 streamlit-folium = "*"
+geopy = "*"
 
 [dev-packages]
 

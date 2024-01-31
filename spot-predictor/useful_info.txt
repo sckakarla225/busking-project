@@ -1,0 +1,84 @@
+Places API response structure:
+
+{
+    'business_status': 'OPERATIONAL', 
+    'geometry': {
+        'location': {'lat': 35.7739788, 'lng': -78.63976079999999}, 
+        'viewport': {'northeast': {'lat': 35.7753738302915, 'lng': -78.63840421970849}, 'southwest': {'lat': 35.7726758697085, 'lng': -78.6411021802915}}
+    }, 
+    'icon': 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png', 
+    'icon_background_color': '#7B9EB0', 
+    'icon_mask_base_uri': 'https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet', 
+    'name': 'Raleigh, N.C., Visitor Information Center', 
+    'opening_hours': {'open_now': True}, 
+    'photos': [
+        {
+            'height': 4032, 
+            'html_attributions': ['<a href="https://maps.google.com/maps/contrib/116181351882511491192">DJR</a>'], 
+            'photo_reference': 'AWU5eFh8Mx7marpqvi0nW5vP6fAj6DSQsNI85yVw-wPwOA67HLM6AlhB0TGPgHdF9ufvK3OYUmbHNuv7Lj1dtbSp0Fxub0QwfGGD5YYMhhdxFaV-U4FOG5GO61m2F9SvU0JWvB8ur5gukpbxbN0XWANL0IjuqAjJ7qS-prSHXHeORMcjbZ2T', 
+            'width': 2268
+        }
+    ], 
+    'place_id': 'ChIJpVAQXHFfrIkRqZIcj2MwL4w', 
+    'plus_code': {
+        'compound_code': 'Q9F6+H3 Raleigh, NC, USA', 
+        'global_code': '8773Q9F6+H3'
+    }, 
+    'rating': 3.8, 
+    'reference': 'ChIJpVAQXHFfrIkRqZIcj2MwL4w', 
+    'scope': 'GOOGLE', 
+    'types': ['travel_agency', 'point_of_interest', 'establishment'],
+    'user_ratings_total': 5, 
+    'vicinity': '500 Fayetteville Street, Raleigh'
+}
+
+Get Place API object properties:
+
+address_components: A list of components that make up the place's address, such as street number, route, neighborhood, locality, administrative area, country, postal code, etc.
+
+adr_address: The place's address in a simplified, HTML format.
+
+business_status: The operational status of the business (e.g., "OPERATIONAL", "CLOSED_PERMANENTLY").
+
+formatted_address: The place's address in a human-readable format.
+
+formatted_phone_number: The place's phone number in a formatted, human-readable version.
+
+geometry: Contains information about the place's location, including:
+
+location: The latitude and longitude of the place.
+viewport: The recommended viewport for displaying the place.
+icon: The URL of a suggested icon for the place.
+
+international_phone_number: The place's phone number in an international format.
+
+name: The name of the place.
+
+opening_hours: Information about the place's opening hours, if available. It can include:
+
+open_now: A boolean indicating if the place is currently open.
+periods: Detailed data about the opening hours throughout the week.
+weekday_text: Human-readable strings representing the opening hours for each day of the week.
+photos: An array of photo objects related to the place, each containing a reference to the photo, the height, and width.
+
+place_id: A textual identifier that uniquely identifies a place.
+
+plus_code: An encoded location reference, used for places that don't have a street address.
+
+price_level: The price level of the place, on a scale of 0 to 4, if applicable.
+
+rating: The place's rating, on a scale of 1.0 to 5.0.
+
+reviews: An array of review objects, each containing information about a single user's review of the place.
+
+types: An array of feature types describing the place (e.g., "restaurant", "park", etc.).
+
+url: The URL of the detailed Google Maps page for the place.
+
+user_ratings_total: The total number of user ratings for the place.
+
+utc_offset: The number of minutes the place’s time zone is offset from UTC.
+
+vicinity: The vicinity in which the place is located. Often similar to formatted_address.
+
+website: The official website of the place, if available.
