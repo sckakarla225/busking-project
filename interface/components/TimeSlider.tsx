@@ -53,7 +53,7 @@ const TimeSlider = () => {
             // Only render labels that are within the 24-hour range
             if (index >= 0 && index <= 47) {
               return (
-                <span key={i} className={`absolute ${i === 3 ? 'text-black font-semibold text-sm' : 'text-gray-800 font-medium text-xs'}`} style={{ left: `calc(${(i / 6) * 100}% - 15px)`, top: 5 }}>
+                <span key={i} className={`absolute ${i === 3 ? 'text-white font-semibold text-sm' : 'text-gray-200 font-medium text-xs'}`} style={{ left: `calc(${(i / 6) * 100}% - 15px)`, top: 5 }}>
                   {formatTime(index).split(' ')[0]} <br />
                   {formatTime(index).split(' ')[1]}
                 </span>

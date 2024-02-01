@@ -83,7 +83,7 @@ export default function Home() {
         ]}
         style={{ width: '100%', height: '100%' }}
         pitch={55}
-        mapStyle="mapbox://styles/mapbox/standard"
+        mapStyle="mapbox://styles/sckakarla36/clrtwmjh800rh01o86wqfe7rx"
       >
         {spots !== [] 
           && spots.map((spot: any) => (
