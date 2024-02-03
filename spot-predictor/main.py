@@ -1,7 +1,7 @@
 import streamlit as st 
 from streamlit_folium import folium_static
 import pandas as pd
-from spots_data import get_spots, get_spot
+from spots_data import get_spots, get_spot, duplicate_all_spots
 from map_visuals import create_map, add_markers
 from static import get_nearby_spots
 
@@ -29,6 +29,7 @@ spot_df = pd.DataFrame([spot])
 spot_df = spot_df.drop('id', axis=1)
 st.write(spot_df)
 
+st.write("Nearby Places Data and Map")
 nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
 nearby_spots_df = pd.DataFrame(nearby_spots)
 st.write(nearby_spots_df)
@@ -36,6 +37,9 @@ st.write(nearby_spots_df)
 spot_map = create_map((spot["latitude"], spot["longitude"]))
 updated_map = add_markers(map=spot_map, spots=nearby_spots)
 folium_static(updated_map)
+
+st.write("Dataset for Test Spot")
+
 
 
 

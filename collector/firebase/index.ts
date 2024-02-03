@@ -1,3 +1,3 @@
-import { createSpot, uploadSpotMedia } from './spots';
+import { createSpot, uploadSpotMedia, getAllSpots } from './spots';
 
-export { createSpot, uploadSpotMedia };
+export { createSpot, uploadSpotMedia, getAllSpots };

@@ -12,7 +12,7 @@ db = firestore.client()
 
 def get_spots():
     spots = []
-    spots_ref = db.collection('spots')
+    spots_ref = db.collection('filtered-spots')
     docs = spots_ref.stream()
     for doc in docs:
         data = doc.to_dict()
@@ -41,4 +41,23 @@ def get_spot(spot_id: str):
         return spot_data
     else:
         return {}
+    
+def duplicate_all_spots():
+    source_ref = db.collection('spots')
+    docs = source_ref.stream()
+
+    batch = db.batch()
+    count = 0
+
+    for doc in docs:
+        target_ref = db.collection('filtered-spots').document(doc.id)
+        batch.set(target_ref, doc.to_dict())
+        count += 1
+
+        if count % 500 == 0:
+            batch.commit()
+            batch = db.batch()
+    
+    batch.commit()
+    print(f'Collection spots duplicated to filtered-spots successfully.')
 
