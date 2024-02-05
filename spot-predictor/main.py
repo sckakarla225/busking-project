@@ -1,7 +1,11 @@
 import streamlit as st 
 from streamlit_folium import folium_static
 import pandas as pd
-from utils.spots_data import get_spots, get_spot
+from utils.spots_data import (
+    get_spots, 
+    get_spot,
+    get_spot_media
+)
 from utils.map_visuals import create_map, add_markers, add_markers_initial
 from data.static import (
     get_nearby_spots, 
@@ -22,24 +26,31 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # Nearby POIs data: distance from spot, estimated capacity of indoor space, hours and timings, popularity of space
 # Connected walkways data: all paths that go through spot (with corresponding point A and point B + type of place)
 
+# All Spots Data
 st.write("Spots Data")
 spots = get_spots('final-spots')
 df = pd.DataFrame(spots)
 df = df.drop('id', axis=1)
 st.write(df)
 
-st.write("Spots Map (Filtered)")
+st.write("Spots Map")
 filtered_spots_map = create_map((spots[0]["latitude"], spots[0]["longitude"]), spots[0]["name"])
 spots.pop(0)
 filtered_spots_map_updated = add_markers_initial(map=filtered_spots_map, spots=spots)
 folium_static(filtered_spots_map_updated)
 
+# Test Spot Data Collection
 st.write("Test Spot (for data collection using Google Maps API)")
 spot = get_spot('XMo7AYD1SHKkPSdnWRXe')
 spot_df = pd.DataFrame([spot])
 spot_df = spot_df.drop('id', axis=1)
 spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
 st.write(spot_df)
+
+st.write("Media Files")
+files_urls = get_spot_media('XMo7AYD1SHKkPSdnWRXe')
+for name, url in files_urls.items():
+    st.write(f'{name}: {url}')
 
 st.write("Nearby Places Data and Map")
 nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
@@ -50,8 +61,7 @@ spot_map = create_map((spot["latitude"], spot["longitude"]), spot["name"])
 updated_map = add_markers(map=spot_map, spots=nearby_spots)
 folium_static(updated_map)
 
+# Dataset for Test Spot
 st.write("Dataset for Test Spot")
-
-
 
 

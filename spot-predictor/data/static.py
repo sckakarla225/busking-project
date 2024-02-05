@@ -142,6 +142,11 @@ def is_sipnstroll(lat, long):
     
     return False
 
+# Input: list of all POIs and their info
+# Output: # of POIs, POI density (weighted average), POI proximity (average distance)
+def analyze_poi_data():
+    return
+
 # Input: list of all Sip n' Stroll locations (name + address)
 # Output: modified list of all Sip n' Stroll locations with coordinates (due to rate-limiting)
 def get_coords_of_sipnstroll_locations():

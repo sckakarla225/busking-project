@@ -1,14 +1,24 @@
 import firebase_admin
 import random
+import datetime
 from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import firestore, storage
 
 cred = credentials.Certificate('spots-collector-firebase-adminsdk-o6g1h-92e223d0bd.json')
-# firebase_admin.initialize_app(cred)
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred, name=f"Initialization: ${random.randint(1, 100000)}")
+firebase_admin.initialize_app(cred, options={
+    'storageBucket': 'spots-collector.appspot.com'
+})
+# if not firebase_admin._apps:
+#     firebase_admin.initialize_app(
+#         cred, 
+#         options={
+#             'storageBucket': 'spots-collector.appspot.com'
+#         }, 
+#         name=f"Initialization: ${random.randint(1, 100000)}"
+#     )
 
 db = firestore.client()
+bucket = storage.bucket()
 
 def get_spots(collection_name):
     spots = []
@@ -72,3 +82,14 @@ def make_final_list(names):
             db.collection('final-spots').document(doc.id).set(doc_dict)
             count += 1
     print(f'${count} spots transferred to final-spots collection.')
+
+def get_spot_media(spot_id):
+    folder_path = f'images/{spot_id}/'
+    blobs = bucket.list_blobs(prefix=folder_path)
+    files_urls = {}
+    
+    for blob in blobs:
+        url = blob.generate_signed_url(datetime.timedelta(hours=1), method='GET')
+        files_urls[blob.name] = url
+    
+    return files_urls

@@ -1,3 +1,25 @@
+
+Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
+- Spot identifier 
+- Latitude 
+- Longitude 
+- POI count 
+- POI density (weighted avg based on types) 
+- Proximity to POIs (avg distance) 
+- Sip n' Stroll (active or inactive) 
+- Sip n' Stroll location count 
+- Date (up to 3 months - March-May) 
+- Time (6:00 AM to 12:00 AM - 18 hours) 
+- Day of the week 
+- POI activity/busy level (avg) 
+- Walking paths count 
+- Avg walkability score of paths (quality + probability) 
+- Spot quality measure 
+- Special events (type + exact location) 
+- Optional: manually label crowdedness level 
+
+-----------------------------------------------
+
 Places API response structure:
 
 {
@@ -125,28 +147,6 @@ Advanced Place Details:
 
 
 -------------------------------
-
-Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
-- Spot identifier
-- Latitude 
-- Longitude 
-- POI count 
-- POI density (weighted avg based on types) 
-- Proximity to POIs (avg distance) 
-- Sip n' Stroll (active or inactive) 
-- Sip n' Stroll location count 
-- Date (up to 3 months - March-May) 
-- Time (6:00 AM to 12:00 AM - 18 hours) 
-- Day of the week 
-- POI activity/busy level (avg) 
-- Walking paths count 
-- Avg walkability score of paths (quality + probability) 
-- Spot quality measure 
-- Special events (type + exact location) 
-- Optional: manually label crowdedness level 
-
-
-----------------------------------
 
 Sip n' Stroll Data:
 
