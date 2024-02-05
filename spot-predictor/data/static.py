@@ -1,12 +1,22 @@
 import googlemaps
 import math
+import time
 import requests
 from collections import Counter
 from geopy.distance import geodesic
+from geopy.geocoders import Nominatim
+from shapely.geometry import Point, Polygon
 
-from constants import GOOGLE_MAPS_API_KEY, ALL_TYPES
+from constants import (
+    GOOGLE_MAPS_API_KEY, 
+    ALL_TYPES,
+    SIP_N_STROLL_OUTER_VERTICES,
+    SIP_N_STROLL_INNER_VERTICES,
+    SIP_N_STROLL_LOCATIONS_DATA
+)
 
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
+geolocator = Nominatim(user_agent="geoapiExercises")
 
 # GOAL: Gather static data on POIs within 50 meters of spot
 
@@ -115,4 +125,29 @@ def get_nearby_spots(lat, long):
             }
             nearby_spots.append(spot_info)
             
-    return nearby_spots
+    return nearby_spots 
+
+# Input: coordinates of spot
+# Output: is spot in Sip n' Stroll region (T or F)
+def is_sipnstroll(lat, long):
+    vertices = SIP_N_STROLL_OUTER_VERTICES
+    region_polygon = Polygon(vertices)
+    point_to_check = Point(lat, long)
+    
+    if point_to_check.within(region_polygon):
+        inner_vertices = SIP_N_STROLL_INNER_VERTICES
+        inner_region_polygon = Polygon(inner_vertices)
+        if point_to_check.within(inner_region_polygon) is not True:
+            return True
+    
+    return False
+
+# Input: list of all Sip n' Stroll locations (name + address)
+# Output: modified list of all Sip n' Stroll locations with coordinates (due to rate-limiting)
+def get_coords_of_sipnstroll_locations():
+    return
+
+# Input: coordinates of spot
+# Output: # of Sip n' Stroll locations within 50 meters (+ distances from spot)
+def get_nearby_sipnstroll_info(lat, long):
+    return

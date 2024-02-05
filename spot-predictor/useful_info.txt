@@ -130,17 +130,140 @@ Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
 - Spot identifier
 - Latitude 
 - Longitude 
-- POI count
-- POI density (weighted avg based on types)
-- Proximity to POIs (avg distance)
-- Sip n' Stroll (active or inactive)
-- Sip n' Stroll location count
-- Date (up to 3 months - March-May)
-- Time (6:00 AM to 12:00 AM - 18 hours)
-- Day of the week
-- POI activity/busy level (avg)
-- Walking paths count
-- Avg walkability score of paths (quality + probability)
-- Spot quality measure
-- Special events (type + exact location)
-- Optional: manually label crowdedness level
+- POI count 
+- POI density (weighted avg based on types) 
+- Proximity to POIs (avg distance) 
+- Sip n' Stroll (active or inactive) 
+- Sip n' Stroll location count 
+- Date (up to 3 months - March-May) 
+- Time (6:00 AM to 12:00 AM - 18 hours) 
+- Day of the week 
+- POI activity/busy level (avg) 
+- Walking paths count 
+- Avg walkability score of paths (quality + probability) 
+- Spot quality measure 
+- Special events (type + exact location) 
+- Optional: manually label crowdedness level 
+
+
+----------------------------------
+
+Sip n' Stroll Data:
+
+Area Vertices (Outer Layer) -
+(35.77737105286942, -78.64965644349358),
+(35.778616674634314, -78.64924317919072),
+(35.77856269011956, -78.64703039840839),
+(35.78067850356867, -78.64688966097884),
+(35.78045257651624, -78.64006410946325),
+(35.7796552320093, -78.64010842842977),
+(35.77949265281787, -78.63646146073818),
+(35.776848874958425, -78.636662199567),
+(35.776791768366614, -78.63498590007087),
+(35.77545927006731, -78.63507975199147),
+(35.77551003230504, -78.63672737452895),
+(35.77207927734255, -78.63690204335174),
+(35.77214061766263, -78.63853141689759),
+(35.77091380223958, -78.63859659180098),
+(35.770913802240756, -78.64032763826349),
+(35.77220618829101, -78.6405361980496),
+(35.77231252364505, -78.64346227722368)
+
+Area Vertices (Inner Layer - Nash Square) - 
+(35.7770963169622, -78.64344254422342), 
+(35.777059739469465, -78.64199981891262),
+(35.778342380164396, -78.6419126542584),
+(35.77839846474162, -78.64339745905747)
+
+Locations (Sold Here) -
+10th & Terrace - 616 S Salisbury St
+The Anchor Bar- 207 Fayetteville St
+The Architect Bar and Social House - 108 1/2 E Hargett St
+Barcelona Wine Bar - 430 W Martin St
+Beasley's Chicken + Honey - 237 S Wilmington St
+Bida Manda Laotian Restaurant and Bar - 222 S Blount St
+The Big Easy NC - 222 Fayetteville St
+Bittersweet - 16 E Martin St
+Brewery Bhavana - 218 S Blount St
+The Bridge DTR - 110 E Hargett St
+Centro Mexican Restaurant - 106 S Wilmington St
+Chido Taco - 555 Fayetteville St
+City Club Raleigh - 150 Fayetteville St
+City of Raleigh Museum - 220 Fayetteville St
+Clyde Cooper's Barbecue - 327 S Wilmington St
+Crank Arm Brewing - 319 W Davie St
+The Davie - 444 S Blount St
+El Rodeo Mexican Restaurant - 329 S Blount St
+Element Plant-Based Gastropub - 421 Fayetteville St
+The Flavor Hills - 319 Fayetteville St
+Flying Saucer Draught Emporium - 328 W Morgan St
+FOUNDATION - 213 Fayetteville St
+Gravy - 135 S Wilmington St
+The Green Monkey - 215 S Wilmington St
+Haymaker - 555 Fayetteville St
+The Hippo Wine Bar + Shop - 123 E Martin St
+Jimmy V's Osteria + Bar - 420 Fayetteville St
+The Junction Salon & Bar - 327 W Davie St
+Junction West - 310 S West St
+Landmark Tavern - 117 E Hargett St
+Libations 317 - 317 W Morgan St
+Lincoln Theatre - 126 E Cabarrus St
+The Mecca Restaurant - 13 E Martin St
+MOFU Shoppe - 321 S Blount St
+The Morning Times Cafe - 10 E Hargett St
+Neptunes Parlour - 14 W Martin St
+Oak City Meatball Shoppe - 180 E Davie St
+On My Way Bartending + Mixology Studio - 501 W Martin St
+Parkside - 301 W Martin St
+The Pit - 328 W Davie St
+Poole's Diner - 426 S McDowell St
+Poole'side Pies - 428 S McDowell St
+The Pour House Music Hall, Record Shop, & Pressing Plant - 224 S Blount St
+Raleigh Convention Center - 500 S Salisbury St
+The Raleigh Times Bar - 14 E Hargett St
+Ruby Deluxe - 415 S Salisbury St
+Sir Walter Coffee - 145 E Davie St
+Sitti Authentic Lebanese - 137 S Wilmington St
+Sono - 319 Fayetteville St
+St. Roch Fine Oysters + Bar - 223 S Wilmington St
+State of Beer Bottle + Sandwich Shop - 401 Hillsborough St
+Tasty Beverage Company - 327 W Davie St
+Tonbo Ramen - 211 S Wilmington St
+Trolley Pub + Beer Shop - 323 W Davie St
+Ugly Monkey Party Bar - 400 W Morgan St
+Virgil's Cocktails & Cocina - 126 S Salisbury St
+Vita Vite - 313 W Hargett St
+Watts and Ward - 200 S Blount St
+Weaver Street Market - 404 W Hargett St
+Whiskey Kitchen - 201 W Martin St
+Woody's at City Market - 205 Wolfe St
+Wye Hill Kitchen & Brewing - 201 S Boylan Ave
+Young Hearts Distilling - 225 S Wilmington St
+Zenith Raleigh - 226 Fayetteville St
+
+Locations (Welcome Here) - 
+311 Gallery - 311 W Martin St
+Aesthetic Appeal Jewelry at Pop-Up Shops at Martin Street - 17 E Martin St
+Alter Ego Salon & Blow Dry Bar - 119 E Hargett St
+Amitie Macaron - 227 Fayetteville St
+Arrow Haircuts & Shaves - 115 E Hargett St
+Artspace - 201 E Davie St
+Blackbird Books & Coffee - 323 Blake St
+City Market Artist Collective - 300 Blake St
+Copperline Plant Co. - 300 Blake St
+Curate Raleigh - 15 W Hargett St
+DECO Raleigh - 207 S Salisbury St
+Decree Company - 135 E Martin St
+Fifi + Talbot - 300 W Hargett Street
+The Gathering Gallery - 111 E Hargett St
+Mustang House - 411 Fayetteville St
+NASHONA - 21 W Hargett St
+Office Revolution - 301 Fayetteville St
+Pallbearer Vintage - 111 E Hargett St
+Pop-Up Shops at Martin Street - 17 E Martin St
+Raleigh Popsicle Co. - 119 E Hargett St
+Residence Inn by Marriott - 616 S Salisbury St
+The Self Care Marketplace - 12 W Martin St
+Union Special - 401 Fayetteville St
+Unorthodox Vintage - 206 S Wilmington St
+Videri Chocolate Factory - 327 W Davie St

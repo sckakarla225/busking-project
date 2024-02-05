@@ -4,15 +4,15 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 cred = credentials.Certificate('spots-collector-firebase-adminsdk-o6g1h-92e223d0bd.json')
-firebase_admin.initialize_app(cred)
-# if not firebase_admin._apps:
-#     firebase_admin.initialize_app(cred, name=f"Initialization: ${random.randint(1, 100000)}")
+# firebase_admin.initialize_app(cred)
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred, name=f"Initialization: ${random.randint(1, 100000)}")
 
 db = firestore.client()
 
-def get_spots():
+def get_spots(collection_name):
     spots = []
-    spots_ref = db.collection('filtered-spots')
+    spots_ref = db.collection(collection_name)
     docs = spots_ref.stream()
     for doc in docs:
         data = doc.to_dict()
@@ -61,3 +61,14 @@ def duplicate_all_spots():
     batch.commit()
     print(f'Collection spots duplicated to filtered-spots successfully.')
 
+def make_final_list(names):
+    count = 0
+    for name in names:
+        doc_ref = db.collection('filtered-spots').where('name', '==', name).stream()
+        if doc_ref is None:
+            print(f'${name} not found.')
+        for doc in doc_ref:
+            doc_dict = doc.to_dict()
+            db.collection('final-spots').document(doc.id).set(doc_dict)
+            count += 1
+    print(f'${count} spots transferred to final-spots collection.')

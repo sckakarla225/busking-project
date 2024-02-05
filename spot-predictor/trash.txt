@@ -1,0 +1,59 @@
+def get_nearby_sipnstroll_info(lat, long):
+    radius = 50
+    total_sold_here = 0
+    total_welcome_here = 0
+    total_sold_here_dist = 0
+    total_welcome_here_dist = 0
+    
+    for location in SIP_N_STROLL_LOCATIONS_DATA:
+        location_ref = geolocator.geocode(location["address"])
+        if location_ref:
+            location_coords = (location_ref.latitude, location_ref.longitude)
+            distance = geodesic((lat, long), location_coords).meters
+            if 0 <= distance <= radius:
+                if location["type"] == "sold_here":
+                    total_sold_here += 1
+                    total_sold_here_dist += distance
+                if location["type"] == "welcome_here":
+                    total_welcome_here += 1
+                    total_welcome_here_dist += distance
+        else:
+            print(f'Error getting coords for ${location["name"]}')
+            continue
+    
+    avg_sold_here_dist = None
+    avg_welcome_here_dist = None
+    if total_sold_here != 0 & total_sold_here_dist != 0:
+        avg_sold_here_dist = total_sold_here_dist / total_sold_here
+    if total_welcome_here != 0 & total_welcome_here_dist != 0:
+        avg_welcome_here_dist = total_welcome_here_dist / total_welcome_here
+        
+    return total_sold_here, total_welcome_here, avg_sold_here_dist, avg_welcome_here_dist
+
+
+def get_coords_of_sipnstroll_locations():
+    locations = SIP_N_STROLL_LOCATIONS_DATA
+    modified_locations = []
+    
+    for location in locations:
+        start_time = time.time()
+        try:
+            location_ref = geolocator.geocode(location["address"])
+            if location_ref:
+                if 'latitude' not in location.keys():
+                    location['latitude'] = location_ref.latitude
+                if 'longitude' not in location.keys():
+                    location['longitude'] = location_ref.longitude
+                print(location)
+                modified_locations.append(location)
+            else:
+                print(f'Error getting coords for {location["name"]}')
+        except Exception as e:
+            print(f'Exception while getting coords for {location["name"]}: {e}')
+        
+        end_time = time.time()
+        time_taken = end_time - start_time
+        if time_taken < 5:
+            time.sleep(5 - time_taken)
+    
+    return modified_locations

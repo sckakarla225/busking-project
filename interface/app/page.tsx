@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image'
-import Map, { Marker } from 'react-map-gl';
+import Map, { Marker, Popup } from 'react-map-gl';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { TbMapPinPlus } from 'react-icons/tb';
 
@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     const getSpots = async () => {
       try {
-        const querySnapshot = await getDocs(collection(firestore, "spots"));
+        const querySnapshot = await getDocs(collection(firestore, "final-spots"));
         const spotsData: any[] = [];
         querySnapshot.forEach((doc) => {
           spotsData.push({ 
@@ -87,7 +87,11 @@ export default function Home() {
       >
         {spots !== [] 
           && spots.map((spot: any) => (
-            <Marker key={spot.id} latitude={spot.lat} longitude={spot.long}>
+            <Marker 
+              key={spot.id}
+              latitude={spot.lat} 
+              longitude={spot.long}
+            >
               <div className="w-5 h-5 bg-purple-500 rounded-full"></div>
             </Marker>
         ))}

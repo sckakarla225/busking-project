@@ -17,6 +17,7 @@ googlemaps = "*"
 folium = "*"
 streamlit-folium = "*"
 geopy = "*"
+shapely = "*"
 
 [dev-packages]
 
