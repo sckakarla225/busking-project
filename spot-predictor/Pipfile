@@ -18,6 +18,7 @@ folium = "*"
 streamlit-folium = "*"
 geopy = "*"
 shapely = "*"
+outscraper = "*"
 
 [dev-packages]
 

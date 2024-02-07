@@ -113,6 +113,7 @@ def get_nearby_spots(lat, long):
                     opening_hours = ["24 Hours"]
             
             spot_info = {
+                'id': place['place_id'],
                 'name': place_name,
                 'coordinates': (place_lat, place_long),
                 'distance': distance,

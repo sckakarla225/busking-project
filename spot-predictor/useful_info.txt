@@ -18,11 +18,11 @@ Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
 - Special events (type + exact location) 
 - Optional: manually label crowdedness level 
 
------------------------------------------------
+----------------------------------------------- 
 
-Places API response structure:
-
-{
+Places API response structure: 
+ 
+{ 
     'business_status': 'OPERATIONAL', 
     'geometry': {
         'location': {'lat': 35.7739788, 'lng': -78.63976079999999}, 
@@ -112,27 +112,27 @@ website: The official website of the place, if available.
 Relevant Place Types: 
 . Automotive - parking, rest_stop
 . Business - farm
-. Culture - art_gallery, museum, performing_arts_theater
-. Entertainment & Recreation - amusement_center, amusement_park, aquarium, banquet_hall, bowling_alley, casino
+. Culture* - art_gallery, museum, performing_arts_theater
+. Entertainment & Recreation* - amusement_center, amusement_park, aquarium, banquet_hall, bowling_alley, casino
 community_center, convention_center, cultural_center, dog_park, event_venue, hiking_area, historical_landmark
 marina, movie_rental, movie_theater, national_park, night_club, park, tourist_attraction, visitor_center
 wedding_venue, zoo
 . Finance - atm, bank
-. Food & Drink - bakery, bar, cafe, coffee_shop, fast_food_restaurant, ice_cream_shop, meal_delivery,
+. Food & Drink* - bakery, bar, cafe, coffee_shop, fast_food_restaurant, ice_cream_shop, meal_delivery,
 meal_takeaway, restaurant
-. Government - city_hall, courthouse, embassy, local_government_office
+. Government* - city_hall, courthouse, embassy, local_government_office
 . Health & Wellness - dentist, doctor, drugstore, hospital, pharmacy, spa
 . Lodging - bed_and_breakfast, campground, camping_cabin, extended_stay_hotel, farm_stay, guest_house, 
 hostel, hotel, lodging, motel, resort_hotel, rv_park
 . Places of Worship - church, hindu_temple, mosque, synagogue
-. Services - barber_shop, beauty_salon, child_care_agency, courier_service, florist, hair_care
+. Services* - barber_shop, beauty_salon, child_care_agency, courier_service, florist, hair_care
 hair_salon, laundry, storage, travel_agency
-. Shopping - clothing_store, convenience_store, department_store, discount_store
+. Shopping* - clothing_store, convenience_store, department_store, discount_store
 electronics_store, furniture_store, gift_shop, grocery_store, jewelry_store, liquor_store
 market, shoe_store, shopping_mall, sporting_goods_store, store, supermarket
-. Sports - athletic_field, fitness_center, gym, playground, sports_club, sports_complex
+. Sports* - athletic_field, fitness_center, gym, playground, sports_club, sports_complex
 stadium, swimming_pool
-. Transportation - bus_station, bus_stop, park_and_ride, train_station, transit_depot, transit_station
+. Transportation* - bus_station, bus_stop, park_and_ride, train_station, transit_depot, transit_station
 
 --------------------------
 
@@ -267,3 +267,63 @@ The Self Care Marketplace - 12 W Martin St
 Union Special - 401 Fayetteville St
 Unorthodox Vintage - 206 S Wilmington St
 Videri Chocolate Factory - 327 W Davie St
+
+
+-------------------------------
+
+Popular Times Object from Outscraper API:
+
+** Jimmy John's example **
+[
+    {
+        'day': 7, 
+        'popular_times': [
+            {'hour': 6, 'percentage': 0, 'title': '', 'time': '6a'}, 
+            {'hour': 7, 'percentage': 0, 'title': '', 'time': '6a'}, 
+            {'hour': 8, 'percentage': 0, 'title': '', 'time': '6a'}, 
+            {'hour': 9, 'percentage': 0, 'title': '', 'time': '9a'}, 
+            {'hour': 10, 'percentage': 0, 'title': '', 'time': '9a'}, 
+            {'hour': 11, 'percentage': 23, 'title': 'Usually not too busy', 'time': '9a'}, 
+            {'hour': 12, 'percentage': 30, 'title': 'Usually not too busy', 'time': '12p'}, 
+            {'hour': 13, 'percentage': 76, 'title': 'Usually a little busy', 'time': '12p'}, 
+            {'hour': 14, 'percentage': 46, 'title': 'Usually not too busy', 'time': '12p'}, 
+            {'hour': 15, 'percentage': 30, 'title': 'Usually not too busy', 'time': '3p'}, 
+            {'hour': 16, 'percentage': 15, 'title': 'Usually not busy', 'time': '3p'}, 
+            {'hour': 17, 'percentage': 15, 'title': 'Usually not busy', 'time': '3p'}, 
+            {'hour': 18, 'percentage': 23, 'title': 'Usually not too busy', 'time': '6p'}, 
+            {'hour': 19, 'percentage': 0, 'title': '', 'time': '6p'}, 
+            {'hour': 20, 'percentage': 0, 'title': '', 'time': '6p'}, 
+            {'hour': 21, 'percentage': 0, 'title': '', 'time': '9p'}, 
+            {'hour': 22, 'percentage': 0, 'title': '', 'time': '9p'}, 
+            {'hour': 23, 'percentage': 0, 'title': '', 'time': '9p'}
+        ]
+    }, 
+    {
+        'day': 1, 
+        'popular_times': [
+            {'hour': 6, 'percentage': 0, 'title': '', 'time': '6a'}, 
+            {'hour': 7, 'percentage': 0, 'title': '', 'time': '6a'}, 
+            {'hour': 8, 'percentage': 0, 'title': '', 'time': '6a'}, 
+            {'hour': 9, 'percentage': 0, 'title': '', 'time': '9a'}, 
+            {'hour': 10, 'percentage': 23, 'title': 'Usually not too busy', 'time': '9a'}, 
+            {'hour': 11, 'percentage': 53, 'title': 'Usually a little busy', 'time': '9a'},
+            {'hour': 12, 'percentage': 38, 'title': 'Usually not too busy', 'time': '12p'}, 
+            {'hour': 13, 'percentage': 15, 'title': 'Usually not busy', 'time': '12p'}, 
+            {'hour': 14, 'percentage': 0, 'title': '', 'time': '12p'}, 
+            {'hour': 15, 'percentage': 7, 'title': 'Usually not busy', 'time': '3p'}, 
+            {'hour': 16, 'percentage': 15, 'title': 'Usually not busy', 'time': '3p'}, 
+            {'hour': 17, 'percentage': 7, 'title': 'Usually not busy', 'time': '3p'}, 
+            {'hour': 18, 'percentage': 0, 'title': '', 'time': '6p'}, 
+            {'hour': 19, 'percentage': 0, 'title': '', 'time': '6p'}, 
+            {'hour': 20, 'percentage': 0, 'title': '', 'time': '6p'}, 
+            {'hour': 21, 'percentage': 0, 'title': '', 'time': '9p'}, 
+            {'hour': 22, 'percentage': 0, 'title': '', 'time': '9p'}, 
+            {'hour': 23, 'percentage': 0, 'title': '', 'time': '9p'}
+        ]
+    },
+    { 'day': 2, 'popular_times': [...] }, 
+    { 'day': 3, 'popular_times': [...] }, 
+    { 'day': 4, 'popular_times': [...] }, 
+    { 'day': 5, 'popular_times': [...] }, 
+    { 'day': 6, 'popular_times': [...] }
+]
