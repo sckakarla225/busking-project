@@ -6,7 +6,11 @@ Spots Info:
 - Time (6:00 AM to 12:00 AM - 18 hours) 
 - Day of the week 
 
-rohan change
+rohanrohanh
+
+rohanfa
+ohraonfla
+
 
 Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
 - POI count
