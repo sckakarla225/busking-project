@@ -6,9 +6,11 @@ from collections import Counter
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 from shapely.geometry import Point, Polygon
+from outscraper import ApiClient
 
 from constants import (
     GOOGLE_MAPS_API_KEY, 
+    OUTSCRAPER_API_KEY,
     ALL_TYPES,
     SIP_N_STROLL_OUTER_VERTICES,
     SIP_N_STROLL_INNER_VERTICES,
@@ -17,6 +19,7 @@ from constants import (
 
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 geolocator = Nominatim(user_agent="geoapiExercises")
+outscraper_client = ApiClient(api_key=OUTSCRAPER_API_KEY)
 
 # GOAL: Gather static data on POIs within 50 meters of spot
 
@@ -151,7 +154,23 @@ def analyze_poi_data():
 # Input: list of all Sip n' Stroll locations (name + address)
 # Output: modified list of all Sip n' Stroll locations with coordinates (due to rate-limiting)
 def get_coords_of_sipnstroll_locations():
-    return
+    modified_locations = []
+    
+    for location in SIP_N_STROLL_LOCATIONS_DATA:
+        res = outscraper_client.google_maps_search(location['address'])
+        latitude = res[0][0]['latitude']
+        longitude = res[0][0]['longitude']
+        modified_location = {
+            "name": location["name"],
+            "address": location["address"],
+            "type": location["type"],
+            "latitude": latitude,
+            "longitude": longitude
+        }
+        print(modified_location)
+        modified_locations.append(modified_location)
+        
+    return modified_locations
 
 # Input: coordinates of spot
 # Output: # of Sip n' Stroll locations within 50 meters (+ distances from spot)

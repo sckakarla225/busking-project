@@ -1,5 +1,5 @@
 
-Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
+Dataset Features: (~100 spots, 18/7 hours, 12 weeks = ~ 150K entries)
 - Spot identifier 
 - Latitude 
 - Longitude 

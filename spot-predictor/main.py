@@ -51,10 +51,8 @@ st.write(df)
 #     get_streetview_imagery(spot_id=spot["id"], lat=spot["latitude"], long=spot["longitude"])
 
 # Visit Raleigh Events Data
-# st.write("Visit Raleigh Events Data")
-# df = pd.DataFrame(VISIT_RALEIGH_EVENTS)
-# st.write(df)
-# df.to_csv('visit_raleigh_events.csv', index=False)
+events_df = pd.read_csv('visit_raleigh_events.csv')
+st.write(events_df)
 
 # st.write("Spots Map")
 # filtered_spots_map = create_map((spots[0]["latitude"], spots[0]["longitude"]), spots[0]["name"])

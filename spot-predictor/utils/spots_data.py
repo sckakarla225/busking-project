@@ -5,17 +5,17 @@ from firebase_admin import credentials
 from firebase_admin import firestore, storage
 
 cred = credentials.Certificate('spots-collector-firebase-adminsdk-o6g1h-92e223d0bd.json')
-# firebase_admin.initialize_app(cred, options={
-#     'storageBucket': 'spots-collector.appspot.com'
-# })
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(
-        cred, 
-        options={
-            'storageBucket': 'spots-collector.appspot.com'
-        }, 
-        name=f"Initialization: ${random.randint(1, 100000)}"
-    )
+firebase_admin.initialize_app(cred, options={
+    'storageBucket': 'spots-collector.appspot.com'
+})
+# if not firebase_admin._apps:
+#     firebase_admin.initialize_app(
+#         cred, 
+#         options={
+#             'storageBucket': 'spots-collector.appspot.com'
+#         }, 
+#         name=f"Initialization: ${random.randint(1, 100000)}"
+#     )
 
 db = firestore.client()
 bucket = storage.bucket()
