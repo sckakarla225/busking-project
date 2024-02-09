@@ -1,5 +1,11 @@
-import math
+import requests
+import csv
+import re
 from outscraper import ApiClient
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 from constants import OUTSCRAPER_API_KEY, DAYS_DICT, TIME_DICT
 
@@ -100,3 +106,53 @@ def calculate_average_poi_activity(places_popular_times):
                 averages.append(average_obj)
             
     return averages
+
+# Input: URL for Visit Raleigh events site
+# Output: 10 events saved to visit_raleigh.csv file (repeat until all ~390 events)
+def get_visit_raleigh_events(url):
+    events_list = []
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+    driver.get(url)
+    driver.implicitly_wait(10)
+    html_content = driver.page_source
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    event_container = soup.find_all('div', { 'class': 'columns large-6 end' })
+    with open('visit_raleigh.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Event Name', 'Date', 'Time', 'Location'])
+
+        for event in event_container:
+            name = event.find('h3')
+            if name is not None:
+                name = name.text 
+            else:
+                name = ""
+            date = event.find('li', { 'class': 'dateInfo' })
+            if date is not None:
+                date = date.text 
+            else:
+                date = ""
+            time = event.find('li', { 'class': 'times' })
+            if time is not None:
+                time = time.text
+            else:
+                time = ""
+            location = event.find('li', { 'class': 'location' })
+            if location is not None:
+                location = location.text 
+                formatted_string = ' '.join(location.replace("Venue:", "").split())
+            else:
+                formatted_string = ""
+            
+            writer.writerow([name, date, time, formatted_string])
+            events_list.append({ 
+                'name': name, 
+                'date': date,
+                'time': time, 
+                'location': formatted_string 
+            })
+    
+    driver.quit()
+    return events_list

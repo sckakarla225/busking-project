@@ -21,7 +21,7 @@ Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
 ----------------------------------------------- 
 
 Places API response structure: 
- 
+
 { 
     'business_status': 'OPERATIONAL', 
     'geometry': {
@@ -325,5 +325,6 @@ Popular Times Object from Outscraper API:
     { 'day': 3, 'popular_times': [...] }, 
     { 'day': 4, 'popular_times': [...] }, 
     { 'day': 5, 'popular_times': [...] }, 
-    { 'day': 6, 'popular_times': [...] }
+    { 'day': 6, 'popular_times': [...] },
+    { 'day': 'live', 'popular_times': [...]}
 ]

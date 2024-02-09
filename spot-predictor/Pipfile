@@ -19,6 +19,8 @@ streamlit-folium = "*"
 geopy = "*"
 shapely = "*"
 outscraper = "*"
+selenium = "*"
+webdriver-manager = "*"
 
 [dev-packages]
 
