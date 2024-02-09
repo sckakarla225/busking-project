@@ -89,6 +89,10 @@ st.write(events_df)
 # st.write(averages_df)
 
 # Dataset for Test Spot
-st.write("Dataset for Test Spot")
+st.write("inshallah")
 
+lat = 35.7770923562702
+long = -78.63837921140224
 
+nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here = get_nearby_sipnstroll_info(lat, long)
+st.write(nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here)

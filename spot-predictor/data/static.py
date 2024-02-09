@@ -174,5 +174,28 @@ def get_coords_of_sipnstroll_locations():
 
 # Input: coordinates of spot
 # Output: # of Sip n' Stroll locations within 50 meters (+ distances from spot)
+
 def get_nearby_sipnstroll_info(lat, long):
-    return
+    nearby_locations_count = 0
+    total_distance = 0
+    sold_here_count = 0
+    total_sold_here_distance = 0
+    welcome_here_count = 0
+    total_welcome_here_distance = 0
+
+    for location in SIP_N_STROLL_LOCATIONS_DATA:
+        distance = geodesic((lat, long), (location['latitude'], location['longitude'])).meters
+        if distance <= 50:
+            nearby_locations_count += 1
+            total_distance += distance
+            if location['type'] == 'sold_here':
+                sold_here_count += 1
+                total_sold_here_distance += distance
+            elif location['type'] == 'welcome_here':
+                welcome_here_count += 1
+                total_welcome_here_distance += distance
+    avg_distance = total_distance / nearby_locations_count if nearby_locations_count > 0 else 0
+    avg_distance_sold_here = total_sold_here_distance / sold_here_count if sold_here_count > 0 else 0
+    avg_distance_welcome_here = total_welcome_here_distance / welcome_here_count if welcome_here_count > 0 else 0
+    
+    return nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here
