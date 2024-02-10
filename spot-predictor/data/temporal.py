@@ -1,11 +1,13 @@
 import requests
 import csv
 import re
+from datetime import datetime
 from outscraper import ApiClient
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from geopy.distance import geodesic
 
 from constants import OUTSCRAPER_API_KEY, DAYS_DICT, TIME_DICT
 
@@ -170,3 +172,63 @@ def find_and_remove_duplicates(events_list):
             unique_events.append(event)
             
     return unique_events
+
+# Input: list of DRA events and their info, coordinates of origin spot
+# Output: all nearby events (<=150 events) from March to May (name, date, and times for each)
+def find_nearby_dra_events(events_list, lat, long):
+    radius = 150
+    nearby_events = []
+    
+    for event in events_list:
+        coordinates = event["Coordinates"]
+        coordinates_split = coordinates.split(",")
+        event_lat = float(coordinates_split[0].strip())
+        event_long = float(coordinates_split[1].strip())
+        distance = geodesic((lat, long), (event_lat, event_long)).meters
+        
+        if 0 <= distance <= radius:
+            nearby_event = {
+                "date": event["Date"],
+                "name": event["Name"],
+                "start_time": event["Start"],
+                "end_time": event["End"]
+            }
+            nearby_events.append(nearby_event)
+    
+    return nearby_events
+
+# Input: list of Visit Raleigh events and their info, coordinates of origin spot
+# Output: all nearby events (<= 150 meters) from March to May (name, date, and times for each)
+def find_nearby_visit_raleigh_events(events_list, lat, long):
+    radius = 150
+    nearby_events = []
+    
+    for event in events_list:
+        coordinates = event["location"]
+        coordinates_split = coordinates.split(",")
+        event_lat = float(coordinates_split[0].strip())
+        event_long = float(coordinates_split[1].strip())
+        distance = geodesic((lat, long), (event_lat, event_long)).meters
+        
+        if 0 <= distance <= radius:
+            name = event["name"]
+            times_split = event["time"].split("-")
+            start_time = times_split[0].replace('PM', ' PM').replace('AM', ' AM')
+            end_time = times_split[1].replace('PM', ' PM').replace('AM', ' AM')
+            dates = event["date"]
+            dates_split = dates.split(",")
+            
+            for date in dates_split:
+                date_stripped = date.strip()
+                date_obj = datetime.strptime(date_stripped, "%m/%d/%Y")
+                formatted_date = date_obj.strftime("%m/%d/%Y")
+                
+                nearby_event = {
+                    "date": formatted_date,
+                    "name": name,
+                    "start_time": start_time,
+                    "end_time": end_time
+                }
+                nearby_events.append(nearby_event)
+        
+    return nearby_events

@@ -21,7 +21,9 @@ from data.temporal import (
     get_popular_times,
     calculate_average_poi_activity,
     get_visit_raleigh_events,
-    find_and_remove_duplicates
+    find_and_remove_duplicates,
+    find_nearby_dra_events, 
+    find_nearby_visit_raleigh_events
 )
 
 st.title("Spot Prediction API")
@@ -52,8 +54,8 @@ st.write(df)
 #     get_streetview_imagery(spot_id=spot["id"], lat=spot["latitude"], long=spot["longitude"])
 
 # Visit Raleigh Events Data
-events_df = pd.read_csv('sources/dra_events.csv')
-st.write(events_df)
+# events_df = pd.read_csv('sources/dra_events.csv')
+# st.write(events_df)
 
 # st.write("Spots Map")
 # filtered_spots_map = create_map((spots[0]["latitude"], spots[0]["longitude"]), spots[0]["name"])
@@ -62,12 +64,12 @@ st.write(events_df)
 # folium_static(filtered_spots_map_updated)
 
 # Test Spot Data Collection
-# st.write("Test Spot (for data collection using Google Maps API)")
-# spot = get_spot('RKhtn3Gr3WYmf4cyaaTT')
-# spot_df = pd.DataFrame([spot])
-# spot_df = spot_df.drop('id', axis=1)
-# spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
-# st.write(spot_df)
+st.write("Test Spot (for data collection using Google Maps API)")
+spot = get_spot('RKhtn3Gr3WYmf4cyaaTT')
+spot_df = pd.DataFrame([spot])
+spot_df = spot_df.drop('id', axis=1)
+spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
+st.write(spot_df)
 
 # st.write("Media Files")
 # files_urls = get_spot_media('RKhtn3Gr3WYmf4cyaaTT')
@@ -88,6 +90,17 @@ st.write(events_df)
 # averages_for_popular_times = calculate_average_poi_activity(popular_times_for_places)
 # averages_df = pd.DataFrame(averages_for_popular_times)
 # st.write(averages_df)
+
+st.write("Nearby Events for Test Spot (from March to May)")
+dra_events_df = pd.read_csv('sources/dra_events.csv')
+dra_events_list = dra_events_df.to_dict(orient='records')
+nearby_dra_events = find_nearby_dra_events(dra_events_list, spot["latitude"], spot["longitude"])
+visit_raleigh_events_df = pd.read_csv('sources/visit_raleigh_events_short.csv')
+visit_raleigh_events_list = visit_raleigh_events_df.to_dict(orient='records')
+nearby_visit_raleigh_events = find_nearby_visit_raleigh_events(visit_raleigh_events_list, spot["latitude"], spot["longitude"])
+all_nearby_events = nearby_dra_events + nearby_visit_raleigh_events
+all_nearby_events_df = pd.DataFrame(all_nearby_events)
+st.write(all_nearby_events_df)
 
 # Dataset for Test Spot
 st.write("Dataset for Test Spot")
