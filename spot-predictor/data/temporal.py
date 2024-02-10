@@ -156,3 +156,17 @@ def get_visit_raleigh_events(url):
     
     driver.quit()
     return events_list
+
+# Input: list of Visit Raleigh events and their info
+# Output: modified list without duplicate events
+def find_and_remove_duplicates(events_list):
+    seen_events = set()
+    unique_events = []
+    
+    for event in events_list:
+        identifier = (event["name"], event["date"])
+        if identifier not in seen_events:
+            seen_events.add(identifier)
+            unique_events.append(event)
+            
+    return unique_events

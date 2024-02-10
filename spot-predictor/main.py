@@ -20,7 +20,8 @@ from data.visual import (
 from data.temporal import (
     get_popular_times,
     calculate_average_poi_activity,
-    get_visit_raleigh_events
+    get_visit_raleigh_events,
+    find_and_remove_duplicates
 )
 
 st.title("Spot Prediction API")
@@ -51,7 +52,7 @@ st.write(df)
 #     get_streetview_imagery(spot_id=spot["id"], lat=spot["latitude"], long=spot["longitude"])
 
 # Visit Raleigh Events Data
-events_df = pd.read_csv('visit_raleigh_events.csv')
+events_df = pd.read_csv('sources/dra_events.csv')
 st.write(events_df)
 
 # st.write("Spots Map")
