@@ -77,10 +77,10 @@ st.write(spot_df)
 # for name, url in files_urls.items():
 #     st.write(f'{name}: {url}')
 
-st.write("Nearby Places Data and Map")
-nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
-nearby_spots_df = pd.DataFrame(nearby_spots)
-st.write(nearby_spots_df)
+# st.write("Nearby Places Data and Map")
+# nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
+# nearby_spots_df = pd.DataFrame(nearby_spots)
+# st.write(nearby_spots_df)
 
 # spot_map = create_map((spot["latitude"], spot["longitude"]), spot["name"])
 # updated_map = add_markers(map=spot_map, spots=nearby_spots)
