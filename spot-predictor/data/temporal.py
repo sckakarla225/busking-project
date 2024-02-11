@@ -1,6 +1,4 @@
-import requests
 import csv
-import re
 from datetime import datetime
 from outscraper import ApiClient
 from bs4 import BeautifulSoup

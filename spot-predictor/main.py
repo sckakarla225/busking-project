@@ -12,7 +12,8 @@ from data.static import (
     is_sipnstroll,
     get_nearby_sipnstroll_info,
     get_coords_of_sipnstroll_locations,
-    analyze_poi_data
+    analyze_poi_data,
+    get_spot_size_counts
 )
 from data.visual import (
     get_streetview_snapshots,
@@ -41,10 +42,14 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 
 # All Spots Data
 st.write("Spots Data")
-spots = get_spots('final-spots')
+spots = get_spots('filtered-spots')
 df = pd.DataFrame(spots)
 df = df.drop('id', axis=1)
 st.write(df)
+
+size_counts = get_spot_size_counts(spots)
+counts_df = pd.DataFrame([size_counts])
+st.write(counts_df)
 
 # for i in range(2, 41):
 #     url = f'https://www.visitraleigh.com/events/?startDate=03%2F01%2F2024&categories%5B0%5D=&page={i}&showallevents=on&regions=Downtown%20Raleigh&endDate=05%2F31%2F2024'
@@ -92,16 +97,16 @@ st.write(nearby_spots_df)
 # averages_df = pd.DataFrame(averages_for_popular_times)
 # st.write(averages_df)
 
-st.write("Nearby Events for Test Spot (from March to May)")
-dra_events_df = pd.read_csv('sources/dra_events.csv')
-dra_events_list = dra_events_df.to_dict(orient='records')
-nearby_dra_events = find_nearby_dra_events(dra_events_list, spot["latitude"], spot["longitude"])
-visit_raleigh_events_df = pd.read_csv('sources/visit_raleigh_events_short.csv')
-visit_raleigh_events_list = visit_raleigh_events_df.to_dict(orient='records')
-nearby_visit_raleigh_events = find_nearby_visit_raleigh_events(visit_raleigh_events_list, spot["latitude"], spot["longitude"])
-all_nearby_events = nearby_dra_events + nearby_visit_raleigh_events
-all_nearby_events_df = pd.DataFrame(all_nearby_events)
-st.write(all_nearby_events_df)
+# st.write("Nearby Events for Test Spot (from March to May)")
+# dra_events_df = pd.read_csv('sources/dra_events.csv')
+# dra_events_list = dra_events_df.to_dict(orient='records')
+# nearby_dra_events = find_nearby_dra_events(dra_events_list, spot["latitude"], spot["longitude"])
+# visit_raleigh_events_df = pd.read_csv('sources/visit_raleigh_events_short.csv')
+# visit_raleigh_events_list = visit_raleigh_events_df.to_dict(orient='records')
+# nearby_visit_raleigh_events = find_nearby_visit_raleigh_events(visit_raleigh_events_list, spot["latitude"], spot["longitude"])
+# all_nearby_events = nearby_dra_events + nearby_visit_raleigh_events
+# all_nearby_events_df = pd.DataFrame(all_nearby_events)
+# st.write(all_nearby_events_df)
 
 # Dataset for Test Spot
 # st.write("inshallah")
@@ -112,5 +117,8 @@ st.write(all_nearby_events_df)
 # nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here = get_nearby_sipnstroll_info(lat, long)
 # st.write(nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here)
 
+st.write("POI Analysis")
 poi_count, avg_poi_distance, poi_weight = analyze_poi_data(nearby_spots)
-print(poi_count, avg_poi_distance, poi_weight)
+st.write(f"POI Count: {poi_count}")
+st.write(f"Avg POI Distance: {avg_poi_distance}")
+st.write(f"POI Density: {poi_weight}")

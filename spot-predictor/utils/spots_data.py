@@ -32,6 +32,7 @@ def get_spots(collection_name):
             "name": data["name"],
             "latitude": coords.latitude,
             "longitude": coords.longitude,
+            "size": data["size"],
         }
         spots.append(spot)
     return spots

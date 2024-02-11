@@ -3,9 +3,9 @@ Dataset Features: (~100 spots, 18/7 hours, 12 weeks = ~ 150K entries)
 - Spot identifier - DONE
 - Latitude - DONE
 - Longitude - DONE
-- POI count 
-- POI density (weighted avg based on types) 
-- Proximity to POIs (avg distance) 
+- POI count - DONE
+- POI density (weighted avg based on types) - DONE
+- Proximity to POIs (avg distance) - DONE
 - Sip n' Stroll (active or inactive) - DONE
 - Sip n' Stroll location count - DONE
 - Date (up to 3 months - March-May) - DONE
@@ -14,7 +14,7 @@ Dataset Features: (~100 spots, 18/7 hours, 12 weeks = ~ 150K entries)
 - POI activity/busy level (avg) - DONE
 - Walking paths count 
 - Avg walkability score of paths (quality + probability) 
-- Spot quality measure 
+- Spot size measure - DONE
 - Nearby special events (names + times) - DONE
 - Optional: manually label crowdedness level 
 

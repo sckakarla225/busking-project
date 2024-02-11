@@ -1,7 +1,5 @@
 import googlemaps
 import math
-import time
-import requests
 from collections import Counter
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
@@ -151,7 +149,24 @@ def is_sipnstroll(lat, long):
 def analyze_poi_data(nearby_spots):
     tot_distance = 0
     poi_weight = 0
-    weights = {"automotive": 1, "business": 1, "culture": 3, "corporate": 2, "entertainment_and_recreation": 5, "finance": 2, "food_and_drink": 5, "general": 4, "government": 2, "health_and_wellness": 1, "lodging": 3, "religious": 2, "services": 2, "shopping": 3, "sports": 2, "transportation": 3}
+    weights = {
+        "automotive": 1, 
+        "business": 1, 
+        "culture": 4, 
+        "corporate": 2, 
+        "entertainment_and_recreation": 5, 
+        "finance": 2, 
+        "food_and_drink": 5, 
+        "general": 4, 
+        "government": 2, 
+        "health_and_wellness": 1, 
+        "lodging": 3, 
+        "religious": 2, 
+        "services": 3, 
+        "shopping": 4, 
+        "sports": 2, 
+        "transportation": 3
+    }
     
     poi_count = len(nearby_spots)
     for spot in nearby_spots:
@@ -170,7 +185,6 @@ def analyze_poi_data(nearby_spots):
         avg_poi_distance = 0
     
     return poi_count, avg_poi_distance, poi_weight
-
 
 # Input: list of all Sip n' Stroll locations (name + address)
 # Output: modified list of all Sip n' Stroll locations with coordinates (due to rate-limiting)
@@ -220,3 +234,26 @@ def get_nearby_sipnstroll_info(lat, long):
     avg_distance_welcome_here = total_welcome_here_distance / welcome_here_count if welcome_here_count > 0 else 0
     
     return nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here
+
+# Input: list of final spots data
+# Output: counts for each spot size (1-5)
+def get_spot_size_counts(final_spots):
+    num_one = 0
+    num_two = 0
+    num_three = 0
+    num_four = 0
+    num_five = 0
+    
+    for spot in final_spots:
+        if spot["size"] == 1:
+            num_one += 1
+        elif spot["size"] == 2:
+            num_two += 1
+        elif spot["size"] == 3:
+            num_three += 1
+        elif spot["size"] == 4:
+            num_four += 1
+        elif spot["size"] == 5:
+            num_five += 1
+    
+    return { "1": num_one, "2": num_two, "3": num_three, "4": num_four, "5": num_five }
