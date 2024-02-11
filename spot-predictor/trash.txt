@@ -6,7 +6,6 @@ def get_nearby_sipnstroll_info(lat, long):
     total_welcome_here_dist = 0
     
     for location in SIP_N_STROLL_LOCATIONS_DATA:
-        location_ref = geolocator.geocode(location["address"])
         if location_ref:
             location_coords = (location_ref.latitude, location_ref.longitude)
             distance = geodesic((lat, long), location_coords).meters

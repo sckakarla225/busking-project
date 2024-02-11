@@ -1,34 +1,27 @@
-Spots Info:
-- Spot identifier 
-- Latitude 
-- Longitude 
-- Date (up to 3 months - March-May) 
-- Time (6:00 AM to 12:00 AM - 18 hours) 
-- Day of the week 
 
-rohanrohanh
-
-rohanfa
-ohraonfla
-
-
-Dataset Features: (~50 spots, 18/7 hours, 12 weeks = ~ 75K entries)
-- POI count
+Dataset Features: (~100 spots, 18/7 hours, 12 weeks = ~ 150K entries)
+- Spot identifier - DONE
+- Latitude - DONE
+- Longitude - DONE
+- POI count 
 - POI density (weighted avg based on types) 
 - Proximity to POIs (avg distance) 
-- Sip n' Stroll (active or inactive) 
-- Sip n' Stroll location count 
-- POI activity/busy level (avg)
+- Sip n' Stroll (active or inactive) - DONE
+- Sip n' Stroll location count - DONE
+- Date (up to 3 months - March-May) - DONE
+- Time (6:00 AM to 12:00 AM - 18 hours) - DONE
+- Day of the week - DONE
+- POI activity/busy level (avg) - DONE
 - Walking paths count 
 - Avg walkability score of paths (quality + probability) 
 - Spot quality measure 
-- Special events (type + exact location) 
+- Nearby special events (names + times) - DONE
 - Optional: manually label crowdedness level 
 
 ----------------------------------------------- 
 
 Places API response structure: 
- 
+
 { 
     'business_status': 'OPERATIONAL', 
     'geometry': {
@@ -332,5 +325,6 @@ Popular Times Object from Outscraper API:
     { 'day': 3, 'popular_times': [...] }, 
     { 'day': 4, 'popular_times': [...] }, 
     { 'day': 5, 'popular_times': [...] }, 
-    { 'day': 6, 'popular_times': [...] }
+    { 'day': 6, 'popular_times': [...] },
+    { 'day': 'live', 'popular_times': [...]}
 ]

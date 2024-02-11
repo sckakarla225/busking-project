@@ -1,5 +1,13 @@
-import math
+import requests
+import csv
+import re
+from datetime import datetime
 from outscraper import ApiClient
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from geopy.distance import geodesic
 
 from constants import OUTSCRAPER_API_KEY, DAYS_DICT, TIME_DICT
 
@@ -100,3 +108,127 @@ def calculate_average_poi_activity(places_popular_times):
                 averages.append(average_obj)
             
     return averages
+
+# Input: URL for Visit Raleigh events site
+# Output: 10 events saved to visit_raleigh.csv file (repeat until all ~390 events)
+def get_visit_raleigh_events(url):
+    events_list = []
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+    driver.get(url)
+    driver.implicitly_wait(10)
+    html_content = driver.page_source
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    event_container = soup.find_all('div', { 'class': 'columns large-6 end' })
+    with open('visit_raleigh.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Event Name', 'Date', 'Time', 'Location'])
+
+        for event in event_container:
+            name = event.find('h3')
+            if name is not None:
+                name = name.text 
+            else:
+                name = ""
+            date = event.find('li', { 'class': 'dateInfo' })
+            if date is not None:
+                date = date.text 
+            else:
+                date = ""
+            time = event.find('li', { 'class': 'times' })
+            if time is not None:
+                time = time.text
+            else:
+                time = ""
+            location = event.find('li', { 'class': 'location' })
+            if location is not None:
+                location = location.text 
+                formatted_string = ' '.join(location.replace("Venue:", "").split())
+            else:
+                formatted_string = ""
+            
+            writer.writerow([name, date, time, formatted_string])
+            events_list.append({ 
+                'name': name, 
+                'date': date,
+                'time': time, 
+                'location': formatted_string 
+            })
+    
+    driver.quit()
+    return events_list
+
+# Input: list of Visit Raleigh events and their info
+# Output: modified list without duplicate events
+def find_and_remove_duplicates(events_list):
+    seen_events = set()
+    unique_events = []
+    
+    for event in events_list:
+        identifier = (event["name"], event["date"])
+        if identifier not in seen_events:
+            seen_events.add(identifier)
+            unique_events.append(event)
+            
+    return unique_events
+
+# Input: list of DRA events and their info, coordinates of origin spot
+# Output: all nearby events (<=150 events) from March to May (name, date, and times for each)
+def find_nearby_dra_events(events_list, lat, long):
+    radius = 150
+    nearby_events = []
+    
+    for event in events_list:
+        coordinates = event["Coordinates"]
+        coordinates_split = coordinates.split(",")
+        event_lat = float(coordinates_split[0].strip())
+        event_long = float(coordinates_split[1].strip())
+        distance = geodesic((lat, long), (event_lat, event_long)).meters
+        
+        if 0 <= distance <= radius:
+            nearby_event = {
+                "date": event["Date"],
+                "name": event["Name"],
+                "start_time": event["Start"],
+                "end_time": event["End"]
+            }
+            nearby_events.append(nearby_event)
+    
+    return nearby_events
+
+# Input: list of Visit Raleigh events and their info, coordinates of origin spot
+# Output: all nearby events (<= 150 meters) from March to May (name, date, and times for each)
+def find_nearby_visit_raleigh_events(events_list, lat, long):
+    radius = 150
+    nearby_events = []
+    
+    for event in events_list:
+        coordinates = event["location"]
+        coordinates_split = coordinates.split(",")
+        event_lat = float(coordinates_split[0].strip())
+        event_long = float(coordinates_split[1].strip())
+        distance = geodesic((lat, long), (event_lat, event_long)).meters
+        
+        if 0 <= distance <= radius:
+            name = event["name"]
+            times_split = event["time"].split("-")
+            start_time = times_split[0].replace('PM', ' PM').replace('AM', ' AM')
+            end_time = times_split[1].replace('PM', ' PM').replace('AM', ' AM')
+            dates = event["date"]
+            dates_split = dates.split(",")
+            
+            for date in dates_split:
+                date_stripped = date.strip()
+                date_obj = datetime.strptime(date_stripped, "%m/%d/%Y")
+                formatted_date = date_obj.strftime("%m/%d/%Y")
+                
+                nearby_event = {
+                    "date": formatted_date,
+                    "name": name,
+                    "start_time": start_time,
+                    "end_time": end_time
+                }
+                nearby_events.append(nearby_event)
+        
+    return nearby_events

@@ -6,9 +6,11 @@ from collections import Counter
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 from shapely.geometry import Point, Polygon
+from outscraper import ApiClient
 
 from constants import (
     GOOGLE_MAPS_API_KEY, 
+    OUTSCRAPER_API_KEY,
     ALL_TYPES,
     SIP_N_STROLL_OUTER_VERTICES,
     SIP_N_STROLL_INNER_VERTICES,
@@ -17,6 +19,7 @@ from constants import (
 
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 geolocator = Nominatim(user_agent="geoapiExercises")
+outscraper_client = ApiClient(api_key=OUTSCRAPER_API_KEY)
 
 # GOAL: Gather static data on POIs within 50 meters of spot
 
@@ -145,15 +148,75 @@ def is_sipnstroll(lat, long):
 
 # Input: list of all POIs and their info
 # Output: # of POIs, POI density (weighted average), POI proximity (average distance)
-def analyze_poi_data():
-    return
+def analyze_poi_data(nearby_spots):
+    tot_distance = 0
+    poi_weight = 0
+    weights = {"automotive": 1, "business": 1, "culture": 3, "corporate": 2, "entertainment_and_recreation": 5, "finance": 2, "food_and_drink": 5, "general": 4, "government": 2, "health_and_wellness": 1, "lodging": 3, "religious": 2, "services": 2, "shopping": 3, "sports": 2, "transportation": 3}
+    
+    poi_count = len(nearby_spots)
+    for spot in nearby_spots:
+        tot_distance += spot['distance']
+        spot_primary_types = spot['primary_types']
+        spot_weight = 0
+        for primary_type in spot_primary_types:
+            if primary_type in weights:
+                spot_weight += weights[primary_type]
+
+        poi_weight += spot_weight
+
+    if poi_count > 0:
+        avg_poi_distance = tot_distance / poi_count
+    else:
+        avg_poi_distance = 0
+    
+    return poi_count, avg_poi_distance, poi_weight
+
 
 # Input: list of all Sip n' Stroll locations (name + address)
 # Output: modified list of all Sip n' Stroll locations with coordinates (due to rate-limiting)
 def get_coords_of_sipnstroll_locations():
-    return
+    modified_locations = []
+    
+    for location in SIP_N_STROLL_LOCATIONS_DATA:
+        res = outscraper_client.google_maps_search(location['address'])
+        latitude = res[0][0]['latitude']
+        longitude = res[0][0]['longitude']
+        modified_location = {
+            "name": location["name"],
+            "address": location["address"],
+            "type": location["type"],
+            "latitude": latitude,
+            "longitude": longitude
+        }
+        print(modified_location)
+        modified_locations.append(modified_location)
+        
+    return modified_locations
 
 # Input: coordinates of spot
 # Output: # of Sip n' Stroll locations within 50 meters (+ distances from spot)
+
 def get_nearby_sipnstroll_info(lat, long):
-    return
+    nearby_locations_count = 0
+    total_distance = 0
+    sold_here_count = 0
+    total_sold_here_distance = 0
+    welcome_here_count = 0
+    total_welcome_here_distance = 0
+
+    for location in SIP_N_STROLL_LOCATIONS_DATA:
+        distance = geodesic((lat, long), (location['latitude'], location['longitude'])).meters
+        if distance <= 50:
+            nearby_locations_count += 1
+            total_distance += distance
+            if location['type'] == 'sold_here':
+                sold_here_count += 1
+                total_sold_here_distance += distance
+            elif location['type'] == 'welcome_here':
+                welcome_here_count += 1
+                total_welcome_here_distance += distance
+    avg_distance = total_distance / nearby_locations_count if nearby_locations_count > 0 else 0
+    avg_distance_sold_here = total_sold_here_distance / sold_here_count if sold_here_count > 0 else 0
+    avg_distance_welcome_here = total_welcome_here_distance / welcome_here_count if welcome_here_count > 0 else 0
+    
+    return nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here
