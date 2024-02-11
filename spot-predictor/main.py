@@ -11,7 +11,8 @@ from data.static import (
     get_nearby_spots, 
     is_sipnstroll,
     get_nearby_sipnstroll_info,
-    get_coords_of_sipnstroll_locations
+    get_coords_of_sipnstroll_locations,
+    analyze_poi_data
 )
 from data.visual import (
     get_streetview_snapshots,
@@ -76,10 +77,10 @@ st.write(spot_df)
 # for name, url in files_urls.items():
 #     st.write(f'{name}: {url}')
 
-# st.write("Nearby Places Data and Map")
-# nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
-# nearby_spots_df = pd.DataFrame(nearby_spots)
-# st.write(nearby_spots_df)
+st.write("Nearby Places Data and Map")
+nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
+nearby_spots_df = pd.DataFrame(nearby_spots)
+st.write(nearby_spots_df)
 
 # spot_map = create_map((spot["latitude"], spot["longitude"]), spot["name"])
 # updated_map = add_markers(map=spot_map, spots=nearby_spots)
@@ -103,6 +104,13 @@ all_nearby_events_df = pd.DataFrame(all_nearby_events)
 st.write(all_nearby_events_df)
 
 # Dataset for Test Spot
-st.write("Dataset for Test Spot")
+# st.write("inshallah")
 
+# lat = 35.7770923562702
+# long = -78.63837921140224
 
+# nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here = get_nearby_sipnstroll_info(lat, long)
+# st.write(nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here)
+
+poi_count, avg_poi_distance, poi_weight = analyze_poi_data(nearby_spots)
+print(poi_count, avg_poi_distance, poi_weight)
