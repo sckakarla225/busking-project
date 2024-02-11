@@ -148,8 +148,29 @@ def is_sipnstroll(lat, long):
 
 # Input: list of all POIs and their info
 # Output: # of POIs, POI density (weighted average), POI proximity (average distance)
-def analyze_poi_data():
-    return
+def analyze_poi_data(nearby_spots):
+    tot_distance = 0
+    poi_weight = 0
+    weights = {"automotive": 1, "business": 1, "culture": 3, "corporate": 2, "entertainment_and_recreation": 5, "finance": 2, "food_and_drink": 5, "general": 4, "government": 2, "health_and_wellness": 1, "lodging": 3, "religious": 2, "services": 2, "shopping": 3, "sports": 2, "transportation": 3}
+    
+    poi_count = len(nearby_spots)
+    for spot in nearby_spots:
+        tot_distance += spot['distance']
+        spot_primary_types = spot['primary_types']
+        spot_weight = 0
+        for primary_type in spot_primary_types:
+            if primary_type in weights:
+                spot_weight += weights[primary_type]
+
+        poi_weight += spot_weight
+
+    if poi_count > 0:
+        avg_poi_distance = tot_distance / poi_count
+    else:
+        avg_poi_distance = 0
+    
+    return poi_count, avg_poi_distance, poi_weight
+
 
 # Input: list of all Sip n' Stroll locations (name + address)
 # Output: modified list of all Sip n' Stroll locations with coordinates (due to rate-limiting)
