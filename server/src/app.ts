@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import swaggerUi from 'swagger-ui-express';
 
+import { connectToDatabase } from "./config";
 import { swaggerSpec } from './swagger';
 import usersRouter from './routes/user';
 import spotsRouter from './routes/spots';
@@ -16,6 +17,8 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/users', usersRouter);
 app.use('/spots', spotsRouter);
 app.use('/predictions', predictionsRouter);
+
+connectToDatabase();
 
 const PORT = process.env.APP_PORT || 3000;
 app.listen(PORT, () => {
