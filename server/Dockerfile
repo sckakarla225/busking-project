@@ -1,5 +1,7 @@
-FROM denoland/deno:alpine
+FROM node:14
 WORKDIR /app
+COPY package*.json ./
+RUN npm install
 COPY . .
-RUN deno cache mod.ts
-CMD ["run", "--allow-net", "--allow-read", "--allow-env", "mod.ts"]
+EXPOSE 3000
+CMD ["npm", "start"]

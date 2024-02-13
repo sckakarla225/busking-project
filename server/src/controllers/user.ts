@@ -1,38 +1,28 @@
-import { Context, RouterContext } from '../../deps.ts';
-import * as userDB from '../db/user.ts';
+import { Request, Response } from 'express';
 
-export const getUsers = async (ctx: Context) => {
-  const users = await userDB.findAllUsers();
-  ctx.response.body = users;
+const getUser = async (req: Request, res: Response) => {
+    // Logic to get a user
+    res.status(200).send("Get User");
 };
-  
-export const getUser = async (ctx: RouterContext<string>) => {
-  const id = ctx.params.id!;
-  const user = await userDB.findUser(id);
-  if (user) {
-    ctx.response.body = user;
-  } else {
-    ctx.response.status = 404;
-    ctx.response.body = { message: "User not found" };
-  }
+
+const createUser = async (req: Request, res: Response) => {
+    // Logic to create a user
+    res.status(201).send("Create User");
 };
-  
-export const createUser = async (ctx: Context) => {
-  const user = await ctx.request.body().value;
-  const userId = await userDB.createUser(user);
-  ctx.response.status = 201;
-  ctx.response.body = { id: userId };
+
+const updatePerformanceStyles = async (req: Request, res: Response) => {
+    // Logic to update performance styles
+    res.status(200).send("Update Performance Styles");
 };
-  
-export const updateUser = async (ctx: RouterContext<string>) => {
-  const id = ctx.params.id!;
-  const userUpdates = await ctx.request.body().value;
-  await userDB.updateUser(id, userUpdates);
-  ctx.response.body = { message: "User updated" };
+
+const updateRecentSpots = async (req: Request, res: Response) => {
+    // Logic to update recent spots
+    res.status(200).send("Update Recent Spots");
 };
-  
-export const deleteUser = async (ctx: RouterContext<string>) => {
-  const id = ctx.params.id!;
-  await userDB.deleteUser(id);
-  ctx.response.status = 204;
+
+export {
+  getUser,
+  createUser,
+  updatePerformanceStyles,
+  updateRecentSpots 
 };

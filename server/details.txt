@@ -48,4 +48,6 @@ Spots API Endpoints:
     - predict_spots - Predict Spots - POST
     - predict_spot - Predict Single Spot - POST
 . Reservations (async)
-    - clean_reservations - Clean Up Reservations - PUT
+    - TBD
+. Crowd (real-time)
+    - TBD
