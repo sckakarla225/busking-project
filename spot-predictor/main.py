@@ -17,7 +17,8 @@ from data.static import (
 )
 from data.visual import (
     get_streetview_snapshots,
-    get_streetview_imagery
+    get_streetview_imagery,
+    analyze_walking_paths
 )
 from data.temporal import (
     get_popular_times,
@@ -41,15 +42,15 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # Connected walkways data: all paths that go through spot (with corresponding point A and point B + type of place)
 
 # All Spots Data
-st.write("Spots Data")
-spots = get_spots('filtered-spots')
-df = pd.DataFrame(spots)
-df = df.drop('id', axis=1)
-st.write(df)
+# st.write("Spots Data")
+# spots = get_spots('filtered-spots')
+# df = pd.DataFrame(spots)
+# df = df.drop('id', axis=1)
+# st.write(df)
 
-size_counts = get_spot_size_counts(spots)
-counts_df = pd.DataFrame([size_counts])
-st.write(counts_df)
+# size_counts = get_spot_size_counts(spots)
+# counts_df = pd.DataFrame([size_counts])
+# st.write(counts_df)
 
 # for i in range(2, 41):
 #     url = f'https://www.visitraleigh.com/events/?startDate=03%2F01%2F2024&categories%5B0%5D=&page={i}&showallevents=on&regions=Downtown%20Raleigh&endDate=05%2F31%2F2024'
@@ -117,8 +118,15 @@ st.write(spot_df)
 # nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here = get_nearby_sipnstroll_info(lat, long)
 # st.write(nearby_locations_count, avg_distance, sold_here_count, avg_distance_sold_here, welcome_here_count, avg_distance_welcome_here)
 
-st.write("POI Analysis")
-poi_count, avg_poi_distance, poi_weight = analyze_poi_data(nearby_spots)
-st.write(f"POI Count: {poi_count}")
-st.write(f"Avg POI Distance: {avg_poi_distance}")
-st.write(f"POI Density: {poi_weight}")
+# st.write("POI Analysis")
+# poi_count, avg_poi_distance, poi_weight = analyze_poi_data(nearby_spots)
+# st.write(f"POI Count: {poi_count}")
+# st.write(f"Avg POI Distance: {avg_poi_distance}")
+# st.write(f"POI Density: {poi_weight}")
+
+st.write("Visual Analysis")
+walking_paths = analyze_walking_paths('RKhtn3Gr3WYmf4cyaaTT')
+print(walking_paths)
+st.write("Detected lines count: " + str(len(walking_paths)))
+for direction in walking_paths:
+    st.write(direction)

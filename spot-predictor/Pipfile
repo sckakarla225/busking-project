@@ -21,6 +21,7 @@ shapely = "*"
 outscraper = "*"
 selenium = "*"
 webdriver-manager = "*"
+opencv-python = "*"
 
 [dev-packages]
 
