@@ -11,7 +11,7 @@ from utils.visuals_data import setup_images_folder
 # Input: spot info (ID + coordinates)
 # Output: saved StreetView snapshots of spot
 def get_streetview_snapshots(spot_id, lat, long):
-    image_save_location = f'images/{spot_id}-streetviewmap.jpg'
+    image_save_location = f'new_images/{spot_id}-streetviewmap.jpg'
     url = "https://maps.googleapis.com/maps/api/staticmap"
     params = {
         'center': f'{lat},{long}',

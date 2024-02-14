@@ -4,7 +4,9 @@ import pandas as pd
 from utils.spots_data import (
     get_spots, 
     get_spot,
-    get_spot_media
+    get_spot_media,
+    get_spots_difference,
+    load_walking_paths
 )
 from utils.map_visuals import create_map, add_markers, add_markers_initial
 from data.static import (
@@ -48,6 +50,17 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # df = df.drop('id', axis=1)
 # st.write(df)
 
+# Spots Difference (Filtered minus Final)
+st.write("Spots Difference Data")
+diff_spots = get_spots_difference()
+diff_df = pd.DataFrame(diff_spots)
+diff_df = diff_df.drop('id', axis=1)
+st.write(diff_df)
+
+# Update Filtered Spots with Paths
+# load_walking_paths(FINAL_SPOT_IDS)
+# load_walking_paths(DIFF_SPOT_IDS)
+
 # size_counts = get_spot_size_counts(spots)
 # counts_df = pd.DataFrame([size_counts])
 # st.write(counts_df)
@@ -57,8 +70,8 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 #     events_list = get_visit_raleigh_events(url)
 #     st.write(events_list)
 
-# for spot in spots:
-#     get_streetview_imagery(spot_id=spot["id"], lat=spot["latitude"], long=spot["longitude"])
+# for spot in diff_spots:
+#     get_streetview_snapshots(spot_id=spot["id"], lat=spot["latitude"], long=spot["longitude"])
 
 # Visit Raleigh Events Data
 # events_df = pd.read_csv('sources/dra_events.csv')
@@ -71,12 +84,12 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # folium_static(filtered_spots_map_updated)
 
 # Test Spot Data Collection
-st.write("Test Spot (for data collection using Google Maps API)")
-spot = get_spot('RKhtn3Gr3WYmf4cyaaTT')
-spot_df = pd.DataFrame([spot])
-spot_df = spot_df.drop('id', axis=1)
-spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
-st.write(spot_df)
+# st.write("Test Spot (for data collection using Google Maps API)")
+# spot = get_spot('RKhtn3Gr3WYmf4cyaaTT')
+# spot_df = pd.DataFrame([spot])
+# spot_df = spot_df.drop('id', axis=1)
+# spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
+# st.write(spot_df)
 
 # st.write("Media Files")
 # files_urls = get_spot_media('RKhtn3Gr3WYmf4cyaaTT')
@@ -124,9 +137,9 @@ st.write(spot_df)
 # st.write(f"Avg POI Distance: {avg_poi_distance}")
 # st.write(f"POI Density: {poi_weight}")
 
-st.write("Visual Analysis")
-walking_paths = analyze_walking_paths('RKhtn3Gr3WYmf4cyaaTT')
-print(walking_paths)
-st.write("Detected lines count: " + str(len(walking_paths)))
-for direction in walking_paths:
-    st.write(direction)
+# st.write("Visual Analysis")
+# walking_paths = analyze_walking_paths('RKhtn3Gr3WYmf4cyaaTT')
+# print(walking_paths)
+# st.write("Detected lines count: " + str(len(walking_paths)))
+# for direction in walking_paths:
+#     st.write(direction)

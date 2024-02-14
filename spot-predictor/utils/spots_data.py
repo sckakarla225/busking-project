@@ -4,6 +4,8 @@ import datetime
 from firebase_admin import credentials
 from firebase_admin import firestore, storage
 
+from constants import FINAL_SPOT_IDS
+
 cred = credentials.Certificate('spots-collector-firebase-adminsdk-o6g1h-92e223d0bd.json')
 # firebase_admin.initialize_app(cred, options={
 #     'storageBucket': 'spots-collector.appspot.com'
@@ -22,6 +24,7 @@ bucket = storage.bucket()
 
 def get_spots(collection_name):
     spots = []
+    spot_ids = []
     spots_ref = db.collection(collection_name)
     docs = spots_ref.stream()
     for doc in docs:
@@ -35,6 +38,27 @@ def get_spots(collection_name):
             "size": data["size"],
         }
         spots.append(spot)
+        spot_ids.append(doc.id)
+    return spots
+
+def get_spots_difference():
+    spots = []
+    spot_ids = []
+    spots_ref = db.collection('filtered-spots')
+    docs = spots_ref.stream()
+    for doc in docs:
+        if doc.id not in FINAL_SPOT_IDS:
+            data = doc.to_dict()
+            coords = data["coordinates"]
+            spot = {
+                "id": doc.id,
+                "name": data["name"],
+                "latitude": coords.latitude,
+                "longitude": coords.longitude,
+                "size": data["size"]
+            }
+            spots.append(spot)
+            spot_ids.append(doc.id)
     return spots
 
 def get_spot(spot_id: str):
@@ -52,6 +76,17 @@ def get_spot(spot_id: str):
         return spot_data
     else:
         return {}
+    
+def load_walking_paths(walking_paths):
+    for key, value in walking_paths.items():
+        doc_ref = db.collection('filtered-spots').document(key)
+        update_data = {
+            'paths': value,
+        }
+        try:
+            doc_ref.update(update_data)
+        except:
+            print(f"Error updating {key}")
     
 def duplicate_all_spots():
     source_ref = db.collection('spots')
