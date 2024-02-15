@@ -227,7 +227,12 @@ def find_nearby_visit_raleigh_events(events_list, lat, long):
             
             for date in dates_split:
                 date_stripped = date.strip()
-                date_obj = datetime.strptime(date_stripped, "%m/%d/%Y")
+                if len(date_stripped.split('/')[-1]) == 4:
+                    date_format = "%m/%d/%Y"
+                else:
+                    date_format = "%m/%d/%y"
+
+                date_obj = datetime.strptime(date_stripped, date_format)
                 formatted_date = date_obj.strftime("%m/%d/%Y")
                 
                 nearby_event = {

@@ -36,6 +36,7 @@ def get_spots(collection_name):
             "latitude": coords.latitude,
             "longitude": coords.longitude,
             "size": data["size"],
+            "walking_paths": data["paths"]
         }
         spots.append(spot)
         spot_ids.append(doc.id)

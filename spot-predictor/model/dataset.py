@@ -1,15 +1,20 @@
 import csv
+import ast
 import pandas as pd
+from datetime import datetime
 
 from utils.spots_data import get_spots
 from data.static import (
     get_nearby_spots,
     is_sipnstroll,
-    get_nearby_sipnstroll_info
+    get_nearby_sipnstroll_info,
+    analyze_poi_data
 )
 from data.temporal import (
     get_popular_times,
-    calculate_average_poi_activity
+    calculate_average_poi_activity,
+    find_nearby_dra_events,
+    find_nearby_visit_raleigh_events
 )
 from constants import CALENDAR
 
@@ -68,9 +73,82 @@ def add_sip_n_stroll_info():
     
 def add_poi_data():
     df = pd.read_csv('dataset.csv')
-    poi_df = pd.DataFrame()
+    columns = ['spot_id', 'poi_count', 'avg_poi_distance', 'poi_weight']
+    poi_df = pd.DataFrame(columns=columns)
     all_spots = get_spots('filtered-spots')
+    rows_to_add = []
+    
     for spot in all_spots:
         nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
+        poi_count, avg_poi_distance, poi_weight = analyze_poi_data(nearby_spots)
+        new_row = [spot["id"], poi_count, avg_poi_distance, poi_weight]
+        print(new_row)
+        rows_to_add.append(new_row)
+        
+    poi_df = pd.concat([poi_df, pd.DataFrame(rows_to_add, columns=poi_df.columns)], ignore_index=True)
+    print(poi_df.head())
+    merged_df = pd.merge(df, poi_df[['spot_id', 'poi_count', 'avg_poi_distance', 'poi_weight']], on='spot_id', how='left')
+    print(merged_df.head())
+    merged_df.to_csv('dataset.csv', index=False)
+
+def add_walking_paths():
+    df = pd.read_csv('dataset.csv')
+    columns = ['spot_id', 'walking_paths']
+    walking_df = pd.DataFrame(columns=columns)
+    all_spots = get_spots('filtered-spots')
+    rows_to_add = []
     
-    return
+    for spot in all_spots:
+        spot_id = spot["id"]
+        walking_paths = spot["walking_paths"]
+        new_row = [spot_id, walking_paths]
+        print(new_row)
+        rows_to_add.append(new_row)
+        
+    walking_df = pd.concat([walking_df, pd.DataFrame(rows_to_add, columns=walking_df.columns)], ignore_index=True)
+    print(walking_df.head())
+    merged_df = pd.merge(df, walking_df[['spot_id', 'walking_paths']], on='spot_id', how='left')
+    print(merged_df.head())
+    merged_df.to_csv('dataset.csv', index=False)
+    
+def format_time(time_str):
+    return datetime.strptime(time_str, '%I:%M %p').time() 
+
+def is_time_within(start_time_str, end_time_str, current_time_str):
+    start_time = format_time(start_time_str)
+    end_time = format_time(end_time_str)
+    current_time = format_time(current_time_str)
+    return start_time <= current_time <= end_time
+
+def filter_events_for_row(row):
+    dra_events_df = pd.read_csv('sources/dra_events.csv')
+    dra_events_list = dra_events_df.to_dict(orient='records')
+    visit_raleigh_events_df = pd.read_csv('sources/visit_raleigh_events_short.csv')
+    visit_raleigh_events_list = visit_raleigh_events_df.to_dict(orient='records')
+    nearby_visit_raleigh_events = find_nearby_visit_raleigh_events(
+        visit_raleigh_events_list,
+        row['latitude'], 
+        row['longitude']
+    )
+    nearby_dra_events = find_nearby_dra_events(
+        dra_events_list,
+        row['latitude'], 
+        row['longitude']
+    )
+    nearby_events = nearby_visit_raleigh_events + nearby_dra_events
+    
+    date_obj = datetime.strptime(row['date'], "%m/%d/%y")
+    formatted_row_date = date_obj.strftime("%m/%d/%Y")
+    
+    filtered_events = [
+        event['name'] for event in nearby_events
+        if event['date'] == formatted_row_date and is_time_within(event['start_time'], event['end_time'], row['time'])
+    ]
+    return filtered_events
+    
+def add_events():
+    df = pd.read_csv('dataset.csv')
+    df['events'] = df.apply(lambda row: filter_events_for_row(row), axis=1)
+    print(df.head())
+    df.to_csv('dataset.csv', index=False)
+    
