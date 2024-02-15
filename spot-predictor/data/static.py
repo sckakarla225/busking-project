@@ -110,8 +110,11 @@ def get_nearby_spots(lat, long):
             # advanced_place_details = get_place_details_advanced(place['place_id'])
             opening_hours = place_details['opening_hours'].get('weekday_text', [])
             if opening_hours == []:
-                if any(item in place_primary_types for item in ["lodging", "automotive", "transportation"]):
-                    opening_hours = ["24 Hours"]
+                if place_primary_types is not None:
+                    if any(item in place_primary_types for item in ["lodging", "automotive", "transportation"]):
+                        opening_hours = ["24 Hours"]
+                else:
+                    opening_hours = ["None"]
             
             spot_info = {
                 'id': place['place_id'],
@@ -220,7 +223,7 @@ def get_nearby_sipnstroll_info(lat, long):
 
     for location in SIP_N_STROLL_LOCATIONS_DATA:
         distance = geodesic((lat, long), (location['latitude'], location['longitude'])).meters
-        if distance <= 50:
+        if distance <= 100:
             nearby_locations_count += 1
             total_distance += distance
             if location['type'] == 'sold_here':

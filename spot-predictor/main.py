@@ -30,11 +30,16 @@ from data.temporal import (
     find_nearby_dra_events, 
     find_nearby_visit_raleigh_events
 )
+from model.dataset import (
+    setup_dataset,
+    add_is_sip_n_stroll,
+    add_sip_n_stroll_info
+)
 
-st.title("Spot Prediction API")
-st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
-st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
-st.write("Data Collector: https://busking-project.vercel.app/")
+# st.title("Spot Prediction API")
+# st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
+# st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
+# st.write("Data Collector: https://busking-project.vercel.app/")
 
 # Given a spot and a time-frame, predict how many people will be around the spot OR walk through the spot
 # Available spot data: name, coordinates, images + videos
@@ -51,11 +56,11 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # st.write(df)
 
 # Spots Difference (Filtered minus Final)
-st.write("Spots Difference Data")
-diff_spots = get_spots_difference()
-diff_df = pd.DataFrame(diff_spots)
-diff_df = diff_df.drop('id', axis=1)
-st.write(diff_df)
+# st.write("Spots Difference Data")
+# diff_spots = get_spots_difference()
+# diff_df = pd.DataFrame(diff_spots)
+# diff_df = diff_df.drop('id', axis=1)
+# st.write(diff_df)
 
 # Update Filtered Spots with Paths
 # load_walking_paths(FINAL_SPOT_IDS)
@@ -84,12 +89,12 @@ st.write(diff_df)
 # folium_static(filtered_spots_map_updated)
 
 # Test Spot Data Collection
-# st.write("Test Spot (for data collection using Google Maps API)")
-# spot = get_spot('RKhtn3Gr3WYmf4cyaaTT')
-# spot_df = pd.DataFrame([spot])
-# spot_df = spot_df.drop('id', axis=1)
-# spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
-# st.write(spot_df)
+st.write("Test Spot (for data collection using Google Maps API)")
+spot = get_spot('RKhtn3Gr3WYmf4cyaaTT')
+spot_df = pd.DataFrame([spot])
+spot_df = spot_df.drop('id', axis=1)
+spot_df['is_sipnstroll'] = is_sipnstroll(spot["latitude"], spot["longitude"])
+st.write(spot_df)
 
 # st.write("Media Files")
 # files_urls = get_spot_media('RKhtn3Gr3WYmf4cyaaTT')
@@ -97,9 +102,9 @@ st.write(diff_df)
 #     st.write(f'{name}: {url}')
 
 # st.write("Nearby Places Data and Map")
-# nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
-# nearby_spots_df = pd.DataFrame(nearby_spots)
-# st.write(nearby_spots_df)
+nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
+nearby_spots_df = pd.DataFrame(nearby_spots)
+st.write(nearby_spots_df)
 
 # spot_map = create_map((spot["latitude"], spot["longitude"]), spot["name"])
 # updated_map = add_markers(map=spot_map, spots=nearby_spots)

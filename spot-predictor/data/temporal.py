@@ -57,7 +57,16 @@ def get_popular_times(places):
     ]
     
     for place in places:
-        if any(item in relevant_place_types for item in place['primary_types']):
+        if place['primary_types'] is not None:
+            if any(item in relevant_place_types for item in place['primary_types']):
+                popular_times_obj = get_popular_times_for_place(place['id'])
+                if popular_times_obj is not None:
+                    formatted_popular_times = format_popular_times(popular_times_obj)
+                    places_popular_times.append({
+                        'name': place['name'],
+                        'popular_times': formatted_popular_times
+                    })
+        else:
             popular_times_obj = get_popular_times_for_place(place['id'])
             if popular_times_obj is not None:
                 formatted_popular_times = format_popular_times(popular_times_obj)

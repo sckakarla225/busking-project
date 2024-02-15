@@ -1,36 +1,36 @@
 SPOT Model:
-- spot ID
-- name
-- latitude
-- longitude
-- region
-- spot size
-- reservations (current day)
-    - start time
-    - end time
-    - performer ID
-    - expiration time (async)
+- spot ID: string
+- name: string
+- latitude: float
+- longitude: float
+- region: string
+- spot size: number
+- reservations (current day): Object[]
+    - start time: string
+    - end time: string
+    - performer ID: string
 
-PERFORMER Model:
-- performer ID
-- name
-- email
-- performance styles
-- date joined
-- total performances
-- avg performance time
-- current spot
-    - name
-    - region
-    - latitude
-    - longitude
-    - spot size
-    - reserved from
-    - reserved to
-    - expiration time (async)
-- recent spots (>= 5)
-    - name
-    - region
+USER Model:
+- user ID: string
+- name: string
+- email: string
+- performance styles: string[]
+- date joined: string
+- total performances: int
+- avg performance time: float
+- current spot: {}
+    - spot ID: string
+    - name: string
+    - region: string
+    - latitude: float
+    - longitude: float
+    - spot size: int
+    - reserved from: string
+    - reserved to: string
+- recent spots (>= 5): Object[]
+    - spot ID: string
+    - name: string
+    - region: string
 
 Spots API Endpoints:
 . User
