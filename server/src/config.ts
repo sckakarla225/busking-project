@@ -1,9 +1,23 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import Redis from 'ioredis';
 
 dotenv.config();
 
 const mongoURI: string = process.env.DB_URI || "mongodb+srv://sckakarla36:Chinnari1674@busking-project.hpucowa.mongodb.net/?retryWrites=true&w=majority"
+const redisEndpoint: string = process.env.REDIS_ENDPOINT || "redis-18034.c284.us-east1-2.gce.cloud.redislabs.com:18034"
+const redisPassword: string = process.env.REDIS_PASS || "";
+
+let redis: Redis;
+if (redisPassword !== "") {
+  redis = new Redis(redisEndpoint, {
+    password: redisPassword,
+    connectionName: 'predictions',
+    autoResubscribe: true
+  });
+  redis.on('connect', () => console.log('Connected to Redis!'));
+  redis.on('error', (err) => console.error('Redis Client Error', err));
+}
 
 const connectToDatabase = async (): Promise<void> => {
   try {
@@ -16,5 +30,6 @@ const connectToDatabase = async (): Promise<void> => {
 };
 
 export {
-  connectToDatabase
+  connectToDatabase,
+  redis
 };
