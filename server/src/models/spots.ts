@@ -1,10 +1,9 @@
 import { Schema, model, Document } from 'mongoose';
 
-// Spot Model Schema
-
 interface Reservation {
-  startTime: string;
-  endTime: string;
+  reservationId: string;
+  startTime: Date;
+  endTime: Date;
   performerId: string;
 }
 
@@ -19,8 +18,9 @@ interface Spot extends Document {
 }
 
 const ReservationSchema = new Schema<Reservation>({
-  startTime: { type: String, required: true },
-  endTime: { type: String, required: true },
+  reservationId: { type: String, required: true },
+  startTime: { type: Date, required: true },
+  endTime: { type: Date, required: true },
   performerId: { type: String, required: true },
 });
 
@@ -37,7 +37,5 @@ const SpotSchema = new Schema<Spot>({
 });
 
 export const SpotModel = model<Spot>('Spot', SpotSchema);
-
-// Spot Model Actions
 
 

@@ -46,11 +46,11 @@ router.get('/all', getSpots);
  *                 email:
  *                   type: string
  */
-router.get('/current', getCurrentSpot);
+router.get('/current/:id', getCurrentSpot);
 /**
  * @swagger
  * /spots/reserve:
- *   post:
+ *   put:
  *     summary: Reserve a spot
  *     responses:
  *       200:

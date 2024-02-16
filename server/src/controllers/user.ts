@@ -1,23 +1,110 @@
 import { Request, Response } from 'express';
+import { UserModel } from '../models/user';
+import { QueryOptions } from 'mongoose';
 
 const getUser = async (req: Request, res: Response) => {
-    // Logic to get a user
-    res.status(200).send("Get User");
+  const { userId } = req.params;
+
+  try {
+    const user = await UserModel.findOne({ userId: userId }).exec();
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).send("User not found.");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("An unknown error occurred");
+    }
+  }
 };
 
 const createUser = async (req: Request, res: Response) => {
-    // Logic to create a user
-    res.status(201).send("Create User");
+  const { userId, name, email, performanceStyles } = req.body;
+  const currentDate = new Date();
+  const month = currentDate.getMonth() + 1;
+  const day = currentDate.getDate();
+  const year = currentDate.getFullYear();
+  const dateJoined = `${month}/${day}/${year}`;
+  const userInfo = {
+    userId: userId,
+    name: name,
+    email: email,
+    performanceStyles: performanceStyles,
+    dateJoined: dateJoined,
+  };
+
+  try {
+    const newUser = new UserModel(userInfo);
+    await newUser.save();
+    res.status(201).json(newUser);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("An unknown error occurred");
+    }
+  }
 };
 
 const updatePerformanceStyles = async (req: Request, res: Response) => {
-    // Logic to update performance styles
-    res.status(200).send("Update Performance Styles");
+  const { userId, performanceStyles } = req.body;
+  const query = { 'userId': userId };
+  const update = { 'performanceStyles': performanceStyles };
+  const options: QueryOptions = {
+    returnDocument: "after",
+    new: true,
+    runValidators: true
+  };
+
+  try {
+    const updatedUser = await UserModel.findOneAndUpdate(query, update, options);
+    if (updatedUser) {
+      res.status(200).json(updatedUser);
+    } else {
+      res.status(204).send("Not found.");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("An unknown error occurred");
+    }
+  }
 };
 
 const updateRecentSpots = async (req: Request, res: Response) => {
-    // Logic to update recent spots
-    res.status(200).send("Update Recent Spots");
+  const { userId, spotId, name, region } = req.body;
+  const currentDate = new Date();
+  const recentSpot = {
+    spotId: spotId,
+    name: name,
+    region: region,
+    dateAdded: currentDate
+  };
+
+  try {
+    const user = await UserModel.findOne({ userId: userId });
+    if (user) {
+      user.recentSpots.sort((a, b) => a.dateAdded.getTime() - b.dateAdded.getTime());
+      if (user.recentSpots.length >= 5) {
+        user.recentSpots.shift();
+      }
+      user.recentSpots.push(recentSpot);
+      await user.save();
+      res.status(200).json(user);
+    } else {
+      res.status(404).send("User not found.");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("An unknown error occurred");
+    }
+  }
 };
 
 export {
