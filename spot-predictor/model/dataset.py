@@ -152,3 +152,32 @@ def add_events():
     print(df.head())
     df.to_csv('dataset.csv', index=False)
     
+def add_poi_directions():
+    df = pd.read_csv('dataset.csv')
+    columns = ['spot_id', 'poi_directions']
+    poi_directions_df = pd.DataFrame(columns=columns)
+    all_spots = get_spots('filtered-spots')
+    rows_to_add = []
+    
+    for spot in all_spots:
+        nearby_spots = get_nearby_spots(spot["latitude"], spot["longitude"])
+        seen_paths = set()
+        poi_directions = []
+        
+        for nearby_spot in nearby_spots:
+            if nearby_spot["direction"] not in seen_paths:
+                seen_paths.add(nearby_spot["direction"])
+                poi_directions.append(nearby_spot["direction"])
+        
+        new_row = [spot["id"], poi_directions]
+        rows_to_add.append(new_row)
+        
+    poi_directions_df = pd.concat(
+        [poi_directions_df, pd.DataFrame(rows_to_add, columns=poi_directions_df.columns)], 
+        ignore_index=True
+    )
+    print(poi_directions_df.head())
+    merged_df = pd.merge(df, poi_directions_df[['spot_id', 'poi_directions']], on='spot_id', how='left')
+    print(merged_df.head())
+    merged_df.to_csv('dataset.csv', index=False)
+    

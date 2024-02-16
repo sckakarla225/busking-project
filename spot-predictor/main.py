@@ -37,7 +37,8 @@ from model.dataset import (
     add_poi_data,
     add_walking_paths,
     add_events,
-    filter_events_for_row
+    filter_events_for_row,
+    add_poi_directions
 )
 
 st.title("Spot Prediction API")

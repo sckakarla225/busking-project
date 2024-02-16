@@ -24,7 +24,7 @@ outscraper_client = ApiClient(api_key=OUTSCRAPER_API_KEY)
 # Input: coordinates of origin spot and nearby spot
 # Output: direction of nearby spot relative to origin spot
 def calculate_direction(origin_lat, origin_long, spot_lat, spot_long):
-    compass_directions = ["North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"]
+    compass_directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
     origin_lat, origin_long, spot_lat, spot_long = map(math.radians, [
         origin_lat, origin_long, spot_lat, spot_long
     ])
