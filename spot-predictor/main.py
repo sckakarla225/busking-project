@@ -40,11 +40,14 @@ from model.dataset import (
     filter_events_for_row,
     add_poi_directions
 )
+from model.clustering import main
 
-st.title("Spot Prediction API")
-st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
-st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
-st.write("Data Collector: https://busking-project.vercel.app/")
+main()
+
+# st.title("Spot Prediction API")
+# st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
+# st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
+# st.write("Data Collector: https://busking-project.vercel.app/")
 
 # Given a spot and a time-frame, predict how many people will be around the spot OR walk through the spot
 # Available spot data: name, coordinates, images + videos
