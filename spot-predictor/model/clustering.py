@@ -46,13 +46,13 @@ def main():
     X_sns_scaled = X_scaled[:, sns_indexes]
     X_spot_dim_scaled = X_scaled[:, spot_dim_indexes]
     
-    pca_poi = PCA(n_components=0.80)
+    pca_poi = PCA(n_components=0.90)
     X_poi_pca = pca_poi.fit_transform(X_poi_scaled)
 
-    pca_sns = PCA(n_components=0.80)
+    pca_sns = PCA(n_components=0.90)
     X_sns_pca = pca_sns.fit_transform(X_sns_scaled)
     
-    pca_spot_dim = PCA(n_components=0.80)
+    pca_spot_dim = PCA(n_components=0.90)
     X_spot_dim_pca = pca_spot_dim.fit_transform(X_spot_dim_scaled)
     
     print("POI - Number of PCA components:", pca_poi.n_components_)
@@ -70,9 +70,8 @@ def main():
     X_non_pca_scaled = X_scaled[:, non_pca_feature_indexes]
     X_combined = np.concatenate([X_non_pca_scaled, X_poi_pca, X_sns_pca, X_spot_dim_pca], axis=1)
     
-    dbscan = DBSCAN(eps=0.5, min_samples=5)
+    dbscan = DBSCAN(eps=0.9, min_samples=18)
     clusters = dbscan.fit_predict(X_combined)
-    print(clusters.all())
     
     pca_for_viz = PCA(n_components=2)
     features_for_viz = pca_for_viz.fit_transform(X_combined)

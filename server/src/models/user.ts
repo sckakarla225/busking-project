@@ -1,9 +1,9 @@
 import { Schema, model, Document } from "mongoose";
 
 interface CurrentSpot {
-  spotId: string;
-  name: string;
-  region: string;
+  spotId?: string;
+  name?: string;
+  region?: string;
   latitude?: number;
   longitude?: number;
   reservedFrom?: Date;
@@ -30,9 +30,9 @@ interface User extends Document {
 }
 
 const CurrentSpotSchema = new Schema<CurrentSpot>({
-  spotId: { type: String, required: true },
-  name: { type: String, required: true },
-  region: { type: String, required: true },
+  spotId: { type: String, required: false },
+  name: { type: String, required: false },
+  region: { type: String, required: false },
   latitude: { type: Number, required: false },
   longitude: { type: Number, required: false },
   reservedFrom: { type: Date, required: false },

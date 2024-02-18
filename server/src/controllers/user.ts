@@ -34,6 +34,8 @@ const createUser = async (req: Request, res: Response) => {
     email: email,
     performanceStyles: performanceStyles,
     dateJoined: dateJoined,
+    currentSpot: {},
+    recentSpots: []
   };
 
   try {

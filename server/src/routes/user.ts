@@ -26,7 +26,7 @@ const router = express.Router();
  *                 email:
  *                   type: string
  */
-router.get('/user/:id', getUser);
+router.get('/user/:userId', getUser);
 /**
  * @swagger
  * /users/create:

@@ -43,26 +43,27 @@ const getPredictions = async (predictionKeys: string[]) => {
   const keysToBePredicted: string[] = [];
 
   try {
-    predictionKeys.map(async (predictionKey: string) => {
+    await Promise.all(predictionKeys.map(async (predictionKey: string) => {
       const value = await redis.get(predictionKey);
       if (value) {
-        const prediction: Prediction = {
+        predictions.push({
           predictionKey: predictionKey,
           predictionValue: value,
-        };
-        predictions.push(prediction);
+        });
       } else {
         keysToBePredicted.push(predictionKey);
       }
-    })
+    }));
+    return { predictions, keysToBePredicted };
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);
       return null;
+    } else {
+      console.log("Unknown error.");
+      return null;
     }
   }
-
-  return { predictions, keysToBePredicted };
 };
 
 export {

@@ -1,6 +1,7 @@
 import express from 'express';
 import { 
   getSpots, 
+  createSpots,
   getCurrentSpot, 
   reserveSpot, 
   leaveSpot, 
@@ -30,6 +31,25 @@ const router = express.Router();
 router.get('/all', getSpots);
 /**
  * @swagger
+ * /spots/create:
+ *   get:
+ *     summary: Create new spots
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved spots
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ */
+ router.post('/create', createSpots);
+/**
+ * @swagger
  * /spots/current:
  *   get:
  *     summary: Get user's current spot
@@ -46,7 +66,7 @@ router.get('/all', getSpots);
  *                 email:
  *                   type: string
  */
-router.get('/current/:id', getCurrentSpot);
+router.get('/current/:userId', getCurrentSpot);
 /**
  * @swagger
  * /spots/reserve:

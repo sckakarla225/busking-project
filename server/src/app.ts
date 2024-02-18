@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import swaggerUi from 'swagger-ui-express';
+import cors from 'cors';
 
 import { connectToDatabase } from "./config";
 import { swaggerSpec } from './swagger';
@@ -12,11 +13,16 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/users', usersRouter);
 app.use('/spots', spotsRouter);
 app.use('/predictions', predictionsRouter);
+
+app.post('/test', (req, res) => {
+    res.status(200).send('POST request to the homepage');
+});
 
 connectToDatabase();
 
