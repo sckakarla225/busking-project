@@ -42,12 +42,12 @@ from model.dataset import (
 )
 from model.clustering import main
 
-# main()
+main()
 
-st.title("Spot Prediction API")
-st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
-st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
-st.write("Data Collector: https://busking-project.vercel.app/")
+# st.title("Spot Prediction API")
+# st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
+# st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
+# st.write("Data Collector: https://busking-project.vercel.app/")
 
 # Given a spot and a time-frame, predict how many people will be around the spot OR walk through the spot
 # Available spot data: name, coordinates, images + videos
@@ -57,11 +57,11 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # Connected walkways data: all paths that go through spot (with corresponding point A and point B + type of place)
 
 # All Spots Data
-st.write("Spots Data")
-spots = get_spots('final-spots')
-df = pd.DataFrame(spots)
-df = df.drop('id', axis=1)
-st.write(df)
+# st.write("Spots Data")
+# spots = get_spots('final-spots')
+# df = pd.DataFrame(spots)
+# df = df.drop('id', axis=1)
+# st.write(df)
 
 # Spots Difference (Filtered minus Final)
 # st.write("Spots Difference Data")
@@ -74,9 +74,9 @@ st.write(df)
 # load_walking_paths(FINAL_SPOT_IDS)
 # load_walking_paths(DIFF_SPOT_IDS)
 
-size_counts = get_spot_size_counts(spots)
-counts_df = pd.DataFrame([size_counts])
-st.write(counts_df)
+# size_counts = get_spot_size_counts(spots)
+# counts_df = pd.DataFrame([size_counts])
+# st.write(counts_df)
 
 # for i in range(2, 41):
 #     url = f'https://www.visitraleigh.com/events/?startDate=03%2F01%2F2024&categories%5B0%5D=&page={i}&showallevents=on&regions=Downtown%20Raleigh&endDate=05%2F31%2F2024'
