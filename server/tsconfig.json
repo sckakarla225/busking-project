@@ -25,7 +25,7 @@
   },
   "include": [
     "src/**/*" // Include all files in the src directory
-, "src/swagger.ts"  ],
+, "src/swagger.ts", "src/jest.config.js"  ],
   "exclude": [
     "node_modules", // Exclude the node_modules directory
     "**/*.spec.ts"  // Exclude test files

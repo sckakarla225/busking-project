@@ -15,7 +15,101 @@ def find_common_paths(row):
 # Input: sns_count (float), sns_distance (float), poi_weight (int), poi_distance (float), matching_paths_count (int), events (boolean)
 # Output: spot_info_value (float - 0.0-1.0)
 def spot_preprocessing(sns_count, sns_distance, poi_weight, poi_distance, matching_paths_count, events):
-    return
+    SNS_COUNT_RANGE = (1, 17)
+    SNS_DISTANCE_RANGE = (1.0, 98.73)
+    POI_WEIGHT_RANGE = (9, 94)
+    POI_DISTANCE_RANGE = (6.93, 64.35)
+    MATCHING_PATHS_COUNT_RANGE = (1, 9)
+    
+    percentiles = {}
+    sns_count += 1
+    sns_distance += 1.0
+    matching_paths_count += 1
+    
+    sns_count_lower_bound = SNS_COUNT_RANGE[0]
+    sns_count_upper_bound = SNS_COUNT_RANGE[1]
+    multiplier = 100 / sns_count_upper_bound
+    sns_count = sns_count * multiplier
+    sns_count_upper_bound = 100
+    sns_count_lower_bound = sns_count_lower_bound * multiplier
+    new_range = sns_count_upper_bound - sns_count_lower_bound
+    scaled_value = sns_count - sns_count_lower_bound
+    percentile = scaled_value / new_range
+    percentiles["sns_count"] = percentile
+    
+    sns_distance_lower_bound = SNS_DISTANCE_RANGE[0]
+    sns_distance_upper_bound = SNS_DISTANCE_RANGE[1]
+    multiplier = 100 / sns_distance_upper_bound
+    sns_distance = sns_distance * multiplier
+    sns_distance_upper_bound = 100
+    sns_distance_lower_bound = sns_distance_lower_bound * multiplier
+    new_range = sns_distance_upper_bound - sns_distance_lower_bound
+    scaled_value = sns_distance - sns_distance_lower_bound
+    percentile = scaled_value / new_range
+    percentiles["sns_distance"] = 1.0 - percentile
+    
+    poi_distance_lower_bound = POI_DISTANCE_RANGE[0]
+    poi_distance_upper_bound = POI_DISTANCE_RANGE[1]
+    multiplier = 100 / poi_distance_upper_bound
+    poi_distance = poi_distance * multiplier
+    poi_distance_upper_bound = 100
+    poi_distance_lower_bound = poi_distance_lower_bound * multiplier
+    new_range = poi_distance_upper_bound - poi_distance_lower_bound
+    scaled_value = poi_distance - poi_distance_lower_bound
+    percentile = scaled_value / new_range
+    percentiles["poi_distance"] = 1.0 - percentile
+    percentiles["avg_distance"] = (percentiles['poi_distance'] + percentiles['sns_distance']) / 2
+    
+    poi_weight_lower_bound = POI_WEIGHT_RANGE[0]
+    poi_weight_upper_bound = POI_WEIGHT_RANGE[1]
+    multiplier = 100 / poi_weight_upper_bound
+    poi_weight = poi_weight * multiplier
+    poi_weight_upper_bound = 100
+    poi_weight_lower_bound = poi_weight_lower_bound * multiplier
+    new_range = poi_weight_upper_bound - poi_weight_lower_bound
+    scaled_value = poi_weight - poi_weight_lower_bound
+    percentile = scaled_value / new_range
+    percentiles["poi_weight"] = percentile
+    
+    matching_paths_count_lower_bound = MATCHING_PATHS_COUNT_RANGE[0]
+    matching_paths_count_upper_bound = MATCHING_PATHS_COUNT_RANGE[1]
+    multiplier = 100 / matching_paths_count_upper_bound
+    matching_paths_count = matching_paths_count * multiplier
+    matching_paths_count_upper_bound = 100
+    matching_paths_count_lower_bound = matching_paths_count_lower_bound * multiplier
+    new_range = matching_paths_count_upper_bound - matching_paths_count_lower_bound
+    scaled_value = matching_paths_count - matching_paths_count_lower_bound
+    percentile = scaled_value / new_range
+    percentiles["matching_paths_count"] = percentile
+    
+    if events:
+        events_val = 1.0
+        POI_WEIGHT_WEIGHT = 0.40
+        AVG_DISTANCE_WEIGHT = 0.30
+        SNS_COUNT_WEIGHT = 0.075
+        MATCHING_PATHS_COUNT_WEIGHT = 0.075
+        EVENTS_WEIGHT = 0.15
+        scaled_poi_weight = percentiles['poi_weight'] * POI_WEIGHT_WEIGHT
+        scaled_avg_distance_weight = percentiles['avg_distance'] * AVG_DISTANCE_WEIGHT
+        scaled_sns_count_weight = percentiles['sns_count'] * SNS_COUNT_WEIGHT
+        scaled_matching_paths_count_weight = percentiles['matching_paths_count'] * MATCHING_PATHS_COUNT_WEIGHT
+        scaled_events_weight = events_val * EVENTS_WEIGHT
+        spot_info_val = scaled_poi_weight + scaled_avg_distance_weight + scaled_sns_count_weight + scaled_matching_paths_count_weight + scaled_events_weight
+        return spot_info_val
+    else:
+        events_val = 0.0
+        POI_WEIGHT_WEIGHT = 0.45
+        AVG_DISTANCE_WEIGHT = 0.35
+        SNS_COUNT_WEIGHT = 0.10
+        MATCHING_PATHS_COUNT_WEIGHT = 0.10
+        EVENTS_WEIGHT = 0.0
+        scaled_poi_weight = percentiles['poi_weight'] * POI_WEIGHT_WEIGHT
+        scaled_avg_distance_weight = percentiles['avg_distance'] * AVG_DISTANCE_WEIGHT
+        scaled_sns_count_weight = percentiles['sns_count'] * SNS_COUNT_WEIGHT
+        scaled_matching_paths_count_weight = percentiles['matching_paths_count'] * MATCHING_PATHS_COUNT_WEIGHT
+        scaled_events_weight = events_val * EVENTS_WEIGHT
+        spot_info_val = scaled_poi_weight + scaled_avg_distance_weight + scaled_sns_count_weight + scaled_matching_paths_count_weight + scaled_events_weight
+        return spot_info_val
 
 # Input: each row in dataset
 # Output: updated dataframe with column 'crowd_label'
@@ -27,84 +121,24 @@ def main():
     df = pd.read_csv('dataset.csv')
     
     columns_of_interest = ['poi_count', 'nearby_sns_count', 'avg_sns_proximity', 'avg_poi_distance', 'poi_weight']
-
-    # Finding min and max values
     min_values = df[columns_of_interest].min()
     max_values = df[columns_of_interest].max()
-
     print("Minimum values:\n", min_values)
     print("Maximum values:\n", max_values)
     
     # Preprocessing
-    # df['spot'] = df['spot_id'] + '-' + df['date'] + '-' + df['time']
-    # df.drop(['spot_id', 'date', 'day', 'time', 'is_sipnstroll'], axis=1, inplace=True)
-    # df['walking_paths'] = df['walking_paths'].apply(ast.literal_eval)
-    # df['poi_directions'] = df['poi_directions'].apply(ast.literal_eval)
-    # df['matching_paths'] = df.apply(find_common_paths, axis=1)
-    # df.drop(['walking_paths', 'poi_directions'], axis=1, inplace=True)
-    # df['avg_poi_activity'] = df['avg_poi_activity'].str.rstrip('%').astype('float') / 100.0
-    # df['events_count'] = df['events'].apply(lambda x: len(x))
-    # df['matching_paths_count'] = df['matching_paths'].apply(lambda x: len(x))
-    # df.drop(['latitude', 'longitude', 'events', 'matching_paths'], axis=1, inplace=True)
-    # spot_analysis(df)
+    df['spot'] = df['spot_id'] + '-' + df['date'] + '-' + df['time']
+    df.drop(['spot_id', 'date', 'day', 'time', 'is_sipnstroll'], axis=1, inplace=True)
+    df['walking_paths'] = df['walking_paths'].apply(ast.literal_eval)
+    df['poi_directions'] = df['poi_directions'].apply(ast.literal_eval)
+    df['matching_paths'] = df.apply(find_common_paths, axis=1)
+    df.drop(['walking_paths', 'poi_directions'], axis=1, inplace=True)
+    df['avg_poi_activity'] = df['avg_poi_activity'].str.rstrip('%').astype('float') / 100.0
+    df['events_count'] = df['events'].apply(lambda x: len(x))
+    df['matching_paths_count'] = df['matching_paths'].apply(lambda x: len(x))
+    df.drop(['latitude', 'longitude', 'events', 'matching_paths'], axis=1, inplace=True)
     
-    # identifiers = df['spot']
-    # features = ['size', 'avg_poi_activity', 'poi_count', 'avg_poi_distance', 'poi_weight', 'nearby_sns_count', 'avg_sns_proximity', 'events_count', 'matching_paths_count']
-    # X = df[features]
-    # scaler = StandardScaler()
-    # X_scaled = scaler.fit_transform(X)
-    # print(X_scaled)
     
-    # Principal Component Analysis (PCA)
-    # poi_features = ['poi_count', 'avg_poi_distance', 'poi_weight']
-    # sns_features = ['nearby_sns_count', 'avg_sns_proximity']
-    # spot_dim_features = ['size', 'matching_paths_count']
-
-    # poi_indexes = [features.index(feat) for feat in poi_features]
-    # sns_indexes = [features.index(feat) for feat in sns_features]
-    # spot_dim_indexes = [features.index(feat) for feat in spot_dim_features]
-
-    # X_poi_scaled = X_scaled[:, poi_indexes]
-    # X_sns_scaled = X_scaled[:, sns_indexes]
-    # X_spot_dim_scaled = X_scaled[:, spot_dim_indexes]
-    
-    # pca_poi = PCA(n_components=0.90)
-    # X_poi_pca = pca_poi.fit_transform(X_poi_scaled)
-
-    # pca_sns = PCA(n_components=0.90)
-    # X_sns_pca = pca_sns.fit_transform(X_sns_scaled)
-    
-    # pca_spot_dim = PCA(n_components=0.90)
-    # X_spot_dim_pca = pca_spot_dim.fit_transform(X_spot_dim_scaled)
-    
-    # print("POI - Number of PCA components:", pca_poi.n_components_)
-    # print("POI - Explained variance ratio:", pca_poi.explained_variance_ratio_)
-
-    # print("SNS - Number of PCA components:", pca_sns.n_components_)
-    # print("SNS - Explained variance ratio:", pca_sns.explained_variance_ratio_)
-    
-    # print("Spot Dim - Number of PCA components:", pca_spot_dim.n_components_)
-    # print("Spot Dim - Explained variance ratio:", pca_spot_dim.explained_variance_ratio_)
-    
-    # DBSCAN Clustering Model
-    # all_pca_features = set(poi_features + sns_features + spot_dim_features)
-    # non_pca_feature_indexes = [i for i, feature in enumerate(features) if feature not in all_pca_features]
-    # X_non_pca_scaled = X_scaled[:, non_pca_feature_indexes]
-    # X_combined = np.concatenate([X_non_pca_scaled, X_poi_pca, X_sns_pca, X_spot_dim_pca], axis=1)
-    
-    # dbscan = DBSCAN(eps=0.9, min_samples=18)
-    # clusters = dbscan.fit_predict(X_scaled)
-    
-    # pca_for_viz = PCA(n_components=2)
-    # features_for_viz = pca_for_viz.fit_transform(X_scaled)
-   
-    # plt.figure(figsize=(10, 7))
-    # plt.scatter(features_for_viz[:, 0], features_for_viz[:, 1], c=clusters, cmap='viridis', marker='o', edgecolor='k', s=50, alpha=0.5)
-    # plt.title('DBSCAN Clustering with PCA')
-    # plt.xlabel('Principal Component 1')
-    # plt.ylabel('Principal Component 2')
-    # plt.colorbar(label='Cluster label')
-    # plt.show()
     
     
 
