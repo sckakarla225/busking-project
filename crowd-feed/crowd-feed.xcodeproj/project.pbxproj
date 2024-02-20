@@ -1,0 +1,591 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EFE11C8B2B852257001BF3D2 /* crowd_feedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11C8A2B852257001BF3D2 /* crowd_feedApp.swift */; };
+		EFE11C8D2B852257001BF3D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11C8C2B852257001BF3D2 /* ContentView.swift */; };
+		EFE11C8F2B852257001BF3D2 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11C8E2B852257001BF3D2 /* Item.swift */; };
+		EFE11C912B852258001BF3D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE11C902B852258001BF3D2 /* Assets.xcassets */; };
+		EFE11C942B852258001BF3D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE11C932B852258001BF3D2 /* Preview Assets.xcassets */; };
+		EFE11C9E2B852259001BF3D2 /* crowd_feedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11C9D2B852259001BF3D2 /* crowd_feedTests.swift */; };
+		EFE11CA82B852259001BF3D2 /* crowd_feedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11CA72B852259001BF3D2 /* crowd_feedUITests.swift */; };
+		EFE11CAA2B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11CA92B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EFE11C9A2B852259001BF3D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFE11C7F2B852256001BF3D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFE11C862B852257001BF3D2;
+			remoteInfo = "crowd-feed";
+		};
+		EFE11CA42B852259001BF3D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFE11C7F2B852256001BF3D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFE11C862B852257001BF3D2;
+			remoteInfo = "crowd-feed";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EFE11C872B852257001BF3D2 /* crowd-feed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "crowd-feed.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE11C8A2B852257001BF3D2 /* crowd_feedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crowd_feedApp.swift; sourceTree = "<group>"; };
+		EFE11C8C2B852257001BF3D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EFE11C8E2B852257001BF3D2 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		EFE11C902B852258001BF3D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EFE11C932B852258001BF3D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EFE11C992B852259001BF3D2 /* crowd-feedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "crowd-feedTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE11C9D2B852259001BF3D2 /* crowd_feedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crowd_feedTests.swift; sourceTree = "<group>"; };
+		EFE11CA32B852259001BF3D2 /* crowd-feedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "crowd-feedUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE11CA72B852259001BF3D2 /* crowd_feedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crowd_feedUITests.swift; sourceTree = "<group>"; };
+		EFE11CA92B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crowd_feedUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EFE11C842B852257001BF3D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE11C962B852259001BF3D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE11CA02B852259001BF3D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EFE11C7E2B852256001BF3D2 = {
+			isa = PBXGroup;
+			children = (
+				EFE11C892B852257001BF3D2 /* crowd-feed */,
+				EFE11C9C2B852259001BF3D2 /* crowd-feedTests */,
+				EFE11CA62B852259001BF3D2 /* crowd-feedUITests */,
+				EFE11C882B852257001BF3D2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EFE11C882B852257001BF3D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EFE11C872B852257001BF3D2 /* crowd-feed.app */,
+				EFE11C992B852259001BF3D2 /* crowd-feedTests.xctest */,
+				EFE11CA32B852259001BF3D2 /* crowd-feedUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EFE11C892B852257001BF3D2 /* crowd-feed */ = {
+			isa = PBXGroup;
+			children = (
+				EFE11C8A2B852257001BF3D2 /* crowd_feedApp.swift */,
+				EFE11C8C2B852257001BF3D2 /* ContentView.swift */,
+				EFE11C8E2B852257001BF3D2 /* Item.swift */,
+				EFE11C902B852258001BF3D2 /* Assets.xcassets */,
+				EFE11C922B852258001BF3D2 /* Preview Content */,
+			);
+			path = "crowd-feed";
+			sourceTree = "<group>";
+		};
+		EFE11C922B852258001BF3D2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EFE11C932B852258001BF3D2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EFE11C9C2B852259001BF3D2 /* crowd-feedTests */ = {
+			isa = PBXGroup;
+			children = (
+				EFE11C9D2B852259001BF3D2 /* crowd_feedTests.swift */,
+			);
+			path = "crowd-feedTests";
+			sourceTree = "<group>";
+		};
+		EFE11CA62B852259001BF3D2 /* crowd-feedUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EFE11CA72B852259001BF3D2 /* crowd_feedUITests.swift */,
+				EFE11CA92B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift */,
+			);
+			path = "crowd-feedUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EFE11C862B852257001BF3D2 /* crowd-feed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFE11CAD2B852259001BF3D2 /* Build configuration list for PBXNativeTarget "crowd-feed" */;
+			buildPhases = (
+				EFE11C832B852257001BF3D2 /* Sources */,
+				EFE11C842B852257001BF3D2 /* Frameworks */,
+				EFE11C852B852257001BF3D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "crowd-feed";
+			productName = "crowd-feed";
+			productReference = EFE11C872B852257001BF3D2 /* crowd-feed.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EFE11C982B852259001BF3D2 /* crowd-feedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFE11CB02B852259001BF3D2 /* Build configuration list for PBXNativeTarget "crowd-feedTests" */;
+			buildPhases = (
+				EFE11C952B852259001BF3D2 /* Sources */,
+				EFE11C962B852259001BF3D2 /* Frameworks */,
+				EFE11C972B852259001BF3D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EFE11C9B2B852259001BF3D2 /* PBXTargetDependency */,
+			);
+			name = "crowd-feedTests";
+			productName = "crowd-feedTests";
+			productReference = EFE11C992B852259001BF3D2 /* crowd-feedTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EFE11CA22B852259001BF3D2 /* crowd-feedUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFE11CB32B852259001BF3D2 /* Build configuration list for PBXNativeTarget "crowd-feedUITests" */;
+			buildPhases = (
+				EFE11C9F2B852259001BF3D2 /* Sources */,
+				EFE11CA02B852259001BF3D2 /* Frameworks */,
+				EFE11CA12B852259001BF3D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EFE11CA52B852259001BF3D2 /* PBXTargetDependency */,
+			);
+			name = "crowd-feedUITests";
+			productName = "crowd-feedUITests";
+			productReference = EFE11CA32B852259001BF3D2 /* crowd-feedUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EFE11C7F2B852256001BF3D2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					EFE11C862B852257001BF3D2 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					EFE11C982B852259001BF3D2 = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = EFE11C862B852257001BF3D2;
+					};
+					EFE11CA22B852259001BF3D2 = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = EFE11C862B852257001BF3D2;
+					};
+				};
+			};
+			buildConfigurationList = EFE11C822B852256001BF3D2 /* Build configuration list for PBXProject "crowd-feed" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EFE11C7E2B852256001BF3D2;
+			productRefGroup = EFE11C882B852257001BF3D2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EFE11C862B852257001BF3D2 /* crowd-feed */,
+				EFE11C982B852259001BF3D2 /* crowd-feedTests */,
+				EFE11CA22B852259001BF3D2 /* crowd-feedUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EFE11C852B852257001BF3D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFE11C942B852258001BF3D2 /* Preview Assets.xcassets in Resources */,
+				EFE11C912B852258001BF3D2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE11C972B852259001BF3D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE11CA12B852259001BF3D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EFE11C832B852257001BF3D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFE11C8D2B852257001BF3D2 /* ContentView.swift in Sources */,
+				EFE11C8F2B852257001BF3D2 /* Item.swift in Sources */,
+				EFE11C8B2B852257001BF3D2 /* crowd_feedApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE11C952B852259001BF3D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFE11C9E2B852259001BF3D2 /* crowd_feedTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFE11C9F2B852259001BF3D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFE11CAA2B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift in Sources */,
+				EFE11CA82B852259001BF3D2 /* crowd_feedUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EFE11C9B2B852259001BF3D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFE11C862B852257001BF3D2 /* crowd-feed */;
+			targetProxy = EFE11C9A2B852259001BF3D2 /* PBXContainerItemProxy */;
+		};
+		EFE11CA52B852259001BF3D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFE11C862B852257001BF3D2 /* crowd-feed */;
+			targetProxy = EFE11CA42B852259001BF3D2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		EFE11CAB2B852259001BF3D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EFE11CAC2B852259001BF3D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EFE11CAE2B852259001BF3D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"crowd-feed/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sam.crowd-feed";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFE11CAF2B852259001BF3D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"crowd-feed/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sam.crowd-feed";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EFE11CB12B852259001BF3D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sam.crowd-feedTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/crowd-feed.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/crowd-feed";
+			};
+			name = Debug;
+		};
+		EFE11CB22B852259001BF3D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sam.crowd-feedTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/crowd-feed.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/crowd-feed";
+			};
+			name = Release;
+		};
+		EFE11CB42B852259001BF3D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sam.crowd-feedUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "crowd-feed";
+			};
+			name = Debug;
+		};
+		EFE11CB52B852259001BF3D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sam.crowd-feedUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "crowd-feed";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EFE11C822B852256001BF3D2 /* Build configuration list for PBXProject "crowd-feed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE11CAB2B852259001BF3D2 /* Debug */,
+				EFE11CAC2B852259001BF3D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFE11CAD2B852259001BF3D2 /* Build configuration list for PBXNativeTarget "crowd-feed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE11CAE2B852259001BF3D2 /* Debug */,
+				EFE11CAF2B852259001BF3D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFE11CB02B852259001BF3D2 /* Build configuration list for PBXNativeTarget "crowd-feedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE11CB12B852259001BF3D2 /* Debug */,
+				EFE11CB22B852259001BF3D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFE11CB32B852259001BF3D2 /* Build configuration list for PBXNativeTarget "crowd-feedUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE11CB42B852259001BF3D2 /* Debug */,
+				EFE11CB52B852259001BF3D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EFE11C7F2B852256001BF3D2 /* Project object */;
+}
