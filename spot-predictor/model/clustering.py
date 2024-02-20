@@ -111,26 +111,115 @@ def spot_preprocessing(sns_count, sns_distance, poi_weight, poi_distance, matchi
         spot_info_val = scaled_poi_weight + scaled_avg_distance_weight + scaled_sns_count_weight + scaled_matching_paths_count_weight + scaled_events_weight
         return spot_info_val
 
-# Input: each row in dataset
-# Output: updated dataframe with column 'crowd_label'
-def label_spots():
-    return
+# Input: dataframe for dataset
+# Output: new dataframe with column 'crowd_label' + scatter plot visualization
+def test_label_spots(df):
+    labels_df_columns = ['poi_activity', 'spot_info_scaled', 'crowd_label']
+    labels_df = pd.DataFrame(columns=labels_df_columns)
+    rows_to_add = []
+
+    for index, row in df.iterrows():
+        avg_poi_activity = row['avg_poi_activity']
+        sns_count = row['nearby_sns_count']
+        sns_distance = row['avg_sns_proximity']
+        poi_distance = row['avg_poi_distance']
+        poi_weight = row['poi_weight']
+        matching_paths_count = row['matching_paths_count']
+        events_count = row['events_count']
+        if events_count == 0:
+            events_val = False
+        else:
+            events_val = True
+        
+        spot_info_val = spot_preprocessing(
+            sns_count=sns_count,
+            sns_distance=sns_distance,
+            poi_distance=poi_distance,
+            poi_weight=poi_weight,
+            matching_paths_count=matching_paths_count,
+            events=events_val
+        )
+        spot_info_scaled = spot_info_val * avg_poi_activity
+        
+        MIN_VALUE = 0.002711
+        MAX_VALUE = 0.635803
+        LOW_PERCENTILE = 0.13385779332636374
+        MEDIUM_PERCENTILE = 0.22620513691567307
+        if MIN_VALUE <= spot_info_scaled < LOW_PERCENTILE:
+            crowd_label = 'Low'
+        elif LOW_PERCENTILE <= spot_info_scaled < MEDIUM_PERCENTILE:
+            crowd_label = 'Medium'
+        elif MEDIUM_PERCENTILE <= spot_info_scaled <= MAX_VALUE:
+            crowd_label = 'High'
+        
+        new_row = [avg_poi_activity, spot_info_scaled, crowd_label]
+        rows_to_add.append(new_row)
+    
+    labels_df = pd.concat(
+        [labels_df, pd.DataFrame(rows_to_add, columns=labels_df.columns)], 
+        ignore_index=True
+    )
+    print(labels_df.head()) 
+    
+    color_map = { 'Low': 'blue', 'Medium': 'green', 'High': 'red' }
+    labels_df['color'] = labels_df['crowd_label'].map(color_map)
+    plt.scatter(labels_df['spot_info_scaled'], labels_df['poi_activity'], c=labels_df['color'])
+    plt.title('Scatter Plot of POI Activity vs. Spot Info Scaled')
+    plt.xlabel('Spot Info Scaled')
+    plt.ylabel('POI Activity')
+    plt.show()
+
+# Input: each row of the dataframe for the dataset
+# Output: updated row with column 'crowd_label'
+def label_spots_to_dataset(row):
+    avg_poi_activity = row['avg_poi_activity']
+    sns_count = row['nearby_sns_count']
+    sns_distance = row['avg_sns_proximity']
+    poi_distance = row['avg_poi_distance']
+    poi_weight = row['poi_weight']
+    matching_paths_count = row['matching_paths_count']
+    events_count = row['events_count']
+    if events_count == 0:
+        events_val = False
+    else:
+        events_val = True
+    
+    spot_info_val = spot_preprocessing(
+        sns_count=sns_count,
+        sns_distance=sns_distance,
+        poi_distance=poi_distance,
+        poi_weight=poi_weight,
+        matching_paths_count=matching_paths_count,
+        events=events_val
+    )
+    spot_info_scaled = spot_info_val * avg_poi_activity
+    
+    MIN_VALUE = 0.002711
+    MAX_VALUE = 0.635803
+    LOW_PERCENTILE = 0.13385779332636374
+    MEDIUM_PERCENTILE = 0.22620513691567307
+    crowd_label = ''
+    if MIN_VALUE <= spot_info_scaled < LOW_PERCENTILE:
+        crowd_label = 'Low'
+    elif LOW_PERCENTILE <= spot_info_scaled < MEDIUM_PERCENTILE:
+        crowd_label = 'Medium'
+    elif MEDIUM_PERCENTILE <= spot_info_scaled <= MAX_VALUE:
+        crowd_label = 'High'
+    
+    return crowd_label
 
 def main():
     # Load Dataset
     df = pd.read_csv('dataset.csv')
-    
-    columns_of_interest = ['poi_count', 'nearby_sns_count', 'avg_sns_proximity', 'avg_poi_distance', 'poi_weight']
-    min_values = df[columns_of_interest].min()
-    max_values = df[columns_of_interest].max()
-    print("Minimum values:\n", min_values)
-    print("Maximum values:\n", max_values)
+    original_df = pd.read_csv('dataset.csv')
     
     # Preprocessing
     df['spot'] = df['spot_id'] + '-' + df['date'] + '-' + df['time']
     df.drop(['spot_id', 'date', 'day', 'time', 'is_sipnstroll'], axis=1, inplace=True)
     df['walking_paths'] = df['walking_paths'].apply(ast.literal_eval)
     df['poi_directions'] = df['poi_directions'].apply(ast.literal_eval)
+    df['events'] = df['events'].apply(ast.literal_eval)
+    
     df['matching_paths'] = df.apply(find_common_paths, axis=1)
     df.drop(['walking_paths', 'poi_directions'], axis=1, inplace=True)
     df['avg_poi_activity'] = df['avg_poi_activity'].str.rstrip('%').astype('float') / 100.0
@@ -138,9 +227,12 @@ def main():
     df['matching_paths_count'] = df['matching_paths'].apply(lambda x: len(x))
     df.drop(['latitude', 'longitude', 'events', 'matching_paths'], axis=1, inplace=True)
     
-    
-    
-    
-
-    
+    # Clustering
+    # test_label_spots(df) # for testing purposes
+    df['crowd_label'] = df.apply(lambda row: label_spots_to_dataset(row), axis=1)
+    print(df.head())
+    print(df.columns)
+    original_df['crowd_label'] = df['crowd_label']
+    print(original_df.head())
+    original_df.to_csv('labeled.csv', index=False)
     
