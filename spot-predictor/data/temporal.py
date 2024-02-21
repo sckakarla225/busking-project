@@ -53,7 +53,7 @@ def get_popular_times(places):
     places_popular_times = []
     relevant_place_types = [
         "culture", "entertainment_and_recreation", "food_and_drink", "government",
-        "services", "shopping", "sports", "transportation"
+        "services", "shopping", "sports", "transportation", "automotive"
     ]
     
     for place in places:

@@ -3,7 +3,10 @@ import ast
 import pandas as pd
 from datetime import datetime
 
-from utils.spots_data import get_spots
+from utils.spots_data import (
+    get_spots, 
+    get_spot
+)
 from data.static import (
     get_nearby_spots,
     is_sipnstroll,
@@ -57,7 +60,7 @@ def setup_dataset():
                 
     dataset.to_csv('dataset.csv', index=False)
     return dataset
-
+        
 def add_is_sip_n_stroll():
     df = pd.read_csv('dataset.csv')
     df['is_sipnstroll'] = df.apply(lambda row: is_sipnstroll(row['latitude'], row['longitude']), axis=1)
