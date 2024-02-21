@@ -41,7 +41,11 @@ const createUser = async (req: Request, res: Response) => {
   try {
     const newUser = new UserModel(userInfo);
     await newUser.save();
-    res.status(201).json(newUser);
+    if (newUser) {
+      res.status(201).json(newUser);
+    } else {
+      res.status(204).send("Could not create user");
+    }
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).send(error.message);
@@ -66,7 +70,7 @@ const updatePerformanceStyles = async (req: Request, res: Response) => {
     if (updatedUser) {
       res.status(200).json(updatedUser);
     } else {
-      res.status(204).send("Not found.");
+      res.status(404).send("Not found.");
     }
   } catch (error) {
     if (error instanceof Error) {
