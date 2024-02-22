@@ -1,8 +1,14 @@
 import ast
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
+from sklearn.metrics import (
+    precision_score, 
+    recall_score, 
+    f1_score, 
+    confusion_matrix
+)
+from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import tensorflow as tf
 from keras.models import Sequential, load_model
@@ -12,29 +18,70 @@ from keras.optimizers import Adam
 
 from model.clustering import find_common_paths
 
-def prepare_input_with_dummies(
+def prepare_input_for_prediction(
+    spot_id,
     latitude, 
     longitude, 
     month, 
     day_of_month, 
-    hour, day, 
+    hour, 
+    day, 
     encoder, 
-    scaler, 
-    training_feature_names
+    scaler
 ):
-    input_data = {'latitude': latitude, 'longitude': longitude, 'month': month, 'day_of_month': day_of_month, 'hour': hour, 'day': day}
+    input_data = {
+        'latitude': latitude, 
+        'longitude': longitude, 
+        'month': month, 
+        'day_of_month': day_of_month, 
+        'hour': hour, 
+        'day': day
+    }
     input_df = pd.DataFrame([input_data])
+    training_feature_names = [
+        'latitude', 'longitude', 'avg_poi_activity', 'size',
+        'nearby_sns_count', 'avg_sns_proximity', 'poi_count',
+        'avg_poi_distance', 'poi_weight', 'events_count',
+        'matching_paths_count', 'month', 'day_of_month', 'hour',
+        'is_sipnstroll'
+    ]
     
     day_encoded = encoder.transform(input_df[['day']])
     day_encoded_df = pd.DataFrame(day_encoded.toarray(), columns=encoder.get_feature_names_out(['day']))
     input_df = pd.concat([input_df.drop(columns=['day']), day_encoded_df], axis=1)
     
+    spot_data_df = pd.read_csv('sources/spot_data.csv')
+    spot_times_df = pd.read_csv('sources/spot_times.csv')
+    average_times_df = pd.read_csv('sources/average_times.csv')
+    spot_data = spot_data_df[spot_data_df['spot_id'] == spot_id]
+    spot_times_data = spot_times_df[
+        (spot_times_df['spot_id'] == spot_id) & 
+        (spot_times_df['day'] == day) & 
+        (spot_times_df['hour'] == hour)
+    ][0]
+    
     for feature in training_feature_names:
         if feature not in input_df.columns:
-            input_df[feature] = 0
+            if feature == "avg_poi_activity":
+                if spot_times_data.empty:
+                    average_time = average_times_df[
+                        (average_times_df['day'] == day) &
+                        (average_times_df['hour'] == hour)
+                    ]
+                    input_df['avg_poi_activity'] = average_time['avg_poi_activity']
+                else:
+                    input_df["avg_poi_activity"] = spot_times_data["avg_poi_activity"]
+            else:   
+                input_df[feature] = spot_data[feature]
     
+    numerical_features = [
+        'latitude', 'longitude', 'avg_poi_activity', 'size',
+        'nearby_sns_count', 'avg_sns_proximity', 'poi_count',
+        'avg_poi_distance', 'poi_weight', 'events_count',
+        'matching_paths_count', 'month', 'day_of_month', 'hour'
+    ]
     input_df = input_df[training_feature_names]
-    input_df = scaler.transform(input_df)
+    input_df = scaler.transform(input_df[numerical_features])
     
     return input_df
 
@@ -111,7 +158,7 @@ def main():
         X_train,
         y_train,
         validation_split=0.2,
-        epochs=200,
+        epochs=150,
         batch_size=32,
         verbose=2
     )
@@ -119,5 +166,25 @@ def main():
     # Model evaluation and predictions
     test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=2)
     print(f"Test accuracy: {test_accuracy}")
+    print(f"Test loss: {test_loss}")
     
-    return
+    pipeline = make_pipeline(StandardScaler(), model)
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    scores = cross_val_score(pipeline, final_df, y_encoded, cv=kf, scoring='accuracy')
+    print(f"Accuracy scores for each fold: {scores}")
+    print(f"Mean accuracy: {np.mean(scores)}")
+    print(f"Standard deviation of accuracy: {np.std(scores)}")
+    
+    predictions_prob = model.predict(X_test)
+    predictions = np.argmax(predictions_prob, axis=1)
+    true_labels = np.argmax(y_test, axis=1)
+
+    precision = precision_score(true_labels, predictions, average='macro')
+    recall = recall_score(true_labels, predictions, average='macro')
+    f1 = f1_score(true_labels, predictions, average='macro')
+    conf_matrix = confusion_matrix(true_labels, predictions)
+
+    print(f"Precision: {precision}\nRecall: {recall}\nF1 Score: {f1}\n")
+    print(f"Confusion Matrix:\n{conf_matrix}")
+    
+    return model, encoder, scaler

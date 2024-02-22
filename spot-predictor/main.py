@@ -38,7 +38,12 @@ from model.dataset import (
     add_walking_paths,
     add_events,
     filter_events_for_row,
-    add_poi_directions
+    add_poi_directions,
+    split_spot_data,
+    split_spot_times,
+    preprocess_spot_data,
+    preprocess_spot_times,
+    format_unique_spot_times
 )
 from model.clustering import main as clustering_main
 from model.classifier import main as classifier_main

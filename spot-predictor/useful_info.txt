@@ -1,4 +1,14 @@
 
+Current Model Metrics (+- 0.002):
+Test accuracy: 0.9994600415229797
+Test loss: 0.002019639126956463
+695/695 [==============================] - 0s 223us/step
+Precision: 0.9994418660180959
+Recall: 0.9992749937590183
+F1 Score: 0.999358303494709
+
+--------------------------------------------------------
+
 Dataset Features: (~100 spots, 18/7 hours, 12 weeks = ~ 150K entries)
 - Spot identifier - DONE
 - Latitude - DONE
@@ -15,7 +25,6 @@ Dataset Features: (~100 spots, 18/7 hours, 12 weeks = ~ 150K entries)
 - Walking paths - DONE
 - Spot size/space measure - DONE
 - Nearby special events (names + times) - DONE
-- Optional: manually label crowdedness level 
 
 ----------------------------------------------- 
 

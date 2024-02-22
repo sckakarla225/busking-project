@@ -2,6 +2,7 @@ import csv
 import ast
 import pandas as pd
 from datetime import datetime
+from sklearn.preprocessing import OneHotEncoder
 
 from utils.spots_data import (
     get_spots, 
@@ -20,6 +21,7 @@ from data.temporal import (
     find_nearby_visit_raleigh_events
 )
 from constants import CALENDAR
+from model.clustering import find_common_paths
 
 def get_matching_dates(day_of_week):
     dates = []
@@ -183,4 +185,71 @@ def add_poi_directions():
     merged_df = pd.merge(df, poi_directions_df[['spot_id', 'poi_directions']], on='spot_id', how='left')
     print(merged_df.head())
     merged_df.to_csv('dataset.csv', index=False)
+    
+def split_spot_data(df):
+    seen_spots = set()
+    spots_data_df_cols = [
+        'spot_id', 'size', 'is_sipnstroll', 'nearby_sns_count', 'avg_sns_proximity',
+        'poi_count', 'avg_poi_distance', 'poi_weight', 'walking_paths', 'poi_directions',
+    ]
+    spots_data_df = pd.DataFrame(columns=spots_data_df_cols)
+    rows_to_add = []
+    
+    for index, row in df.iterrows():
+        if row['spot_id'] not in seen_spots:
+            seen_spots.add(row['spot_id'])
+            spot_id = row['spot_id']
+            size = row['size']
+            is_sipnstroll = row['is_sipnstroll']
+            nearby_sns_count = row['nearby_sns_count']
+            avg_sns_proximity = row['avg_sns_proximity']
+            poi_count = row['poi_count']
+            avg_poi_distance = row['avg_poi_distance']
+            poi_weight = row['poi_weight']
+            walking_paths = row['walking_paths']
+            poi_directions = row['poi_directions']
+            new_row = [
+                spot_id, size, is_sipnstroll, nearby_sns_count, avg_sns_proximity,
+                poi_count, avg_poi_distance, poi_weight, walking_paths, poi_directions
+            ]
+            rows_to_add.append(new_row)
+            
+    spots_data_df = pd.concat(
+        [spots_data_df, pd.DataFrame(rows_to_add, columns=spots_data_df.columns)], 
+        ignore_index=True
+    )
+            
+    return spots_data_df
+
+def split_spot_times(df):
+    df.drop([
+        'latitude', 'longitude', 'size', 'is_sipnstroll', 'nearby_sns_count', 
+        'avg_sns_proximity', 'poi_count', 'avg_poi_distance', 'poi_weight', 
+        'walking_paths', 'poi_directions', 'crowd_label'
+    ], axis=1, inplace=True)
+    
+    return df
+
+def preprocess_spot_data(df):
+    df['walking_paths'] = df['walking_paths'].apply(ast.literal_eval)
+    df['poi_directions'] = df['poi_directions'].apply(ast.literal_eval)
+    df['matching_paths'] = df.apply(find_common_paths, axis=1)
+    df.drop(['walking_paths', 'poi_directions'], axis=1, inplace=True)
+    df['matching_paths_count'] = df['matching_paths'].apply(lambda x: len(x))
+    df.drop(['matching_paths'], axis=1, inplace=True)
+    df['is_sipnstroll'] = df['is_sipnstroll'].apply(lambda x: 1 if x == True else 0)
+    return df
+
+def preprocess_spot_times(df):
+    df['hour'] = pd.to_datetime(df['time'], format='%I:%M %p').dt.hour
+    df.drop(['date', 'time'], axis=1, inplace=True)
+    df['events'] = df['events'].apply(ast.literal_eval)
+    df['avg_poi_activity'] = df['avg_poi_activity'].str.rstrip('%').astype('float') / 100.0
+    df['events_count'] = df['events'].apply(lambda x: len(x))
+    df.drop(['events'], axis=1, inplace=True)
+    return df
+
+def format_unique_spot_times(df):
+    aggregated_df = df.groupby(['day', 'hour'])['avg_poi_activity'].mean().reset_index()
+    return aggregated_df
     
