@@ -23,6 +23,10 @@ selenium = "*"
 webdriver-manager = "*"
 opencv-python = "*"
 matplotlib = "*"
+fastapi = "*"
+uvicorn = "*"
+pytest = "*"
+joblib = "*"
 
 [dev-packages]
 

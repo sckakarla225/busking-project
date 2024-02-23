@@ -15,6 +15,7 @@ from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, InputLayer
 from keras.utils import to_categorical
 from keras.optimizers import Adam
+from joblib import dump
 
 from model.clustering import find_common_paths
 
@@ -187,4 +188,9 @@ def main():
     print(f"Precision: {precision}\nRecall: {recall}\nF1 Score: {f1}\n")
     print(f"Confusion Matrix:\n{conf_matrix}")
     
-    return model, encoder, scaler
+    dump(encoder, 'encoder.joblib')
+    dump(scaler, 'scaler.joblib')
+    
+    model.save('spot-predictor', save_format="tf")
+    
+    return model

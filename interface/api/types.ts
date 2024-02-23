@@ -48,3 +48,11 @@ export interface LeaveSpot {
 };
 
 // Predictions
+export interface PredictionInput {
+  spotId: string,
+  latitude: number,
+  longitude: number,
+  date: string,
+  time: string,
+  day: string
+}

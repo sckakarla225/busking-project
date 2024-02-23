@@ -62,7 +62,7 @@ const predictSpots = async (req: Request, res: Response) => {
 };
 
 const predictSpot = async (req: Request, res: Response) => {
-  const { spotId, time, date } = req.body;
+  const { spotId, latitude, longitude, time, date, day } = req.body;
   const predictionKey = `${spotId}-${date}-${time}`;
 
   try {
@@ -79,7 +79,7 @@ const predictSpot = async (req: Request, res: Response) => {
     if (prediction) {
       res.status(200).json(prediction);
     } else {
-      res.status(404).send("Error generating prediction.");
+      res.status(204).send("Error generating prediction.");
     }
   } catch (error) {
     if (error instanceof Error) {

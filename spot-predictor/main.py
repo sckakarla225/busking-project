@@ -1,6 +1,7 @@
 import streamlit as st 
 from streamlit_folium import folium_static
 import pandas as pd
+from joblib import load
 from utils.spots_data import (
     get_spots, 
     get_spot,
@@ -46,14 +47,12 @@ from model.dataset import (
     format_unique_spot_times
 )
 from model.clustering import main as clustering_main
-from model.classifier import main as classifier_main
+from model.classifier import main as classifier_main, prepare_input_for_prediction
 
-classifier_main()
-
-# st.title("Spot Prediction API")
-# st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
-# st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
-# st.write("Data Collector: https://busking-project.vercel.app/")
+st.title("Spot Prediction API")
+st.write("Key Regions: Capital District, Fayetteville Street, Moore Square, Glenwood South, Warehouse District, Historic Oakwood, East Raleigh/Prince Hall/South Park")
+st.write("Target Areas: Hotels, Restaurants/Food Trucks, Music Venues, Museums, Events/Festivals, Nightlife, Stores, Parking Garages")
+st.write("Data Collector: https://busking-project.vercel.app/")
 
 # Given a spot and a time-frame, predict how many people will be around the spot OR walk through the spot
 # Available spot data: name, coordinates, images + videos
@@ -61,6 +60,31 @@ classifier_main()
 
 # Nearby POIs data: distance from spot, estimated capacity of indoor space, hours and timings, popularity of space
 # Connected walkways data: all paths that go through spot (with corresponding point A and point B + type of place)
+
+# Testing prediction input processing function
+encoder = load('encoder.joblib')
+scaler = load('scaler.joblib')
+sample_spot = {
+    'spot_id': '01BS8Q3ZFlLWq3FtB6UU',
+    'latitude': 35.77844374,
+    'longitude': -78.64537191,
+    'day': 'Monday',
+    'month': 3,
+    'day_of_month': 4,
+    'hour': 8
+}
+input_df = prepare_input_for_prediction(
+    spot_id=sample_spot['spot_id'],
+    latitude=sample_spot['latitude'],
+    longitude=sample_spot['longitude'],
+    day=sample_spot['day'],
+    month=sample_spot['month'],
+    day_of_month=sample_spot['day_of_month'],
+    hour=sample_spot['month'],
+    encoder=encoder,
+    scaler=scaler
+)
+st.write(input_df)
 
 # All Spots Data
 # st.write("Spots Data")
