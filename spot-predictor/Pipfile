@@ -27,6 +27,8 @@ fastapi = "*"
 uvicorn = "*"
 pytest = "*"
 joblib = "*"
+httpx = "*"
+pytest-asyncio = "*"
 
 [dev-packages]
 

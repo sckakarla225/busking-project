@@ -1,7 +1,9 @@
 import streamlit as st 
 from streamlit_folium import folium_static
 import pandas as pd
+import numpy as np
 from joblib import load
+from keras.models import load_model
 from utils.spots_data import (
     get_spots, 
     get_spot,
@@ -44,7 +46,8 @@ from model.dataset import (
     split_spot_times,
     preprocess_spot_data,
     preprocess_spot_times,
-    format_unique_spot_times
+    format_unique_spot_times,
+    preprocess_dataset
 )
 from model.clustering import main as clustering_main
 from model.classifier import main as classifier_main, prepare_input_for_prediction
@@ -64,14 +67,16 @@ st.write("Data Collector: https://busking-project.vercel.app/")
 # Testing prediction input processing function
 encoder = load('encoder.joblib')
 scaler = load('scaler.joblib')
+target_encoder = load('target_encoder.joblib')
+model = load_model('predictor')
 sample_spot = {
-    'spot_id': '01BS8Q3ZFlLWq3FtB6UU',
-    'latitude': 35.77844374,
-    'longitude': -78.64537191,
-    'day': 'Monday',
+    'spot_id': '29t1kAmn2CaIa0L2P73t',
+    'latitude': 35.77464387,
+    'longitude': -78.63953855,
+    'day': 'Sunday',
     'month': 3,
-    'day_of_month': 4,
-    'hour': 8
+    'day_of_month': 17,
+    'hour': 18
 }
 input_df = prepare_input_for_prediction(
     spot_id=sample_spot['spot_id'],
@@ -80,11 +85,16 @@ input_df = prepare_input_for_prediction(
     day=sample_spot['day'],
     month=sample_spot['month'],
     day_of_month=sample_spot['day_of_month'],
-    hour=sample_spot['month'],
+    hour=sample_spot['hour'],
     encoder=encoder,
     scaler=scaler
 )
 st.write(input_df)
+predictions_prob = model.predict(input_df)
+predicted_index = np.argmax(predictions_prob, axis=1)
+labels = target_encoder.categories_[0]
+predicted_labels = labels[predicted_index]
+st.write(predicted_labels)
 
 # All Spots Data
 # st.write("Spots Data")

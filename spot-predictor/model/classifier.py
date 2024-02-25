@@ -48,32 +48,42 @@ def prepare_input_for_prediction(
     ]
     
     day_encoded = encoder.transform(input_df[['day']])
-    day_encoded_df = pd.DataFrame(day_encoded.toarray(), columns=encoder.get_feature_names_out(['day']))
+    day_encoded_df = pd.DataFrame(day_encoded, columns=encoder.get_feature_names_out())
     input_df = pd.concat([input_df.drop(columns=['day']), day_encoded_df], axis=1)
     
-    spot_data_df = pd.read_csv('sources/spot_data.csv')
-    spot_times_df = pd.read_csv('sources/spot_times.csv')
+    spots_data_df = pd.read_csv('sources/preprocessed.csv')
     average_times_df = pd.read_csv('sources/average_times.csv')
-    spot_data = spot_data_df[spot_data_df['spot_id'] == spot_id]
-    spot_times_data = spot_times_df[
-        (spot_times_df['spot_id'] == spot_id) & 
-        (spot_times_df['day'] == day) & 
-        (spot_times_df['hour'] == hour)
-    ][0]
+    spot_data = spots_data_df[
+        (spots_data_df['spot_id'] == spot_id) & 
+        (spots_data_df['day'] == day) & 
+        (spots_data_df['hour'] == hour) &
+        (spots_data_df['month'] == month) &
+        (spots_data_df['day_of_month'] == day_of_month)
+    ].head(1)
     
-    for feature in training_feature_names:
-        if feature not in input_df.columns:
-            if feature == "avg_poi_activity":
-                if spot_times_data.empty:
+    print(spot_data)
+    if spot_data.empty:
+        spot_data_ref = spots_data_df[(spots_data_df['spot_id'] == spot_id)].head(1)
+        for feature in training_feature_names:
+            if feature not in input_df.columns:
+                if feature == "avg_poi_activity":
                     average_time = average_times_df[
                         (average_times_df['day'] == day) &
                         (average_times_df['hour'] == hour)
-                    ]
-                    input_df['avg_poi_activity'] = average_time['avg_poi_activity']
+                    ].head(1)
+                    if not average_time.empty:
+                        input_df['avg_poi_activity'] = average_time['avg_poi_activity'].values[0]
+                    else:
+                        input_df['avg_poi_activity'] = 0.0
+                elif feature == "events_count":
+                    input_df['events_count'] = 0
                 else:
-                    input_df["avg_poi_activity"] = spot_times_data["avg_poi_activity"]
-            else:   
-                input_df[feature] = spot_data[feature]
+                    if not spot_data_ref.empty:
+                        input_df[feature] = spot_data_ref[feature].values[0]
+    else:
+        for feature in training_feature_names:
+            if feature not in input_df.columns:
+                input_df[feature] = spot_data[feature].values[0]
     
     numerical_features = [
         'latitude', 'longitude', 'avg_poi_activity', 'size',
@@ -81,10 +91,15 @@ def prepare_input_for_prediction(
         'avg_poi_distance', 'poi_weight', 'events_count',
         'matching_paths_count', 'month', 'day_of_month', 'hour'
     ]
-    input_df = input_df[training_feature_names]
-    input_df = scaler.transform(input_df[numerical_features])
+    input_df[numerical_features] = scaler.transform(input_df[numerical_features])
     
     return input_df
+
+def process_prediction_output(probs, target_encoder):
+    predicted_index = np.argmax(probs, axis=1)
+    labels = target_encoder.categories_[0]
+    predicted_labels = labels[predicted_index]
+    return predicted_labels
 
 def main():
     # Load and setup dataset
@@ -190,7 +205,8 @@ def main():
     
     dump(encoder, 'encoder.joblib')
     dump(scaler, 'scaler.joblib')
+    dump(target_encoder, 'target_encoder.joblib')
     
-    model.save('spot-predictor', save_format="tf")
+    model.save('predictor', save_format="tf")
     
     return model

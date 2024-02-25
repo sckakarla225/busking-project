@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from enum import Enum
 
 class PrepareInputModel(BaseModel):
     spot_id: str
@@ -9,8 +10,13 @@ class PrepareInputModel(BaseModel):
     time: str 
     day: str
     
+class PredictionEnum(str, Enum):
+    high = 'High'
+    medium = 'Medium'
+    low = 'Low'
+    
 class PredictionOutputModel(BaseModel):
     spot_id: str
     date: str
     time: str
-    prediction_value: str # Add validator to this: 'High', 'Medium, 'Low'
+    prediction_value: PredictionEnum

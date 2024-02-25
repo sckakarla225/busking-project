@@ -252,4 +252,29 @@ def preprocess_spot_times(df):
 def format_unique_spot_times(df):
     aggregated_df = df.groupby(['day', 'hour'])['avg_poi_activity'].mean().reset_index()
     return aggregated_df
+
+def preprocess_dataset(df):
+    # Load and setup dataset
+    df = pd.read_csv('labeled.csv')
+    df['walking_paths'] = df['walking_paths'].apply(ast.literal_eval)
+    df['poi_directions'] = df['poi_directions'].apply(ast.literal_eval)
+    df['events'] = df['events'].apply(ast.literal_eval)
+    
+    # Basic preprocessing
+    df['matching_paths'] = df.apply(find_common_paths, axis=1)
+    df.drop(['walking_paths', 'poi_directions'], axis=1, inplace=True)
+    df['avg_poi_activity'] = df['avg_poi_activity'].str.rstrip('%').astype('float') / 100.0
+    df['events_count'] = df['events'].apply(lambda x: len(x))
+    df['matching_paths_count'] = df['matching_paths'].apply(lambda x: len(x))
+    df.drop(['events', 'matching_paths'], axis=1, inplace=True)
+    df['is_sipnstroll'] = df['is_sipnstroll'].apply(lambda x: 1 if x == True else 0)
+    
+    # Numerically format datetime features
+    df['date'] = pd.to_datetime(df['date'])
+    df['month'] = df['date'].dt.month
+    df['day_of_month'] = df['date'].dt.day
+    df['hour'] = pd.to_datetime(df['time'], format='%I:%M %p').dt.hour
+    df.drop(['date', 'time', 'crowd_label'], axis=1, inplace=True)
+    
+    return df
     
