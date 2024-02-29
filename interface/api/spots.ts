@@ -108,7 +108,7 @@ const leaveSpot = async (
   userId: string,
   spotId: string,
   reservationId: string
-) => {
+): Promise<ApiResponse | ApiError> => {
   const spotToLeave: LeaveSpot = {
     userId: userId,
     spotId: spotId,

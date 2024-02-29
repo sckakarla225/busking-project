@@ -1,13 +1,34 @@
 import { Request, Response } from 'express';
+import axios from 'axios';
 import { addPrediction, getPrediction, getPredictions } from '../models/predictions';
+
+const HEADERS = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
 
 const predictSpots = async (req: Request, res: Response) => {
   const { spotsToPredict } = req.body;
   const predictionKeys: string[] = [];
 
   for (const spot of spotsToPredict) {
-    if (spot.spotId && spot.time && spot.date) {
-      const predictionKey = `${spot.spotId}-${spot.date}-${spot.time}`;
+    if (
+      spot.spotId && 
+      spot.time && 
+      spot.date &&
+      spot.latitude &&
+      spot.longitude &&
+      spot.day
+    ) {
+      const predictionKey = `
+        ${spot.spotId}-
+        ${spot.latitude}-
+        ${spot.longitude}-
+        ${spot.date}-
+        ${spot.day}-
+        ${spot.time}
+      `;
       predictionKeys.push(predictionKey);
     }
   }
@@ -18,23 +39,45 @@ const predictSpots = async (req: Request, res: Response) => {
       const predictions = predictionsData.predictions;
       const predictionResults = await Promise.all(
         predictionsData.keysToBePredicted.map(async (predictionKey: string) => {
-          // Get prediction value from ML model (store in predictionValue variable)
-          const predictionValue: string = 'sample prediction';
+          const parts = predictionKey.trim().split('-').map(part => part.trim());
+          const [spotId, latitude, longitude, date, day, time] = parts;
+          const predictionInput = {
+            spot_id: spotId,
+            latitude: latitude,
+            longitude: longitude,
+            time: time,
+            date: date,
+            day: day
+          };
+
           try {
-            const predictionFromCache = await addPrediction(predictionKey, predictionValue);
+            const response = await axios.post(
+              'http://localhost:8000/predictions/predict-spot',
+              predictionInput,
+              HEADERS
+            );
+            const { prediction_value } = response.data;
+            const predictionFromCache = await addPrediction(predictionKey, prediction_value);
             if (predictionFromCache) {
               predictions.push({
                 predictionKey: predictionKey,
-                predictionValue: predictionValue
+                predictionValue: prediction_value
               });
               return {
                 predictionKey: predictionKey,
-                predictionValue: predictionValue,
+                predictionValue: prediction_value,
                 success: true,
               };
             }
             return { success: false, predictionKey };
-          } catch (error) {
+          } catch (apiError: any) {
+            if (apiError.response) {
+              res.status(apiError.response.status).send("Unknown error has occurred");
+            } else if (apiError.request) {
+              res.status(204).send("Error generating prediction");
+            } else {
+              res.status(500).send("Invalid request.");
+            }
             return { success: false, predictionKey };
           }
         })
@@ -68,11 +111,34 @@ const predictSpot = async (req: Request, res: Response) => {
   try {
     let prediction = await getPrediction(predictionKey);
     if (!prediction) {
-      // Get prediction value from ML model (store in predictionValue variable)
-      const predictionValue: string = 'sample prediction';
-      const predictionFromCache = await addPrediction(predictionKey, predictionValue);
-      if (predictionFromCache) {
-        prediction = predictionFromCache;
+      const predictionInput = {
+        spot_id: spotId,
+        latitude: latitude,
+        longitude: longitude,
+        time: time,
+        date: date,
+        day: day
+      };
+
+      try {
+        const response = await axios.post(
+          'http://localhost:8000/predictions/predict-spot',
+          predictionInput,
+          HEADERS
+        );
+        const { prediction_value } = response.data;
+        const predictionFromCache = await addPrediction(predictionKey, prediction_value);
+        if (predictionFromCache) {
+          prediction = predictionFromCache;
+        }
+      } catch (apiError: any) {
+        if (apiError.response) {
+          res.status(apiError.response.status).send("Unknown error has occurred");
+        } else if (apiError.request) {
+          res.status(204).send("Error generating prediction");
+        } else {
+          res.status(500).send("Invalid request.");
+        }
       }
     }
   
