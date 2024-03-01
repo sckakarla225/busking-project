@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image'
 import Map, { Marker, Popup } from 'react-map-gl';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { TbMapPinPlus } from 'react-icons/tb';
 
-import { TimeSlider, Profile, Key } from '../components';
+import { 
+  TimeSlider, 
+  Profile, 
+  Key,
+  SpotMarker 
+} from '../components';
 import { firestore } from '@/firebase/spotsData';
 import { collection, getDocs } from 'firebase/firestore';
 import { useAppSelector } from '@/redux/store';
@@ -17,6 +22,7 @@ export default function Home() {
   const [spots, setSpots] = useState<any[]>([]);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isKeyOpen, setIsKeyOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   useEffect(() => {
     const getSpots = async () => {
@@ -41,7 +47,17 @@ export default function Home() {
     };
 
     getSpots();
-  }, [])
+  }, []);
+
+  const sampleSpotMarkers = [
+    { size: 2, availability: true, activity: 1 },
+    { size: 3, availability: true, activity: 1 },
+    { size: 5, availability: true, activity: 1 },
+    // { size: 2, availability: false, activity: 1 },
+    // { size: 5, availability: true, activity: 1 },
+    // { size: 5, availability: true, activity: 2 },
+    // { size: 5, availability: true, activity: 3 },
+  ]
 
   return (
     <>
@@ -68,9 +84,13 @@ export default function Home() {
       </button>
       <Key isOpen={isKeyOpen} onClose={() => setIsKeyOpen(!isKeyOpen)} />
       <div className="absolute bottom-10 px-5 z-10 w-full">
-        <TimeSlider />
+        <TimeSlider updateSelectedTime={(newTime) => setSelectedTime(newTime)} />
       </div>
-      <Map
+      <div className="flex flex-row">
+        {sampleSpotMarkers.map((spotMarker) => <SpotMarker size={spotMarker.size} availability={spotMarker.availability} activity={spotMarker.activity} />)}
+      </div>
+      <h1 className="text-black font-semibold">{selectedTime && selectedTime}</h1>
+      {/* <Map
         mapboxAccessToken={MAPBOX_API_KEY}
         initialViewState={{
           longitude: -78.63913983214495,
@@ -82,7 +102,7 @@ export default function Home() {
           [-78.62039725622377, 35.792861226084234]
         ]}
         style={{ width: '100%', height: '100%' }}
-        pitch={55}
+        pitch={45}
         mapStyle="mapbox://styles/sckakarla36/clrtwmjh800rh01o86wqfe7rx"
       >
         {spots !== [] 
@@ -95,7 +115,7 @@ export default function Home() {
               <div className="w-5 h-5 bg-purple-500 rounded-full"></div>
             </Marker>
         ))}
-      </Map>
+      </Map> */}
     </main>
     </>
   )

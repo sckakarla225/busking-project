@@ -1,15 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './reducers/auth';
-import { loadState, saveState } from './persistor';
 import throttle from 'lodash/throttle'
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
+
+import authReducer from './reducers/auth';
+import performerReducer from './reducers/performer';
+import spotsReducer from './reducers/spots';
+import { loadState, saveState } from './persistor';
 
 const persistedState = loadState();
 
 // TODO: Make state persist work
 export const store = configureStore({
   reducer: {
-    auth: authReducer
+    auth: authReducer,
+    performer: performerReducer,
+    spots: spotsReducer
   }
 });
 
