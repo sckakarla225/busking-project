@@ -8,7 +8,7 @@ import {
   LeaveSpot 
 } from './types';
 
-const getSpots = async (): Promise<ApiResponse | ApiError> => {
+const getSpots = async () => {
   try {
     const { data } : any = await axios.get(
       API_ENDPOINT + `/spots/all`, 

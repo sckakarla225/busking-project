@@ -11,12 +11,20 @@ const SpotMarker: React.FC<SpotMarkerProps> = ({
 }) => {
   return (
     <div className={`
-      bg-slate-100 border-8 border-purple-900 mt-20 rounded-full
-      ${size === 1 || size === 2 && 'h-10 w-8'}
-      ${size === 3 && 'h-16 w-12'}
-      ${size === 4 || size === 5 && 'h-24 w-20'}
+      bg-slate-100 border-4 border-purple-900 mt-20 rounded-full flex items-center justify-center
+      ${size === 1 || size === 2 && 'h-12 w-12'}
+      ${size === 3 && 'h-16 w-16'}
+      ${size === 4 || size === 5 && 'h-24 w-24'}
+      ${!availability && 'bg-zinc-700'}
     `}>
-
+      {availability && activity == 3 && (
+        <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave flex items-center justify-center">
+          <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave"></div>
+        </div>
+      )}
+      {availability && activity == 2 && (
+        <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave flex items-center justify-center"></div>
+      )}
     </div>
   ) 
 };

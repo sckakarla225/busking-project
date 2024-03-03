@@ -35,9 +35,12 @@ export const spots = createSlice({
         ...state,
         spots: action.payload.spots
       }
+    },
+    resetSpots: () => {
+      return initialState
     }
   }
 });
 
-export const { } = spots.actions;
+export const { loadSpots, resetSpots } = spots.actions;
 export default spots.reducer;

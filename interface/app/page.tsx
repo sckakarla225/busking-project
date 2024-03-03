@@ -12,9 +12,8 @@ import {
   Key,
   SpotMarker 
 } from '../components';
-import { firestore } from '@/firebase/spotsData';
-import { collection, getDocs } from 'firebase/firestore';
 import { useAppSelector } from '@/redux/store';
+import { predictSpots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
 import logo from './logo.png';
 
@@ -23,41 +22,63 @@ export default function Home() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isKeyOpen, setIsKeyOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const userId = useAppSelector((state) => state.auth.userId);
+  const spotsInfo = useAppSelector((state) => state.spots.spots);
+
+  function convertTime12to24(time12h: string): [number, number] {
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+  
+    return [hours, minutes];
+  }
+
+  function checkTimeWithinReservation(startTime: Date, endTime: Date, givenTime: string): boolean {
+      const givenDateTime = new Date(
+        startTime.getFullYear(),
+        startTime.getMonth(),
+        startTime.getDate(),
+        ...convertTime12to24(givenTime)
+      );
+
+      return givenDateTime >= startTime && givenDateTime <= endTime;
+  }
 
   useEffect(() => {
-    const getSpots = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(firestore, "final-spots"));
-        const spotsData: any[] = [];
-        querySnapshot.forEach((doc) => {
-          spotsData.push({ 
-            id: doc.id, 
-            name: doc.data().name,
-            lat: doc.data().coordinates._lat,
-            long: doc.data().coordinates._long
-          });
+    const processedSpots: any[] = [];
+    if (selectedTime) {
+      spotsInfo.map((spotInfo) => {
+        let isReserved = false;
+        spotInfo.reservations.map((reservation) => {
+          const startTime = new Date(reservation.startTime);
+          const endTime = new Date(reservation.endTime);
+
+          const spotReserved = checkTimeWithinReservation(
+            startTime, 
+            endTime, 
+            selectedTime
+          );
+          if (spotReserved) {
+            isReserved = true;
+          }
         });
-        if (spotsData !== []) {
-          setSpots(spotsData);
-          console.log(spotsData);
+
+        let activity = 3; // TODO: Get this value from prediction API
+        const processedSpot = {
+          ...spotInfo,
+          availability: !isReserved,
+          activity: activity
         };
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    getSpots();
-  }, []);
-
-  const sampleSpotMarkers = [
-    { size: 2, availability: true, activity: 1 },
-    { size: 3, availability: true, activity: 1 },
-    { size: 5, availability: true, activity: 1 },
-    // { size: 2, availability: false, activity: 1 },
-    // { size: 5, availability: true, activity: 1 },
-    // { size: 5, availability: true, activity: 2 },
-    // { size: 5, availability: true, activity: 3 },
-  ]
+        processedSpots.push(processedSpot);
+      });
+    }
+    console.log(processedSpots);
+    setSpots(processedSpots);
+  }, [selectedTime]);
 
   return (
     <>
@@ -86,11 +107,7 @@ export default function Home() {
       <div className="absolute bottom-10 px-5 z-10 w-full">
         <TimeSlider updateSelectedTime={(newTime) => setSelectedTime(newTime)} />
       </div>
-      <div className="flex flex-row">
-        {sampleSpotMarkers.map((spotMarker) => <SpotMarker size={spotMarker.size} availability={spotMarker.availability} activity={spotMarker.activity} />)}
-      </div>
-      <h1 className="text-black font-semibold">{selectedTime && selectedTime}</h1>
-      {/* <Map
+      <Map
         mapboxAccessToken={MAPBOX_API_KEY}
         initialViewState={{
           longitude: -78.63913983214495,
@@ -108,14 +125,18 @@ export default function Home() {
         {spots !== [] 
           && spots.map((spot: any) => (
             <Marker 
-              key={spot.id}
-              latitude={spot.lat} 
-              longitude={spot.long}
+              key={spot.spotId}
+              latitude={spot.latitude} 
+              longitude={spot.longitude}
             >
-              <div className="w-5 h-5 bg-purple-500 rounded-full"></div>
+              <SpotMarker 
+                size={spot.spotSize} 
+                availability={spot.availability} 
+                activity={spot.activity} 
+              />
             </Marker>
         ))}
-      </Map> */}
+      </Map>
     </main>
     </>
   )

@@ -32,7 +32,7 @@ const predictSpot = async (input: PredictionInput): Promise<ApiResponse | ApiErr
 const predictSpots = async (inputs: PredictionInput[]): Promise<ApiResponse | ApiError> => {
   try {
     const { data } : any = await axios.post(
-      API_ENDPOINT + "/predictions/predict",
+      API_ENDPOINT + "/predictions/predict_all",
       inputs,
       {
         headers: {

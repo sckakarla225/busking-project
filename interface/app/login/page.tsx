@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoEyeSharp } from 'react-icons/io5';
@@ -11,25 +12,54 @@ import { auth } from '../../firebase/firebaseConfig';
 import { useAuth } from '../../firebase/useAuth';
 import { AppDispatch } from '@/redux/store';
 import { login, logout } from '@/redux/reducers/auth';
+import { loadUser, resetUser } from '@/redux/reducers/performer';
+import { loadSpots, resetSpots } from '@/redux/reducers/spots';
+import { getUser, getSpots } from '@/api';
 import logo from '../logo.png';
 
 export default function Login() {
   const user = useAuth();
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log(user?.email + 'is logged in');
       if (user?.email && user?.uid) {
         dispatch(login({ userId: user?.uid, email: user?.email }));
         console.log("loaded to state");
+        const userInfo = await getUser(user?.uid);
+        if (userInfo.success) {
+          const name = userInfo.data.name;
+          const dateJoined = userInfo.data.dateJoined;
+          const performanceStyles = userInfo.data.performanceStyles;
+          const recentSpots = userInfo.data.recentSpots;
+          const currentSpot = userInfo.data.currentSpot;
+          dispatch(loadUser({
+            name: name,
+            dateJoined: dateJoined,
+            performanceStyles: performanceStyles,
+            recentSpots: recentSpots,
+            currentSpot: currentSpot
+          }));
+        }
+        const spots = await getSpots();
+        if (spots.success) {
+          dispatch(loadSpots({ spots: spots.data }));
+        }
       };
+      router.push('/');
+      setLoading(false);
     } catch (error: any) {
       console.log(error.code);
       switch (error.code) {
@@ -49,6 +79,9 @@ export default function Login() {
           setError('Unknown error.');
       }
       dispatch(logout());
+      dispatch(resetUser());
+      dispatch(resetSpots());
+      setLoading(false);
     }
   }
 

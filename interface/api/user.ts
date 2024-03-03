@@ -9,7 +9,7 @@ import {
   AddRecentSpot 
 } from './types';
 
-const getUser = async (userId: string): Promise<ApiResponse | ApiError> => {
+const getUser = async (userId: string) => {
   try {
     const { data } : any = await axios.get(
       API_ENDPOINT + `/users/user/${userId}`, 
