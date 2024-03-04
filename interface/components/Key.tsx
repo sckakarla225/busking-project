@@ -1,4 +1,5 @@
 import React from 'react';
+import { LiaTimesSolid } from 'react-icons/lia';
 
 interface KeyProps {
   isOpen: boolean,
@@ -9,8 +10,57 @@ const Key: React.FC<KeyProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute right-5 ml-48 h-40 top-36 inset-0 z-20 flex justify-center items-center px-4 py-3 bg-zinc-300 border-2 border-zinc-400 rounded-md">
-      
+    <div className="absolute right-5 ml-44 h-64 top-36 inset-0 z-20 flex flex-col px-4 py-3 bg-purple-600 border-2 border-purple-400 rounded-md">
+      <div className="flex flex-row justify-end">
+        <LiaTimesSolid size={15} color="black" onClick={onClose} />
+      </div>
+      <div className="flex flex-row items-center mt-2">
+        <h1 className="text-white font-bold text-xs">Spot Size:</h1>
+        <div className="flex flex-row items-end ml-3">
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-9 h-9 rounded-full bg-white border-2 border-purple-900"></div>
+            <h1 className="text-white font-semibold mt-1 text-xs">1</h1>
+          </div>
+          <div className="flex flex-col justify-center items-center ml-2">
+            <div className="w-7 h-7 rounded-full bg-white border-2 border-purple-900"></div>
+            <h1 className="text-white font-semibold mt-1 text-xs">2</h1>
+          </div>
+          <div className="flex flex-col justify-center items-center ml-2">
+            <div className="w-5 h-5 rounded-full bg-white border-2 border-purple-900"></div>
+            <h1 className="text-white font-semibold mt-1 text-xs">3</h1>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-row items-center mt-7">
+        <h1 className="text-white font-bold text-xs">Spot Availability:</h1>
+        <div className="flex flex-row items-center ml-3">
+          <div className="w-6 h-6 rounded-full bg-white border-2 border-purple-900"></div>
+          <div className="w-6 h-6 rounded-full bg-zinc-800 border-2 border-purple-900 ml-3"></div>
+        </div>
+      </div>
+      <div className="flex flex-row items-center mt-7">
+        <h1 className="text-white font-bold text-xs">Spot Activity:</h1>
+        <div className="flex flex-row items-center ml-3">
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-6 h-6 rounded-full bg-white border-2 border-purple-900 flex items-center justify-center">
+              <div className="w-[75%] h-[75%] rounded-full bg-white border-2 border-purple-500 animate-wave flex items-center justify-center">
+                <div className="w-[60%] h-[60%] rounded-full bg-white border-2 border-purple-500 animate-wave"></div>
+              </div>
+            </div>
+            <h1 className="text-white font-semibold mt-1 text-xs">High</h1>
+          </div>
+          <div className="flex flex-col justify-center items-center ml-2">
+            <div className="w-6 h-6 rounded-full bg-white border-2 border-purple-900 flex items-center justify-center">
+              <div className="w-[50%] h-[50%] rounded-full bg-white border-2 border-purple-500 animate-wave flex items-center justify-center"></div>
+            </div>
+            <h1 className="text-white font-semibold mt-1 text-xs">Med</h1>
+          </div>
+          <div className="flex flex-col justify-center items-center ml-2">
+            <div className="w-6 h-6 rounded-full bg-white border-2 border-purple-900"></div>
+            <h1 className="text-white font-semibold mt-1 text-xs">Low</h1>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

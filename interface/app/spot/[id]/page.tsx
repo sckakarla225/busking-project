@@ -1,6 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 
-import logo from '../../../logo.png';
+import logo from '../../logo.png';
 
 export default function Spot(
   { params }: { params: { id: string } }

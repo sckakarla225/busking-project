@@ -19,3 +19,7 @@
 body {
   background-color: white;
 }
+
+.mapboxgl-popup-close-button {
+  padding: 10px; /* Adjust the padding as needed */
+}

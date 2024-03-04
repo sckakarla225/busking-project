@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './styles.css';
 import { TbTriangleFilled } from 'react-icons/tb';
+import './styles.css';
 
 interface TimeSliderProps {
   updateSelectedTime: (time: string) => void

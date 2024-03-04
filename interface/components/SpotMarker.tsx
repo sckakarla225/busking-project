@@ -3,20 +3,22 @@ import React from 'react';
 interface SpotMarkerProps {
   size: number,
   availability: boolean,
-  activity: number
+  activity: number,
 };
 
 const SpotMarker: React.FC<SpotMarkerProps> = ({
   size, availability, activity
 }) => {
   return (
-    <div className={`
-      bg-slate-100 border-4 border-purple-900 mt-20 rounded-full flex items-center justify-center
-      ${size === 1 || size === 2 && 'h-12 w-12'}
-      ${size === 3 && 'h-16 w-16'}
-      ${size === 4 || size === 5 && 'h-24 w-24'}
-      ${!availability && 'bg-zinc-700'}
-    `}>
+    <div 
+      className={`
+        bg-slate-100 border-4 border-purple-900 mt-20 rounded-full flex items-center justify-center
+        ${size === 1 || size === 2 && 'h-12 w-12'}
+        ${size === 3 && 'h-16 w-16'}
+        ${size === 4 || size === 5 && 'h-24 w-24'}
+        ${!availability && 'bg-zinc-700'}
+      `}
+    >
       {availability && activity == 3 && (
         <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave flex items-center justify-center">
           <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave"></div>
