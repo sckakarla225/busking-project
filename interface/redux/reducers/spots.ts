@@ -20,10 +20,12 @@ interface Spot {
 interface SpotsState {
   // TODO: save map instance and viewport here too
   spots: Spot[],
+  selectedTime: string
 };
 
 const initialState: SpotsState = {
-  spots: []
+  spots: [],
+  selectedTime: ''
 };
 
 export const spots = createSlice({
@@ -36,11 +38,17 @@ export const spots = createSlice({
         spots: action.payload.spots
       }
     },
+    changeSelectedTime: (state, action: PayloadAction<{ selectedTime: string }>) => {
+      return {
+        ...state,
+        selectedTime: action.payload.selectedTime
+      }
+    },
     resetSpots: () => {
       return initialState
     }
   }
 });
 
-export const { loadSpots, resetSpots } = spots.actions;
+export const { loadSpots, resetSpots, changeSelectedTime } = spots.actions;
 export default spots.reducer;

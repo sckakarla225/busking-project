@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import Image from 'next/image'
 import Map, { Marker, Popup } from 'react-map-gl';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { TbMapPinPlus } from 'react-icons/tb';
+import { MdLogout } from 'react-icons/md';
 
 import { 
   TimeSlider, 
@@ -13,12 +15,15 @@ import {
   SpotMarker,
   SpotPopup 
 } from '../components';
-import { useAppSelector } from '@/redux/store';
+import { useAppSelector, AppDispatch } from '@/redux/store';
+import { changeSelectedTime } from '@/redux/reducers/spots';
 import { predictSpots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
 import logo from './logo.png';
 
 export default function Home() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [spots, setSpots] = useState<any[]>([]);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isKeyOpen, setIsKeyOpen] = useState(false);
@@ -59,6 +64,7 @@ export default function Home() {
   useEffect(() => {
     const processedSpots: any[] = [];
     if (selectedTime) {
+      dispatch(changeSelectedTime({ selectedTime: selectedTime }));
       spotsInfo.map((spotInfo) => {
         let isReserved = false;
         spotInfo.reservations.map((reservation) => {
@@ -108,7 +114,10 @@ export default function Home() {
                 <Image src={logo} alt="logo" width={35} height={35} />
               </a>
             </div>
-            <HiMiniUserCircle size={30} color="white" onClick={() => setIsProfileOpen(true)} />
+            <div className="flex flex-row items-center">
+              <HiMiniUserCircle size={30} color="white" onClick={() => setIsProfileOpen(true)} />
+              <MdLogout size={25} color="white" className="ml-4" />
+            </div>
           </div>
         </nav>
         <button 
