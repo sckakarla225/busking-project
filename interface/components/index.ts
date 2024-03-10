@@ -4,6 +4,7 @@ import Key from "./Key";
 import SpotMarker from './SpotMarker';
 import SpotPopup from './SpotPopup';
 import SpotInfo from './SpotInfo';
+import SpotGraphics from './SpotGraphics';
 
 export { 
   TimeSlider, 
@@ -11,5 +12,6 @@ export {
   Key,
   SpotMarker,
   SpotPopup,
-  SpotInfo 
+  SpotInfo,
+  SpotGraphics 
 };

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { MdLogout } from 'react-icons/md';
 
-import { SpotInfo } from '@/components';
+import { SpotInfo, SpotGraphics } from '@/components';
 import { predictSpot } from '@/api';
 import { useAppSelector } from '@/redux/store';
 import logo from '../../logo.png';
@@ -61,7 +61,7 @@ export default function Spot(
             isReserved = true;
           }
         });
-        setSpotAvailability(isReserved);
+        setSpotAvailability(!isReserved);
         setActivityLevel(3); // TODO: Set this value from prediction API
       };
     }
@@ -88,6 +88,9 @@ export default function Spot(
           availability={spotAvailability}
         />
       </div>
+      <SpotGraphics 
+        spotId={params.id} 
+      />
     </main>
   )
 }

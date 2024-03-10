@@ -61,7 +61,7 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div 
           className={`
-            bg-slate-100 border-4 border-purple-900 mt-20 rounded-full flex items-center justify-center w-8 h-8
+            bg-slate-100 border-4 border-purple-900 rounded-full flex items-center justify-center w-10 h-10
             ${!availability && 'bg-zinc-700'}
           `}
         >
@@ -73,13 +73,13 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
           {availability && activity == 2 && (
             <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave flex items-center justify-center"></div>
           )}
-      </div>
+        </div>
       </div>
       <div className="flex flex-col">
         <h1 className="text-black font-light text-sm">Spot Name:</h1>
         <h1 className="text-black font-semibold text-lg">{name}</h1>
       </div>
-      <div className="flex flex-row mt-2">
+      <div className="flex flex-row mt-4">
         <div className="flex flex-col w-2/3">
           <h1 className="text-black font-light text-xs">Spot Region:</h1>
           <h1 className="text-black font-semibold text-base">{region}</h1>
@@ -89,12 +89,12 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
           <h1 className="text-black font-semibold text-sm mt-1">{getCurrentDate()}</h1>
         </div>
       </div>
-      <div className="flex flex-col mt-2">
+      <div className="flex flex-col mt-3">
         <h1 className="text-black font-light text-xs">Reservation Time:</h1>
-        <div className="flex flex-row justify-between">
-          <div className="inline-block relative w-64">
+        <div className="flex flex-row justify-between items-center mt-2">
+          <div className="inline-block relative w-52">
             <select
-              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              className="block appearance-none text-sm font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
               value={reservedFrom}
               onChange={(e) => setReservedFrom(e.target.value)}
             >
@@ -102,16 +102,11 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
                 <option key={index} value={time}>{time}</option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M5.8,7.3L10,11.5l4.2-4.2c0.4-0.4,1-0.4,1.4,0s0.4,1,0,1.4l-5,5c-0.4,0.4-1,0.4-1.4,0l-5-5c-0.4-0.4-0.4-1,0-1.4S5.4,6.9,5.8,7.3z"/>
-              </svg>
-            </div>
           </div>
-          <h1 className="text-black font-semibold text-sm">TO</h1>
-          <div className="inline-block relative w-64">
+          <h1 className="text-black font-semibold text-sm px-2">TO</h1>
+          <div className="inline-block relative w-52">
             <select
-              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              className="block appearance-none text-sm font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
               value={reservedTo}
               onChange={(e) => setReservedTo(e.target.value)}
             >
@@ -119,11 +114,6 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
                 <option key={index} value={time}>{time}</option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M5.8,7.3L10,11.5l4.2-4.2c0.4-0.4,1-0.4,1.4,0s0.4,1,0,1.4l-5,5c-0.4,0.4-1,0.4-1.4,0l-5-5c-0.4-0.4-0.4-1,0-1.4S5.4,6.9,5.8,7.3z"/>
-              </svg>
-            </div>
           </div>
         </div>
       </div>

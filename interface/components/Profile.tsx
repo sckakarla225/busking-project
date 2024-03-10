@@ -1,12 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
-import Map, { Marker } from 'react-map-gl';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { MdModeEdit } from 'react-icons/md';
 
 import logo from '../app/logo.png';
-import { MAPBOX_API_KEY } from '@/constants';
-import { User, Spot } from '../app/types';
 
 interface ProfileProps {
   isOpen: boolean,
