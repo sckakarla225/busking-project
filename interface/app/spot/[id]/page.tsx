@@ -55,9 +55,9 @@ export default function Spot(
     ];
 
     const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1);
+    const day = String(currentDate.getDate());
+    const year = String(currentDate.getFullYear()).slice(-2);
 
     const dateString = `${month}/${day}/${year}`;
     console.log(dateString);
@@ -75,8 +75,24 @@ export default function Spot(
         time: selectedTime,
         day: dayOfWeek
       };
+
       const activityLevel = await predictSpot(predictionInput);
-      console.log(activityLevel);
+      let activityLevelNum: number;
+      switch (activityLevel.data) {
+        case "Low":
+          activityLevelNum = 1;
+          break;
+        case "Medium":
+          activityLevelNum = 2;
+          break;
+        case "High":
+          activityLevelNum = 3;
+          break;
+        default:
+          activityLevelNum = 0;
+      };
+
+      return activityLevelNum;
     };
 
     if (allSpots !== []) {
@@ -98,8 +114,9 @@ export default function Spot(
           }
         });
         setSpotAvailability(!isReserved);
-        getPrediction(spotInfo).catch((error) => console.log(error));
-        setActivityLevel(3); // TODO: Set this value from prediction API
+        getPrediction(spotInfo)
+          .then((activityLevelNum: number) => setActivityLevel(activityLevelNum))
+          .catch((error: any) => console.log(error));
       };
     }
   }, [selectedTime]);

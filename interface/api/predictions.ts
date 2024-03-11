@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_ENDPOINT } from '@/constants';
 import { ApiResponse, ApiError, PredictionInput } from './types';
 
-const predictSpot = async (input: PredictionInput): Promise<ApiResponse | ApiError> => {
+const predictSpot = async (input: PredictionInput) => {
   try {
     const { data } : any = await axios.post(
       API_ENDPOINT + "/predictions/predict",
@@ -29,11 +29,13 @@ const predictSpot = async (input: PredictionInput): Promise<ApiResponse | ApiErr
   }
 }
 
-const predictSpots = async (inputs: PredictionInput[]): Promise<ApiResponse | ApiError> => {
+const predictSpots = async (inputs: PredictionInput[]) => {
   try {
     const { data } : any = await axios.post(
       API_ENDPOINT + "/predictions/predict_all",
-      inputs,
+      { 
+        spotsToPredict: inputs 
+      },
       {
         headers: {
           'Content-Type': 'application/json',

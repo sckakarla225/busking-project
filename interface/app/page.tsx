@@ -29,6 +29,7 @@ export default function Home() {
   const [isKeyOpen, setIsKeyOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedSpot, setSelectedSpot] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   const email = useAppSelector((state) => state.auth.email);
   const name = useAppSelector((state) => state.performer.name);
@@ -61,8 +62,64 @@ export default function Home() {
       return givenDateTime >= startTime && givenDateTime <= endTime;
   }
 
+  const getCurrentDate = (): { dateString: string, dayOfWeek: string } => {
+    const currentDate = new Date();
+    const daysOfWeek: string[] = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
+    const month = String(currentDate.getMonth() + 1);
+    const day = String(currentDate.getDate());
+    const year = String(currentDate.getFullYear()).slice(-2);
+
+    const dateString = `${month}/${day}/${year}`;
+    console.log(dateString);
+    return { dateString, dayOfWeek };
+  };
+
   useEffect(() => {
+    const { dateString, dayOfWeek } = getCurrentDate();
+    const setupPredictions = async (predictionInputs: any[], processedSpots: any[]) => {
+      const predictions = await predictSpots(predictionInputs);
+      
+      if (predictions.data) {
+        predictions.data.map((prediction: any) => {
+          const parts = prediction.predictionKey.split("||");
+          const spotId = parts[0];
+          const spotToUpdate = processedSpots.find((spot) => spot.spotId === spotId);
+          if (spotToUpdate) {
+            let activityLevel: number;
+            switch (prediction.predictionValue) {
+              case "Low":
+                activityLevel = 1;
+                break;
+              case "Medium":
+                activityLevel = 2;
+                break;
+              case "High":
+                activityLevel = 3;
+                break;
+              default:
+                activityLevel = 0;
+            };
+            spotToUpdate.activity = activityLevel;
+          }
+        })
+      };
+
+      console.log(processedSpots);
+      return processedSpots;
+    }
+
     const processedSpots: any[] = [];
+    const predictionInputs: any[] = [];
     if (selectedTime) {
       dispatch(changeSelectedTime({ selectedTime: selectedTime }));
       spotsInfo.map((spotInfo) => {
@@ -81,17 +138,27 @@ export default function Home() {
           }
         });
 
-        let activity = 3; // TODO: Get this value from prediction API
         const processedSpot = {
           ...spotInfo,
           availability: !isReserved,
-          activity: activity
+        };
+        const predictionInput = {
+          spotId: spotInfo.spotId,
+          latitude: spotInfo.latitude,
+          longitude: spotInfo.longitude,
+          date: dateString,
+          time: selectedTime,
+          day: dayOfWeek
         };
         processedSpots.push(processedSpot);
+        predictionInputs.push(predictionInput);
       });
     }
-    console.log(processedSpots);
-    setSpots(processedSpots);
+
+    setupPredictions(predictionInputs, processedSpots)
+      .then((processedSpots) => setSpots(processedSpots))
+      .catch((error: any) => console.log(error));
+    setLoading(false);
   }, [selectedTime]);
 
   return (
