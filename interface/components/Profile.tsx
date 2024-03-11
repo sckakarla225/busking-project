@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { MdModeEdit } from 'react-icons/md';
 
+import { leaveSpot } from '@/api';
 import logo from '../app/logo.png';
 
 interface ProfileProps {

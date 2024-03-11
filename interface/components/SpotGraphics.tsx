@@ -18,24 +18,26 @@ const SpotGraphics: React.FC<SpotGraphicsProps> = ({
     const video = videoRef.current;
 
     const setVideoData = () => {
-      setDuration(video?.duration || 0);
-    };
-
-    const updateTime = () => {
-      setCurrentFrame(video?.currentTime || 0);
+      const videoDuration = video?.duration || 0;
+      setDuration(videoDuration);
+      const midTime = videoDuration / 2;
+      setCurrentFrame(midTime);
+      if (video) {
+        video.currentTime = midTime;
+      }
     };
 
     video?.addEventListener('loadedmetadata', setVideoData);
-    video?.addEventListener('timeupdate', updateTime);
 
     return () => {
       video?.removeEventListener('loadedmetadata', setVideoData);
-      video?.removeEventListener('timeupdate', updateTime);
+      setLoading(false);
     };
   }, [videoRef]);
 
   const handleScroll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = (event.target.valueAsNumber * duration) / 100;
+    setCurrentFrame(newTime);
     if (videoRef.current) {
       videoRef.current.currentTime = newTime;
     }

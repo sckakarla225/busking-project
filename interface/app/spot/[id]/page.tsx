@@ -42,7 +42,43 @@ export default function Spot(
       return givenDateTime >= startTime && givenDateTime <= endTime;
   }
 
+  const getCurrentDate = (): { dateString: string, dayOfWeek: string } => {
+    const currentDate = new Date();
+    const daysOfWeek: string[] = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const year = currentDate.getFullYear();
+
+    const dateString = `${month}/${day}/${year}`;
+    console.log(dateString);
+    return { dateString, dayOfWeek };
+  }
+
   useEffect(() => {
+    const getPrediction = async (spotInfo: any) => {
+      const { dateString, dayOfWeek } = getCurrentDate();
+      const predictionInput = {
+        spotId: spotInfo.spotId,
+        latitude: spotInfo.latitude,
+        longitude: spotInfo.longitude,
+        date: dateString,
+        time: selectedTime,
+        day: dayOfWeek
+      };
+      const activityLevel = await predictSpot(predictionInput);
+      console.log(activityLevel);
+    };
+
     if (allSpots !== []) {
       const spotInfo = allSpots.find((spot) => spot.spotId === params.id);
       if (spotInfo) {
@@ -62,6 +98,7 @@ export default function Spot(
           }
         });
         setSpotAvailability(!isReserved);
+        getPrediction(spotInfo).catch((error) => console.log(error));
         setActivityLevel(3); // TODO: Set this value from prediction API
       };
     }

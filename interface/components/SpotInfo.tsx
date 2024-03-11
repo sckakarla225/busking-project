@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { reserveSpot } from '@/api';
 
 interface SpotInfoProps {
   activity: number | null,
@@ -11,6 +14,8 @@ interface SpotInfoProps {
 const SpotInfo: React.FC<SpotInfoProps> = ({
   activity, availability, name, region, startTime
 }) => {
+  const router = useRouter();
+
   const [reservedFrom, setReservedFrom] = useState<string>(startTime);
   const [reservedTo, setReservedTo] = useState<string>('');
 
@@ -46,6 +51,10 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
       }
     }
     return times;
+  };
+
+  const makeReservation = () => {
+    router.push('/');
   };
 
   const timeOptions = generateTimeOptions();

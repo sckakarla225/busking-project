@@ -2,6 +2,15 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import { addPrediction, getPrediction, getPredictions } from '../models/predictions';
 
+interface PredictionInput {
+  spot_id: string,
+  latitude: number,
+  longitude: number,
+  time: string,
+  date: string,
+  day: string
+};
+
 const HEADERS = {
   headers: {
     'Content-Type': 'application/json'
@@ -10,9 +19,19 @@ const HEADERS = {
 
 const predictSpots = async (req: Request, res: Response) => {
   const { spotsToPredict } = req.body;
-  const predictionKeys: string[] = [];
+  let arraySpotsToPredict: any[];
+  if (!Array.isArray(spotsToPredict)) {
+    if (typeof spotsToPredict === 'object' && spotsToPredict !== null) {
+      arraySpotsToPredict = [spotsToPredict];
+    } else {
+      return res.status(400).send('Invalid input');
+    }
+  } else {
+    arraySpotsToPredict = spotsToPredict;
+  }
 
-  for (const spot of spotsToPredict) {
+  const predictionKeys: string[] = [];
+  for (const spot of arraySpotsToPredict) {
     if (
       spot.spotId && 
       spot.time && 
@@ -21,14 +40,7 @@ const predictSpots = async (req: Request, res: Response) => {
       spot.longitude &&
       spot.day
     ) {
-      const predictionKey = `
-        ${spot.spotId}-
-        ${spot.latitude}-
-        ${spot.longitude}-
-        ${spot.date}-
-        ${spot.day}-
-        ${spot.time}
-      `;
+      const predictionKey = `${spot.spotId}||${spot.latitude}||${spot.longitude}||${spot.time}||${spot.date}||${spot.day}`;
       predictionKeys.push(predictionKey);
     }
   }
@@ -39,12 +51,12 @@ const predictSpots = async (req: Request, res: Response) => {
       const predictions = predictionsData.predictions;
       const predictionResults = await Promise.all(
         predictionsData.keysToBePredicted.map(async (predictionKey: string) => {
-          const parts = predictionKey.trim().split('-').map(part => part.trim());
-          const [spotId, latitude, longitude, date, day, time] = parts;
-          const predictionInput = {
+          const parts = predictionKey.trim().split('||').map(part => part.trim());
+          const [spotId, latitude, longitude, time, date, day] = parts;
+          const predictionInput: PredictionInput = {
             spot_id: spotId,
-            latitude: latitude,
-            longitude: longitude,
+            latitude: Number(latitude),
+            longitude: Number(longitude),
             time: time,
             date: date,
             day: day
@@ -57,6 +69,7 @@ const predictSpots = async (req: Request, res: Response) => {
               HEADERS
             );
             const { prediction_value } = response.data;
+            // console.log(prediction_value);
             const predictionFromCache = await addPrediction(predictionKey, prediction_value);
             if (predictionFromCache) {
               predictions.push({
@@ -71,14 +84,11 @@ const predictSpots = async (req: Request, res: Response) => {
             }
             return { success: false, predictionKey };
           } catch (apiError: any) {
-            if (apiError.response) {
-              res.status(apiError.response.status).send("Unknown error has occurred");
-            } else if (apiError.request) {
-              res.status(204).send("Error generating prediction");
-            } else {
-              res.status(500).send("Invalid request.");
-            }
-            return { success: false, predictionKey };
+            return { 
+              success: false, 
+              predictionKey,
+              error: apiError.response ? apiError.response.status : "Failed to connect or process the prediction" 
+            };
           }
         })
       );
@@ -106,12 +116,12 @@ const predictSpots = async (req: Request, res: Response) => {
 
 const predictSpot = async (req: Request, res: Response) => {
   const { spotId, latitude, longitude, time, date, day } = req.body;
-  const predictionKey = `${spotId}-${date}-${time}`;
+  const predictionKey = `${spotId}||${latitude}||${longitude}||${time}||${date}||${day}`;
 
   try {
     let prediction = await getPrediction(predictionKey);
     if (!prediction) {
-      const predictionInput = {
+      const predictionInput: PredictionInput = {
         spot_id: spotId,
         latitude: latitude,
         longitude: longitude,
@@ -132,13 +142,7 @@ const predictSpot = async (req: Request, res: Response) => {
           prediction = predictionFromCache;
         }
       } catch (apiError: any) {
-        if (apiError.response) {
-          res.status(apiError.response.status).send("Unknown error has occurred");
-        } else if (apiError.request) {
-          res.status(204).send("Error generating prediction");
-        } else {
-          res.status(500).send("Invalid request.");
-        }
+        prediction = null;
       }
     }
   
