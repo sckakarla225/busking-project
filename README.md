@@ -1,3 +1,3 @@
-# Busking Project (name TBD)
-## Helping street performers build bigger audiences.
+# Spotlite
+## Finding the best spots for street performers in real-time
  
