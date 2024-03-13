@@ -7,7 +7,7 @@ from models import PrepareInputModel, PredictionOutputModel
 from utils import prepare_input_for_prediction, process_prediction_output
 
 app_router = APIRouter()
-model = load_model('../predictor')
+model = load_model('./predictor')
 
 @app_router.get('/', status_code=status.HTTP_200_OK)
 async def app_index():

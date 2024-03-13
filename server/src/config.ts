@@ -6,7 +6,7 @@ dotenv.config();
 
 const mongoURI: string = process.env.DB_URI || "mongodb+srv://sckakarla36:Chinnari1674@busking-project.hpucowa.mongodb.net/?retryWrites=true&w=majority"
 const redisEndpoint: string = process.env.REDIS_ENDPOINT || "redis-18034.c284.us-east1-2.gce.cloud.redislabs.com:18034"
-const redisPassword: string = process.env.REDIS_PASS || "";
+const redisPassword: string = process.env.REDIS_PASS || "603a2zbc0qQROFXHU66BjwNrzlFK4yXk";
 
 let redis: Redis;
 if (redisPassword !== "") {

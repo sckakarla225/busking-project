@@ -38,8 +38,8 @@ def prepare_input(
     day_encoded_df = pd.DataFrame(day_encoded, columns=encoder.get_feature_names_out())
     input_df = pd.concat([input_df.drop(columns=['day']), day_encoded_df], axis=1)
     
-    spots_data_df = pd.read_csv('../sources/preprocessed.csv')
-    average_times_df = pd.read_csv('../sources/average_times.csv')
+    spots_data_df = pd.read_csv('./sources/preprocessed.csv')
+    average_times_df = pd.read_csv('./sources/average_times.csv')
     spot_data = spots_data_df[
         (spots_data_df['spot_id'] == spot_id) & 
         (spots_data_df['day'] == day) & 
