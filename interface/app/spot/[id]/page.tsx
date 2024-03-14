@@ -1,17 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'firebase/auth';
 import Image from 'next/image';
 import { MdLogout } from 'react-icons/md';
 
 import { SpotInfo, SpotGraphics } from '@/components';
+import { auth } from '@/firebase/firebaseConfig';
 import { predictSpot } from '@/api';
-import { useAppSelector } from '@/redux/store';
+import { useAppSelector, AppDispatch } from '@/redux/store';
+import { logout } from '@/redux/reducers/auth';
+import { resetUser } from '@/redux/reducers/performer';
+import { resetSpots } from '@/redux/reducers/spots';
 import logo from '../../logo.png';
 
 export default function Spot(
   { params }: { params: { id: string } }
 ) {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
   const allSpots = useAppSelector((state) => state.spots.spots);
   const selectedTime = useAppSelector((state) => state.spots.selectedTime);
   const [spotName, setSpotName] = useState<string>('');
@@ -62,7 +72,15 @@ export default function Spot(
     const dateString = `${month}/${day}/${year}`;
     console.log(dateString);
     return { dateString, dayOfWeek };
-  }
+  };
+
+  const logoutUser = async () => {
+    await signOut(auth);
+    dispatch(logout());
+    dispatch(resetUser());
+    dispatch(resetSpots());
+    router.push('/login');
+  };
 
   useEffect(() => {
     const getPrediction = async (spotInfo: any) => {
@@ -130,7 +148,12 @@ export default function Spot(
               <Image src={logo} alt="logo" width={35} height={35} />
             </a>
           </div>
-          <MdLogout size={25} color="white" className="ml-4" />
+          <MdLogout 
+            size={25} 
+            color="white" 
+            className="ml-4"
+            onClick={() => logoutUser()} 
+          />
         </div>
       </nav>
       <div className="absolute bottom-16 z-10 px-16 w-full mx-auto">

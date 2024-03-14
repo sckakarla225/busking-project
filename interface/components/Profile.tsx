@@ -34,7 +34,7 @@ const Profile: React.FC<ProfileProps> = ({
     const minutes = Math.floor(difference % 60);
 
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
-  }
+  };
 
   return (
     <div className="fixed inset-0 z-20 flex justify-center items-center">
@@ -107,7 +107,6 @@ const Profile: React.FC<ProfileProps> = ({
           <div className="flex flex-col mt-10 mx-5">
             <div className="flex flex-row items-center">
               <h1 className="text-black font-medium text-sm">My Performance Styles</h1>
-              <MdModeEdit size={20} color="black" className="ml-2" />
             </div>
             <div className="flex flex-row flex-wrap mt-5">
               {performanceStyles.map((item: any) => (

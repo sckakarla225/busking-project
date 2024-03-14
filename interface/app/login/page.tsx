@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { IoEyeSharp } from 'react-icons/io5';
 
 import { auth } from '../../firebase/firebaseConfig';
-import { useAuth } from '../../firebase/useAuth';
 import { AppDispatch } from '@/redux/store';
 import { login, logout } from '@/redux/reducers/auth';
 import { loadUser, resetUser } from '@/redux/reducers/performer';
@@ -18,7 +17,6 @@ import { getUser, getSpots } from '@/api';
 import logo from '../logo.png';
 
 export default function Login() {
-  const user = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
@@ -33,12 +31,12 @@ export default function Login() {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log(user?.email + 'is logged in');
-      if (user?.email && user?.uid) {
-        dispatch(login({ userId: user?.uid, email: user?.email }));
-        console.log("loaded to state");
-        const userInfo = await getUser(user?.uid);
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      const loggedInUser = userCred.user;
+
+      if (loggedInUser.email && loggedInUser.uid) {
+        dispatch(login({ userId: loggedInUser.uid, email: loggedInUser.email }));
+        const userInfo = await getUser(loggedInUser.uid);
         if (userInfo.success) {
           const name = userInfo.data.name;
           const dateJoined = userInfo.data.dateJoined;
@@ -61,7 +59,6 @@ export default function Login() {
       router.push('/');
       setLoading(false);
     } catch (error: any) {
-      console.log(error.code);
       switch (error.code) {
         case 'auth/invalid-email':
           setError('Please enter a valid email.');

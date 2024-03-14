@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'firebase/auth';
 import Image from 'next/image'
 import Map, { Marker, Popup } from 'react-map-gl';
 import { HiMiniUserCircle } from 'react-icons/hi2';
@@ -13,16 +15,21 @@ import {
   Profile, 
   Key,
   SpotMarker,
-  SpotPopup 
+  SpotPopup,
+  Loading 
 } from '../components';
+import { auth } from '@/firebase/firebaseConfig';
 import { useAppSelector, AppDispatch } from '@/redux/store';
-import { changeSelectedTime } from '@/redux/reducers/spots';
+import { logout } from '@/redux/reducers/auth';
+import { resetUser } from '@/redux/reducers/performer';
+import { changeSelectedTime, resetSpots } from '@/redux/reducers/spots';
 import { predictSpots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
 import logo from './logo.png';
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const [spots, setSpots] = useState<any[]>([]);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -82,6 +89,14 @@ export default function Home() {
     const dateString = `${month}/${day}/${year}`;
     console.log(dateString);
     return { dateString, dayOfWeek };
+  };
+
+  const logoutUser = async () => {
+    await signOut(auth);
+    dispatch(logout());
+    dispatch(resetUser());
+    dispatch(resetSpots());
+    router.push('/login');
   };
 
   useEffect(() => {
@@ -183,10 +198,20 @@ export default function Home() {
             </div>
             <div className="flex flex-row items-center">
               <HiMiniUserCircle size={30} color="white" onClick={() => setIsProfileOpen(true)} />
-              <MdLogout size={25} color="white" className="ml-4" />
+              <MdLogout 
+                size={25} 
+                color="white" 
+                className="ml-4"
+                onClick={() => logoutUser()} 
+              />
             </div>
           </div>
         </nav>
+        <div className="absolute top-24 left-5 z-10 px-4 py-2 border-4 border-purple-800 bg-white rounded-lg">
+          <div className="flex flex-row items-center justify-center">
+            <p className="text-black font-semibold text-sm">{selectedTime}</p>
+          </div>
+        </div>
         <button 
           className="absolute top-24 right-5 z-10 px-4 py-2 border-2 border-purple-800 bg-purple-700 rounded-lg"
           onClick={() => setIsKeyOpen(!isKeyOpen)}

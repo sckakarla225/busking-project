@@ -155,6 +155,7 @@ def main():
         test_size=0.2, 
         random_state=42
     )
+    print(X_test)
     
     model = Sequential([
         InputLayer(input_shape=(final_df.shape[1],)),

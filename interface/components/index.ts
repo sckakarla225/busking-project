@@ -5,6 +5,7 @@ import SpotMarker from './SpotMarker';
 import SpotPopup from './SpotPopup';
 import SpotInfo from './SpotInfo';
 import SpotGraphics from './SpotGraphics';
+import Loading from './Loading';
 
 export { 
   TimeSlider, 
@@ -13,5 +14,6 @@ export {
   SpotMarker,
   SpotPopup,
   SpotInfo,
-  SpotGraphics 
+  SpotGraphics,
+  Loading 
 };

@@ -39,7 +39,7 @@ const createUser = async (
   email: string,
   name: string,
   performanceStyles: string[]
-): Promise<ApiResponse | ApiError> => {
+) => {
   const newUser: CreateUser = {
     userId: userId,
     email: email,

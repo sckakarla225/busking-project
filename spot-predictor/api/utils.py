@@ -1,126 +1,138 @@
 from datetime import datetime
 from typing import Any, Callable, Dict, List
 from joblib import load
+from keras.models import load_model
 import pandas as pd
 import numpy as np
+import ast
+import math
 
-encoder = load('encoder.joblib')
-scaler = load('scaler.joblib')
-target_encoder = load('target_encoder.joblib')
+def find_common_paths(row):
+    return list(set(row['walking_paths']) & set(row['poi_directions']))
 
-def prepare_input(
+def prepare_input_for_spot_prediction(
     spot_id,
-    latitude, 
-    longitude, 
-    month, 
-    day_of_month, 
-    hour, 
-    day, 
+    latitude,
+    longitude,
+    date,
+    time,
+    day
 ):
-    input_data = {
-        'latitude': latitude, 
-        'longitude': longitude, 
-        'month': month, 
-        'day_of_month': day_of_month, 
-        'hour': hour, 
-        'day': day
-    }
-    input_df = pd.DataFrame([input_data])
-    training_feature_names = [
-        'latitude', 'longitude', 'avg_poi_activity', 'size',
-        'nearby_sns_count', 'avg_sns_proximity', 'poi_count',
-        'avg_poi_distance', 'poi_weight', 'events_count',
-        'matching_paths_count', 'month', 'day_of_month', 'hour',
-        'is_sipnstroll'
-    ]
-    
-    day_encoded = encoder.transform(input_df[['day']])
-    day_encoded_df = pd.DataFrame(day_encoded, columns=encoder.get_feature_names_out())
-    input_df = pd.concat([input_df.drop(columns=['day']), day_encoded_df], axis=1)
-    
-    spots_data_df = pd.read_csv('./sources/preprocessed.csv')
-    average_times_df = pd.read_csv('./sources/average_times.csv')
-    spot_data = spots_data_df[
-        (spots_data_df['spot_id'] == spot_id) & 
-        (spots_data_df['day'] == day) & 
-        (spots_data_df['hour'] == hour) &
-        (spots_data_df['month'] == month) &
-        (spots_data_df['day_of_month'] == day_of_month)
+    dataset = pd.read_csv('sources/labeled.csv')
+    spot_data = dataset[
+        (dataset['spot_id'] == spot_id) & 
+        (dataset['day'] == day) & 
+        (dataset['time'] == time) &
+        (dataset['date'] == date)
     ].head(1)
     
-    print(spot_data)
     if spot_data.empty:
-        spot_data_ref = spots_data_df[(spots_data_df['spot_id'] == spot_id)].head(1)
-        for feature in training_feature_names:
-            if feature not in input_df.columns:
-                if feature == "avg_poi_activity":
-                    average_time = average_times_df[
-                        (average_times_df['day'] == day) &
-                        (average_times_df['hour'] == hour)
-                    ].head(1)
-                    if not average_time.empty:
-                        input_df['avg_poi_activity'] = average_time['avg_poi_activity'].values[0]
-                    else:
-                        input_df['avg_poi_activity'] = 0.0
-                elif feature == "events_count":
-                    input_df['events_count'] = 0
-                else:
-                    if not spot_data_ref.empty:
-                        input_df[feature] = spot_data_ref[feature].values[0]
+        spot_data = dataset[
+            (dataset['spot_id'] == spot_id)
+        ].head(1)
+        print(spot_data)
+        
+        spot_data['walking_paths'] = spot_data['walking_paths'].apply(ast.literal_eval)
+        spot_data['poi_directions'] = spot_data['poi_directions'].apply(ast.literal_eval)
+        spot_data['events'] = spot_data['events'].apply(ast.literal_eval)
+        
+        average_times = pd.read_csv('sources/average_times.csv')
+        average_times_data = average_times[
+            (average_times['day'] == day) &
+            (average_times['time'] == time)
+        ]
+        print(average_times_data)
+        average_poi_activity = average_times_data['avg_poi_activity'].iloc[0]
+        percentage = math.ceil(average_poi_activity * 100)
+        formatted_average_poi_activity = f"{percentage}%"
+        
+        input_data = {
+            'latitude': latitude,
+            'longitude': longitude,
+            'avg_poi_activity': formatted_average_poi_activity,
+            'size': spot_data['size'].iloc[0],
+            'nearby_sns_count': spot_data['nearby_sns_count'].iloc[0],
+            'avg_sns_proximity': spot_data['avg_sns_proximity'].iloc[0],
+            'poi_count': spot_data['poi_count'].iloc[0],
+            'avg_poi_distance': spot_data['avg_poi_distance'].iloc[0],
+            'poi_weight': spot_data['poi_weight'].iloc[0],
+            'walking_paths': spot_data['walking_paths'].iloc[0],
+            'poi_directions': spot_data['poi_directions'].iloc[0],
+            'events': [],
+            'date': date,
+            'time': time,
+            'spot_id': spot_id,
+            'day': day,
+            'is_sipnstroll': spot_data['is_sipnstroll'].iloc[0]
+        }
+        
+        return input_data
     else:
-        for feature in training_feature_names:
-            if feature not in input_df.columns:
-                input_df[feature] = spot_data[feature].values[0]
+        spot_data['walking_paths'] = spot_data['walking_paths'].apply(ast.literal_eval)
+        spot_data['poi_directions'] = spot_data['poi_directions'].apply(ast.literal_eval)
+        spot_data['events'] = spot_data['events'].apply(ast.literal_eval)
+
+        input_data = {
+            'latitude': latitude,
+            'longitude': longitude,
+            'avg_poi_activity': spot_data['avg_poi_activity'].iloc[0],
+            'size': spot_data['size'].iloc[0],
+            'nearby_sns_count': spot_data['nearby_sns_count'].iloc[0],
+            'avg_sns_proximity': spot_data['avg_sns_proximity'].iloc[0],
+            'poi_count': spot_data['poi_count'].iloc[0],
+            'avg_poi_distance': spot_data['avg_poi_distance'].iloc[0],
+            'poi_weight': spot_data['poi_weight'].iloc[0],
+            'walking_paths': spot_data['walking_paths'].iloc[0],
+            'poi_directions': spot_data['poi_directions'].iloc[0],
+            'events': spot_data['events'].iloc[0],
+            'date': date,
+            'time': time,
+            'spot_id': spot_id,
+            'day': day,
+            'is_sipnstroll': spot_data['is_sipnstroll'].iloc[0]
+        }
     
+        print(input_data)
+        return input_data
+    
+def predict_crowd_level(input_data):
+    encoder = load('encoder.joblib')
+    scaler = load('scaler.joblib')
+    target_encoder = load('target_encoder.joblib')
+    model = load_model('./predictor')
+
+    input_df = pd.DataFrame([input_data])
+
+    input_df['matching_paths'] = input_df.apply(find_common_paths, axis=1)
+    input_df.drop(['walking_paths', 'poi_directions'], axis=1, inplace=True)
+    input_df['avg_poi_activity'] = input_df['avg_poi_activity'].str.rstrip('%').astype('float') / 100.0
+    input_df['events_count'] = input_df['events'].apply(lambda x: len(x))
+    input_df['matching_paths_count'] = input_df['matching_paths'].apply(lambda x: len(x))
+    input_df.drop(['events', 'matching_paths'], axis=1, inplace=True)
+    input_df['is_sipnstroll'] = input_df['is_sipnstroll'].apply(lambda x: 1 if x else 0)
+    
+    input_df['date'] = pd.to_datetime(input_df['date'])
+    input_df['month'] = input_df['date'].dt.month
+    input_df['day_of_month'] = input_df['date'].dt.day
+    input_df['hour'] = pd.to_datetime(input_df['time'], format='%I:%M %p').dt.hour
+
+    day_encoded = encoder.transform(input_df[['day']])
+    day_encoded_df = pd.DataFrame(day_encoded, columns=encoder.get_feature_names_out(['day']))
+    input_df = pd.concat([input_df, day_encoded_df], axis=1)
+    input_df.drop('day', axis=1, inplace=True)
+
+    input_df.drop(['date', 'time', 'spot_id'], axis=1, inplace=True)
+
     numerical_features = [
         'latitude', 'longitude', 'avg_poi_activity', 'size',
         'nearby_sns_count', 'avg_sns_proximity', 'poi_count',
         'avg_poi_distance', 'poi_weight', 'events_count',
-        'matching_paths_count', 'month', 'day_of_month', 'hour'
+        'matching_paths_count', 'month', 'day_of_month', 'hour',
     ]
+
     input_df[numerical_features] = scaler.transform(input_df[numerical_features])
     
-    return input_df
+    predictions_prob = model.predict(input_df)
+    predicted_labels = target_encoder.inverse_transform(predictions_prob)
 
-def process_output(probs):
-    predicted_index = np.argmax(probs, axis=1)
-    labels = target_encoder.categories_[0]
-    predicted_labels = labels[predicted_index]
-    return predicted_labels
-
-def format_date_and_time(date: str, time: str):
-    date_obj = datetime.strptime(date, '%m/%d/%y')
-    combined_datetime_str = f"{date} {time}"
-    combined_datetime_obj = datetime.strptime(combined_datetime_str, '%m/%d/%y %I:%M %p')
-    
-    month = date_obj.month
-    day_of_month = date_obj.day
-    hour = combined_datetime_obj.hour
-    
-    return month, day_of_month, hour
-
-def prepare_input_for_prediction(
-    spot_id: str,
-    latitude: float, 
-    longitude: float, 
-    date: str,
-    time: str,
-    day: str
-):
-    month, day_of_month, hour = format_date_and_time(date=date, time=time)
-    input_df = prepare_input(
-        spot_id=spot_id,
-        latitude=latitude,
-        longitude=longitude,
-        month=month,
-        day_of_month=day_of_month,
-        hour=hour,
-        day=day
-    )
-    
-    return input_df
-
-def process_prediction_output(probs: List[Dict]):
-    prediction_labels = process_output(probs=probs)
-    
-    return prediction_labels[0]
+    return predicted_labels[0]

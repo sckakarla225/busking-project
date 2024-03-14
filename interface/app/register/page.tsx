@@ -1,24 +1,33 @@
 'use client'
 
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoEyeSharp } from 'react-icons/io5';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
 import { auth } from '../../firebase/firebaseConfig';
-import { useAuth } from '../../firebase/useAuth';
+import { AppDispatch } from '@/redux/store';
+import { login, logout } from '@/redux/reducers/auth';
+import { loadUser, resetUser } from '@/redux/reducers/performer';
+import { loadSpots, resetSpots } from '@/redux/reducers/spots';
+import { createUser, getSpots } from '@/api';
 import logo from '../logo.png';
 
 export default function Register() {
-  const user = useAuth();
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<String[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const options: string[] = [
@@ -29,19 +38,53 @@ export default function Register() {
     setSelectedItems((prevSelectedItems: any) => {
       if (prevSelectedItems.includes(item)) {
         return prevSelectedItems.filter((currentItem: any) => currentItem !== item);
-      } else {
+      } 
+      else if (prevSelectedItems.length < 3) {
         return [...prevSelectedItems, item];
+      } 
+      else {
+        return prevSelectedItems;
       }
     });
   }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      console.log(name);
-      console.log(selectedItems);
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log(user?.email + 'is registered and logged in');
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      const newUser = userCred.user;
+
+      if (newUser.email && newUser.uid) {
+        dispatch(login({ userId: newUser.uid, email: newUser.email }));
+        const userInfo = await createUser(
+          newUser.uid,
+          newUser.email,
+          name,
+          selectedItems
+        );
+        if (userInfo.success) {
+          const name = userInfo.data.name;
+          const dateJoined = userInfo.data.dateJoined;
+          const performanceStyles = userInfo.data.performanceStyles;
+          const recentSpots = userInfo.data.recentSpots;
+          const currentSpot = userInfo.data.currentSpot;
+          dispatch(loadUser({
+            name: name,
+            dateJoined: dateJoined,
+            performanceStyles: performanceStyles,
+            recentSpots: recentSpots,
+            currentSpot: currentSpot
+          }));
+        };
+        const spots = await getSpots();
+        if (spots.success) {
+          dispatch(loadSpots({ spots: spots.data }));
+        }
+      };
+      router.push('/');
+      setLoading(false);
     } catch (error: any) {
       console.log(error.code);
       switch (error.code) {
@@ -62,7 +105,11 @@ export default function Register() {
           break;
         default:
           setError('Unknown error.');
-      }
+      };
+      dispatch(logout());
+      dispatch(resetUser());
+      dispatch(resetSpots());
+      setLoading(false);
     }
   }
 
@@ -126,7 +173,7 @@ export default function Register() {
               {selectedItems.length !== 0 ? (
                 <div className="flex flex-row flex-wrap w-3/4">
                   {selectedItems.map((item: any) => (
-                    <div className="rounded bg-purple-500 py-2 px-4 ml-2 w-auto">
+                    <div className="rounded bg-purple-500 py-2 px-4 ml-2 w-auto mb-2">
                       <h1 className="text-xs text-white font-medium">{item}</h1>
                     </div>
                   ))}

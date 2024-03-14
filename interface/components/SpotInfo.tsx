@@ -8,11 +8,13 @@ interface SpotInfoProps {
   availability: boolean | null,
   name: string,
   region: string,
+  latitude: number | null,
+  longitude: number | null,
   startTime: string
 };
 
 const SpotInfo: React.FC<SpotInfoProps> = ({
-  activity, availability, name, region, startTime
+  activity, availability, name, region, latitude, longitude, startTime
 }) => {
   const router = useRouter();
 
@@ -54,6 +56,7 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   };
 
   const makeReservation = () => {
+    reserveSpot()
     router.push('/');
   };
 
