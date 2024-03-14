@@ -95,7 +95,7 @@ const updateRecentSpots = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({ userId: userId });
     if (user) {
       user.recentSpots.sort((a, b) => a.dateAdded.getTime() - b.dateAdded.getTime());
-      if (user.recentSpots.length >= 5) {
+      if (user.recentSpots.length >= 3) {
         user.recentSpots.shift();
       }
       user.recentSpots.push(recentSpot);

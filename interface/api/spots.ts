@@ -67,7 +67,7 @@ const reserveSpot = async (
   longitude: number,
   reservedFrom: string,
   reservedTo: string
-): Promise<ApiResponse | ApiError> => {
+) => {
   const reservation: NewReservation = {
     userId: userId,
     spotId: spotId,
@@ -117,7 +117,7 @@ const leaveSpot = async (
 
   try {
     const { data } : any = await axios.put(
-      API_ENDPOINT + "/users/create",
+      API_ENDPOINT + "/spots/leave",
       spotToLeave,
       {
         headers: {

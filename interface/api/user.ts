@@ -83,7 +83,7 @@ const updatePerformanceStyles = async (
 
   try {
     const { data } : any = await axios.post(
-      API_ENDPOINT + "/users/create",
+      API_ENDPOINT + "/users/update_performance_styles",
       updatedUser,
       {
         headers: {
@@ -111,7 +111,7 @@ const updateRecentSpots = async (
   spotId: string,
   name: string,
   region: string
-): Promise<ApiResponse | ApiError> => {
+) => {
   const recentSpot: AddRecentSpot = {
     userId: userId,
     spotId: spotId,
@@ -121,7 +121,7 @@ const updateRecentSpots = async (
 
   try {
     const { data } : any = await axios.put(
-      API_ENDPOINT + "/users/create",
+      API_ENDPOINT + "/users/update_recent_spots",
       recentSpot,
       {
         headers: {

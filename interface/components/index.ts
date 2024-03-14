@@ -6,6 +6,8 @@ import SpotPopup from './SpotPopup';
 import SpotInfo from './SpotInfo';
 import SpotGraphics from './SpotGraphics';
 import Loading from './Loading';
+import ReserveSuccess from "./ReserveSuccess";
+import ReserveError from "./ReserveError";
 
 export { 
   TimeSlider, 
@@ -15,5 +17,7 @@ export {
   SpotPopup,
   SpotInfo,
   SpotGraphics,
-  Loading 
+  Loading,
+  ReserveSuccess,
+  ReserveError
 };

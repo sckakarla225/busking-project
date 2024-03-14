@@ -7,7 +7,12 @@ import { signOut } from 'firebase/auth';
 import Image from 'next/image';
 import { MdLogout } from 'react-icons/md';
 
-import { SpotInfo, SpotGraphics } from '@/components';
+import { 
+  SpotInfo, 
+  SpotGraphics,
+  ReserveError,
+  ReserveSuccess 
+} from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
 import { predictSpot } from '@/api';
 import { useAppSelector, AppDispatch } from '@/redux/store';
@@ -24,10 +29,15 @@ export default function Spot(
 
   const allSpots = useAppSelector((state) => state.spots.spots);
   const selectedTime = useAppSelector((state) => state.spots.selectedTime);
+  const [spotId, setSpotId] = useState<string>('');
   const [spotName, setSpotName] = useState<string>('');
   const [spotRegion, setSpotRegion] = useState<string>('');
+  const [spotLatitude, setSpotLatitude] =  useState<number | null>(null);
+  const [spotLongitude, setSpotLongitude] = useState<number | null>(null);
   const [spotAvailability, setSpotAvailability] = useState<boolean | null>(null);
   const [activityLevel, setActivityLevel] = useState<number | null>(null);
+  const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
+  const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
 
   function convertTime12to24(time12h: string): [number, number] {
     const [time, modifier] = time12h.split(' ');
@@ -116,8 +126,11 @@ export default function Spot(
     if (allSpots !== []) {
       const spotInfo = allSpots.find((spot) => spot.spotId === params.id);
       if (spotInfo) {
+        setSpotId(spotInfo.spotId);
         setSpotName(spotInfo.name);
         setSpotRegion(spotInfo.region);
+        setSpotLatitude(spotInfo.latitude);
+        setSpotLongitude(spotInfo.longitude);
         let isReserved = false;
         spotInfo.reservations.map((reservation) => {
           const startTime = new Date(reservation.startTime);
@@ -140,34 +153,54 @@ export default function Spot(
   }, [selectedTime]);
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <nav className= "border-gray-200 bg-zinc-800">
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 px-8">
-          <div className="flex flex-row items-center">
-            <a href="/city/home" className="flex items-center">
-              <Image src={logo} alt="logo" width={35} height={35} />
-            </a>
+    <>
+      <ReserveSuccess 
+        isOpen={reserveSuccessOpen}
+        onClose={() => setReserveSuccessOpen(false)}
+      />
+      <ReserveError 
+        isOpen={reserveErrorOpen}
+        onClose={() => setReserveErrorOpen(false)}
+        availability={spotAvailability}
+      />
+      <main className={`
+        relative w-screen h-screen 
+        ${reserveSuccessOpen ? 'opacity-50' : ''}
+        ${reserveErrorOpen ? 'opacity-50': ''}
+      `}>
+        <nav className= " border-gray-200 bg-zinc-800">
+          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 px-8">
+            <div className="flex flex-row items-center">
+              <a href="/city/home" className="flex items-center">
+                <Image src={logo} alt="logo" width={35} height={35} />
+              </a>
+            </div>
+            <MdLogout 
+              size={25} 
+              color="white" 
+              className="ml-4"
+              onClick={() => logoutUser()} 
+            />
           </div>
-          <MdLogout 
-            size={25} 
-            color="white" 
-            className="ml-4"
-            onClick={() => logoutUser()} 
+        </nav>
+        <div className="absolute bottom-16 z-10 px-16 w-full mx-auto">
+          <SpotInfo
+            spotId={spotId} 
+            name={spotName}
+            region={spotRegion}
+            latitude={spotLatitude}
+            longitude={spotLongitude}
+            startTime={selectedTime}
+            activity={activityLevel}
+            availability={spotAvailability}
+            openSuccessPopup={() => setReserveSuccessOpen(true)}
+            openErrorPopup={() => setReserveErrorOpen(true)}
           />
         </div>
-      </nav>
-      <div className="absolute bottom-16 z-10 px-16 w-full mx-auto">
-        <SpotInfo 
-          name={spotName}
-          region={spotRegion}
-          startTime={selectedTime}
-          activity={activityLevel}
-          availability={spotAvailability}
+        <SpotGraphics 
+          spotId={params.id} 
         />
-      </div>
-      <SpotGraphics 
-        spotId={params.id} 
-      />
-    </main>
+      </main>
+    </>
   )
 }

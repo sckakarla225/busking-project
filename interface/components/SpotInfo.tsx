@@ -1,23 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
-import { reserveSpot } from '@/api';
+import { reserveSpot, updateRecentSpots } from '@/api';
+import { 
+  updateCurrentSpot, 
+  updateRecentSpots as ReduxUpdateRecentSpots
+} from '@/redux/reducers/performer';
+import { useAppSelector, AppDispatch } from '@/redux/store';
 
 interface SpotInfoProps {
   activity: number | null,
   availability: boolean | null,
+  spotId: string,
   name: string,
   region: string,
   latitude: number | null,
   longitude: number | null,
-  startTime: string
+  startTime: string,
+  openSuccessPopup: () => void,
+  openErrorPopup: () => void
 };
 
 const SpotInfo: React.FC<SpotInfoProps> = ({
-  activity, availability, name, region, latitude, longitude, startTime
+  activity, 
+  availability, 
+  spotId, name, 
+  region, 
+  latitude, 
+  longitude, 
+  startTime,
+  openSuccessPopup,
+  openErrorPopup
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
+  const userId = useAppSelector((state) => state.auth.userId);
   const [reservedFrom, setReservedFrom] = useState<string>(startTime);
   const [reservedTo, setReservedTo] = useState<string>('');
 
@@ -55,9 +74,59 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
     return times;
   };
 
-  const makeReservation = () => {
-    reserveSpot()
-    router.push('/');
+  const saveToRecentSpots = async () => {
+    const updatedRecentSpots = await updateRecentSpots(userId, spotId, name, region);
+    if (updatedRecentSpots.success) {
+      const userInfo = updatedRecentSpots.data;
+      const recentSpots = userInfo.recentSpots;
+      dispatch(ReduxUpdateRecentSpots({ recentSpots: recentSpots }));
+    };
+  }
+
+  const makeReservation = async () => {
+    if (!availability) {
+      openErrorPopup();
+      return
+    };
+
+    if (
+      latitude && 
+      longitude &&
+      reservedFrom !== '' &&
+      reservedTo !== ''
+    ) {
+      const reservationStatus = await reserveSpot(
+        userId,
+        spotId,
+        name,
+        region,
+        latitude,
+        longitude,
+        reservedFrom,
+        reservedTo
+      );
+      if (reservationStatus.success) {
+        console.log(reservationStatus.data);
+        const currentSpotData = reservationStatus.data.currentSpot;
+        const currentSpot = {
+          spotId: currentSpotData.spotId,
+          name: currentSpotData.name,
+          region: currentSpotData.region,
+          latitude: currentSpotData.latitude,
+          longitude: currentSpotData.longitude,
+          reservedFrom: currentSpotData.reservedFrom,
+          reservedTo: currentSpotData.reservedTo,
+        };
+        dispatch(updateCurrentSpot({ currentSpot: currentSpot }));
+        saveToRecentSpots();
+        openSuccessPopup();
+      } else {
+        console.log(reservationStatus.data);
+        openErrorPopup();
+      }
+    } else {
+      openErrorPopup();
+    };
   };
 
   const timeOptions = generateTimeOptions();
@@ -132,6 +201,7 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
       <div>
         <button 
           className=" hover:bg-purple-600 bg-purple-500 text-white font-black py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+          onClick={makeReservation}
         >
           Reserve
         </button>
