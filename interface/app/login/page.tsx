@@ -82,7 +82,7 @@ export default function Login() {
       dispatch(resetUser());
       dispatch(resetSpots());
     }
-  }
+  };
 
   return (
     <>
@@ -91,9 +91,9 @@ export default function Login() {
         <nav className= "border-gray-200 bg-zinc-800">
           <div className="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl p-4">
             <div className="flex flex-row items-center">
-              <a href="/" className="flex items-center">
+              <Link href="/" className="flex items-center">
                 <Image src={logo} alt="logo" width={35} height={35} />
-              </a>
+              </Link>
             </div>
           </div>
         </nav>

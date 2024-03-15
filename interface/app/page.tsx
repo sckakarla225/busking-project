@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image'
 import Link from 'next/link';
@@ -37,8 +37,9 @@ export default function Home() {
   const [isKeyOpen, setIsKeyOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedSpot, setSelectedSpot] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const email = useAppSelector((state) => state.auth.email);
   const name = useAppSelector((state) => state.performer.name);
   const dateJoined = useAppSelector((state) => state.performer.dateJoined);
@@ -101,7 +102,14 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      redirect('/login');
+    };
+  }, [isAuthenticated, router]);
+
+  useEffect(() => {
     setLoading(true);
+
     const { dateString, dayOfWeek } = getCurrentDate();
     const setupPredictions = async (predictionInputs: any[], processedSpots: any[]) => {
       const predictions = await predictSpots(predictionInputs);
@@ -290,4 +298,4 @@ export default function Home() {
       </main>
     </>
   )
-}
+};

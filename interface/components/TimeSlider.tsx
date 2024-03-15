@@ -19,7 +19,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
 
   const scrollTime = (direction: any) => {
     setValue((prevValue) => {
-      const newValue = prevValue + direction * 6;
+      const newValue = prevValue + direction * 1;
       return newValue < 0 ? 0 : newValue > 17 ? 17 : newValue;
     });
   };

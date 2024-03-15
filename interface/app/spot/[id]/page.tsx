@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,6 +29,7 @@ export default function Spot(
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const allSpots = useAppSelector((state) => state.spots.spots);
   const selectedTime = useAppSelector((state) => state.spots.selectedTime);
   const [spotId, setSpotId] = useState<string>('');
@@ -94,6 +95,12 @@ export default function Spot(
     dispatch(resetSpots());
     router.push('/login');
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      redirect('/login');
+    };
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     setLoading(true);
