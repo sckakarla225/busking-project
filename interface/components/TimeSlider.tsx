@@ -7,24 +7,20 @@ interface TimeSliderProps {
 };
 
 const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
-  const [value, setValue] = useState(18);
+  const [value, setValue] = useState(9);
 
   const formatTime = (index: number) => {
-    const adjustedIndex = (index + 12) % 48;
-    const minutes = adjustedIndex * 30;
-    let hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    const period = hours < 12 ? 'AM' : 'PM';
+    const hours = 6 + index;
+    const period = hours < 12 || hours === 24 ? 'AM' : 'PM';
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
 
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    return `${hours}:${mins.toString().padStart(2, '0')} ${period}`;
+    return `${formattedHours}:00 ${period}`;
   };
 
   const scrollTime = (direction: any) => {
     setValue((prevValue) => {
       const newValue = prevValue + direction * 6;
-      return newValue < 0 ? 0 : newValue > 36 ? 36 : newValue;
+      return newValue < 0 ? 0 : newValue > 17 ? 17 : newValue;
     });
   };
 
@@ -44,7 +40,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
         <input
           type="range"
           min="0"
-          max="36"
+          max="17"
           value={value}
           onChange={(e) => setValue(parseInt(e.target.value, 10))}
           step="1"
@@ -53,9 +49,9 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
         <div className="absolute w-full flex justify-between text-center text-xs">
           {Array.from({ length: 7 }).map((_, i) => {
             const index = value + i - 3;
-            if (index >= 0 && index <= 36) {
+            if (index >= 0 && index <= 17) {
               return (
-                <span key={i} className={`absolute ${i === 3 ? 'text-slate-100 font-semibold text-sm' : 'text-slate-300 font-medium text-xs'}`} style={{ left: `calc(${(i / 6) * 100}% - 15px)`, top: 5 }}>
+                <span key={i} className={`absolute ${i === 3 ? 'text-slate-100 font-semibold text-sm' : 'text-slate-300 font-medium text-xs'}`} style={{ left: `calc(${(i / 6) * 100}% - 10px)`, top: 5 }}>
                   {formatTime(index).split(' ')[0]} <br />
                   {formatTime(index).split(' ')[1]}
                 </span>
@@ -66,7 +62,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
         </div>
       </div>
       <TbTriangleFilled 
-        aria-disabled={value === 36} 
+        aria-disabled={value === 17} 
         size={40} 
         className="text-zinc-700 rotate-90" 
         onClick={() => scrollTime(1)}

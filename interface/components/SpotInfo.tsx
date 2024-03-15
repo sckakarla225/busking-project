@@ -19,7 +19,9 @@ interface SpotInfoProps {
   longitude: number | null,
   startTime: string,
   openSuccessPopup: () => void,
-  openErrorPopup: () => void
+  openErrorPopup: () => void,
+  startLoading: () => void,
+  stopLoading: () => void
 };
 
 const SpotInfo: React.FC<SpotInfoProps> = ({
@@ -31,11 +33,11 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   longitude, 
   startTime,
   openSuccessPopup,
-  openErrorPopup
+  openErrorPopup,
+  startLoading,
+  stopLoading
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-
   const userId = useAppSelector((state) => state.auth.userId);
   const [reservedFrom, setReservedFrom] = useState<string>(startTime);
   const [reservedTo, setReservedTo] = useState<string>('');
@@ -52,24 +54,30 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   }
 
   const getDefaultEndTime = (startTime: string): string => {
-    const time = new Date(`1970-01-01T${startTime}`);
-    time.setHours(time.getHours() + 1);
+    const [time, period] = startTime.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+    hours += period === 'AM' ? 0 : 12;
+    hours += 1;
 
-    const hours = time.getHours() % 12 === 0 ? 12 : time.getHours() % 12;
-    const minutes = time.getMinutes().toString().padStart(2, '0');
-    const ampm = time.getHours() >= 12 ? 'PM' : 'AM';
+    if (hours >= 24) {
+      hours -= 24;
+    }
+    const newPeriod = hours >= 12 && hours < 24 ? 'PM' : 'AM';
 
-    return `${hours}:${minutes} ${ampm}`;
+    if (hours > 12) {
+      hours -= 12;
+    } else if (hours === 0) {
+      hours = 12;
+    }
+
+    return `${hours}:${minutes.toString().padStart(2, '0')} ${newPeriod}`;
   }
 
   const generateTimeOptions = (): string[] => {
     const times: string[] = [];
-    for (let hour = 6; hour <= 24; hour++) {
-      const hourToShow = hour > 12 ? hour - 12 : hour;
+    for (let hour = 6; hour <= 23; hour++) {
+      const hourToShow = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
       times.push(`${hourToShow}:00 ${hour < 12 || hour === 24 ? 'AM' : 'PM'}`);
-      if (hour !== 24) {
-        times.push(`${hourToShow}:30 ${hour < 12 ? 'AM' : 'PM'}`);
-      }
     }
     return times;
   };
@@ -84,7 +92,10 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   }
 
   const makeReservation = async () => {
+    startLoading();
+
     if (!availability) {
+      stopLoading();
       openErrorPopup();
       return
     };
@@ -119,12 +130,14 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
         };
         dispatch(updateCurrentSpot({ currentSpot: currentSpot }));
         saveToRecentSpots();
+        stopLoading();
         openSuccessPopup();
       } else {
-        console.log(reservationStatus.data);
+        stopLoading();
         openErrorPopup();
       }
     } else {
+      stopLoading();
       openErrorPopup();
     };
   };
@@ -132,9 +145,11 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   const timeOptions = generateTimeOptions();
 
   useEffect(() => {
+    startLoading();
+    setReservedFrom(startTime);
     const defaultEndTime = getDefaultEndTime(startTime);
     setReservedTo(defaultEndTime);
-    setReservedFrom(startTime);
+    stopLoading();
   }, [startTime]);
 
   return (

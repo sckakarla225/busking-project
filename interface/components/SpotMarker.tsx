@@ -13,9 +13,9 @@ const SpotMarker: React.FC<SpotMarkerProps> = ({
     <div 
       className={`
         bg-slate-100 border-4 border-purple-900 mt-20 rounded-full flex items-center justify-center
-        ${size === 1 || size === 2 && 'h-12 w-12'}
-        ${size === 3 && 'h-16 w-16'}
-        ${size === 4 || size === 5 && 'h-24 w-24'}
+        ${((size === 1 || size === 2) && 'h-8 w-8')}
+        ${(size === 3) && 'h-12 w-12'}
+        ${((size === 4 || size === 5) && 'h-16 w-16')}
         ${!availability && 'bg-zinc-700'}
       `}
     >

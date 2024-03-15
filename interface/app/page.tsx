@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image'
+import Link from 'next/link';
 import Map, { Marker, Popup } from 'react-map-gl';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { TbMapPinPlus } from 'react-icons/tb';
@@ -36,7 +37,7 @@ export default function Home() {
   const [isKeyOpen, setIsKeyOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedSpot, setSelectedSpot] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const email = useAppSelector((state) => state.auth.email);
   const name = useAppSelector((state) => state.performer.name);
@@ -100,6 +101,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const { dateString, dayOfWeek } = getCurrentDate();
     const setupPredictions = async (predictionInputs: any[], processedSpots: any[]) => {
       const predictions = await predictSpots(predictionInputs);
@@ -171,13 +173,16 @@ export default function Home() {
     }
 
     setupPredictions(predictionInputs, processedSpots)
-      .then((processedSpots) => setSpots(processedSpots))
-      .catch((error: any) => console.log(error));
-    setLoading(false);
+      .then((processedSpots) => {
+        setSpots(processedSpots);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [selectedTime]);
 
   return (
     <>
+      <Loading isLoading={loading} />
       <Profile 
         isOpen={isProfileOpen} 
         onClose={() => setIsProfileOpen(false)}
@@ -186,15 +191,21 @@ export default function Home() {
         dateJoined={dateJoined}
         performanceStyles={performanceStyles}
         currentSpot={currentSpot}
-        recentSpots={recentSpots} 
+        recentSpots={recentSpots}
+        startLoading={() => setLoading(true)} 
+        stopLoading={() => setLoading(false)}
       />
-      <main className={`relative w-screen h-screen ${isProfileOpen ? 'opacity-50' : ''}`}>
+      <main className={`
+        relative w-screen h-screen 
+        ${isProfileOpen ? 'opacity-50' : ''}
+        ${loading ? 'opacity-40' : ''}
+      `}>
         <nav className="absolute top-0 left-0 z-10 w-full border-gray-200 bg-zinc-800">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 px-8">
             <div className="flex flex-row items-center">
-              <a href="/" className="flex items-center">
+              <Link href="/" className="flex items-center">
                 <Image src={logo} alt="logo" width={35} height={35} />
-              </a>
+              </Link>
             </div>
             <div className="flex flex-row items-center">
               <HiMiniUserCircle size={30} color="white" onClick={() => setIsProfileOpen(true)} />

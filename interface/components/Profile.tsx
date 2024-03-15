@@ -19,11 +19,22 @@ interface ProfileProps {
   dateJoined: string,
   performanceStyles: string[],
   currentSpot: Object | any,
-  recentSpots: Object[] | any[]
+  recentSpots: Object[] | any[],
+  startLoading: () => void,
+  stopLoading: () => void
 };
 
 const Profile: React.FC<ProfileProps> = ({ 
-  isOpen, onClose, name, email, dateJoined, performanceStyles, currentSpot, recentSpots 
+  isOpen, 
+  onClose, 
+  name, 
+  email, 
+  dateJoined, 
+  performanceStyles, 
+  currentSpot, 
+  recentSpots,
+  startLoading,
+  stopLoading 
 }) => {
   if (!isOpen) return null;
   
@@ -48,6 +59,7 @@ const Profile: React.FC<ProfileProps> = ({
   };
 
   const leaveCurrentSpot = async () => {
+    startLoading();
     let reservationId = '';
     const spotId = currentSpot.spotId;
     const startTime = currentSpot.reservedFrom;
@@ -67,6 +79,7 @@ const Profile: React.FC<ProfileProps> = ({
       dispatch(updateCurrentSpot({ currentSpot: {} }));
       onClose();
     }
+    stopLoading();
     onClose();
   };
 
@@ -78,13 +91,15 @@ const Profile: React.FC<ProfileProps> = ({
   }
 
   useEffect(() => {
+    startLoading();
     if (currentSpot.name) {
       const formattedReservedFrom = new Date(currentSpot.reservedFrom);
       const formattedReservedTo = new Date(currentSpot.reservedTo);
       setReservedToDate(formattedReservedTo);
       setReservedFromDate(formattedReservedFrom);
     };
-  }, [currentSpot])
+    stopLoading();
+  }, [currentSpot]);
 
   return (
     <div className="fixed inset-0 z-20 flex justify-center items-center mx-4">

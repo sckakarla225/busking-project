@@ -5,13 +5,15 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image';
+import Link from 'next/link';
 import { MdLogout } from 'react-icons/md';
 
 import { 
   SpotInfo, 
   SpotGraphics,
   ReserveError,
-  ReserveSuccess 
+  ReserveSuccess,
+  Loading 
 } from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
 import { predictSpot } from '@/api';
@@ -38,6 +40,7 @@ export default function Spot(
   const [activityLevel, setActivityLevel] = useState<number | null>(null);
   const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
   const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function convertTime12to24(time12h: string): [number, number] {
     const [time, modifier] = time12h.split(' ');
@@ -93,6 +96,8 @@ export default function Spot(
   };
 
   useEffect(() => {
+    setLoading(true);
+
     const getPrediction = async (spotInfo: any) => {
       const { dateString, dayOfWeek } = getCurrentDate();
       const predictionInput = {
@@ -146,14 +151,18 @@ export default function Spot(
         });
         setSpotAvailability(!isReserved);
         getPrediction(spotInfo)
-          .then((activityLevelNum: number) => setActivityLevel(activityLevelNum))
-          .catch((error: any) => console.log(error));
+          .then((activityLevelNum: number) => {
+            setActivityLevel(activityLevelNum);
+            setLoading(false);
+          })
+          .catch(() => setLoading(false));
       };
     }
   }, [selectedTime]);
 
   return (
     <>
+      <Loading isLoading={loading} />
       <ReserveSuccess 
         isOpen={reserveSuccessOpen}
         onClose={() => setReserveSuccessOpen(false)}
@@ -167,13 +176,14 @@ export default function Spot(
         relative w-screen h-screen 
         ${reserveSuccessOpen ? 'opacity-50' : ''}
         ${reserveErrorOpen ? 'opacity-50': ''}
+        ${loading ? 'opacity-40': ''}
       `}>
         <nav className= " border-gray-200 bg-zinc-800">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 px-8">
             <div className="flex flex-row items-center">
-              <a href="/city/home" className="flex items-center">
+              <Link href="/" className="flex items-center">
                 <Image src={logo} alt="logo" width={35} height={35} />
-              </a>
+              </Link>
             </div>
             <MdLogout 
               size={25} 
@@ -195,6 +205,8 @@ export default function Spot(
             availability={spotAvailability}
             openSuccessPopup={() => setReserveSuccessOpen(true)}
             openErrorPopup={() => setReserveErrorOpen(true)}
+            startLoading={() => setLoading(true)}
+            stopLoading={() => setLoading(false)}
           />
         </div>
         <SpotGraphics 
