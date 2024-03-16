@@ -2,7 +2,7 @@
 FROM node:16
 
 # Create app directory in the container
-WORKDIR /usr/src/app
+WORKDIR /user/src/app
 
 # Copy package.json and package-lock.json (or yarn.lock)
 COPY package*.json ./
@@ -22,7 +22,7 @@ COPY . .
 # Compile TypeScript to JavaScript
 RUN npm run build
 
-# The application is configured to run on port 5000
+# The application is configured to run on port 4000
 # so expose that port
 EXPOSE 4000
 

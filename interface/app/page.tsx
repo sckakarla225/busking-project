@@ -259,8 +259,8 @@ export default function Home() {
           pitch={45}
           mapStyle="mapbox://styles/sckakarla36/clrtwmjh800rh01o86wqfe7rx"
         >
-          {spots !== [] 
-            && spots.map((spot: any) => (
+          {spots !== [] && (
+            spots.map((spot: any) => (
               <Marker 
                 key={spot.spotId}
                 latitude={spot.latitude} 
@@ -276,7 +276,8 @@ export default function Home() {
                   activity={spot.activity}
                 />
               </Marker>
-          ))}
+            ))
+          )}
           {selectedSpot && (
             <Popup 
               anchor="left" 

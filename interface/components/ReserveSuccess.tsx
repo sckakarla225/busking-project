@@ -8,14 +8,14 @@ interface ReserveSuccessProps {
 };
 
 const ReserveSuccess: React.FC<ReserveSuccessProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   const router = useRouter();
 
   const goBackToMap = () => {
     onClose();
     router.push('/')
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-20 flex justify-center items-center">

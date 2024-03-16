@@ -142,9 +142,9 @@ export default function Register() {
             </div>
           </div>
         </nav>
-        <section className="px-16 py-10">
-          <h1 className="justify-center text-black text-xl font-bold pt-24">
-            Start your Busking Journey!
+        <section className="px-16 py-6">
+          <h1 className="justify-center text-black text-4xl font-bold pt-24">
+            Start Busking!
           </h1>
           <form onSubmit={handleRegister} className="flex flex-col mx-auto mt-10">
             <h1 className="font-semibold text-black mb-2">Your Name</h1>
@@ -190,8 +190,8 @@ export default function Register() {
               <div className="shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline">
                 {selectedItems.length !== 0 ? (
                   <div className="flex flex-row flex-wrap w-3/4">
-                    {selectedItems.map((item: any) => (
-                      <div className="rounded bg-purple-500 py-2 px-4 ml-2 w-auto mb-2">
+                    {selectedItems.map((item: any, index) => (
+                      <div key={index} className="rounded bg-purple-500 py-2 px-4 ml-2 w-auto mb-2">
                         <h1 className="text-xs text-white font-medium">{item}</h1>
                       </div>
                     ))}
@@ -217,8 +217,8 @@ export default function Register() {
                 hidden={!showDropdown}
               >
                 <div className="px-4 flex flex-col" role="menu" aria-orientation="vertical">
-                  {options.map((option: string) => (
-                    <div className="flex flex-row justify-between items-center py-3">
+                  {options.map((option: string, index) => (
+                    <div key={index} className="flex flex-row justify-between items-center py-3">
                       <div className="block text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                         {option}
                       </div>

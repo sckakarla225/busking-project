@@ -117,6 +117,7 @@ export default function Spot(
       };
 
       const activityLevel = await predictSpot(predictionInput);
+      console.log(activityLevel);
       let activityLevelNum: number;
       switch (activityLevel.data) {
         case "Low":

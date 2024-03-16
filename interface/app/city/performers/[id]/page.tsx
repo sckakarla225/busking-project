@@ -45,8 +45,8 @@ export default function CityPerformers(
             <div className="flex flex-col mt-6 mx-3">
               <h1 className="text-black font-medium text-xs">Performance Styles:</h1>
               <div className="flex flex-row flex-wrap mt-3">
-                {performer?.performanceStyles.map((item: any) => (
-                  <div className="rounded bg-purple-500 py-2 px-4 mr-2 w-auto">
+                {performer?.performanceStyles.map((item: any, index) => (
+                  <div key={index} className="rounded bg-purple-500 py-2 px-4 mr-2 w-auto">
                     <h1 className="text-xs text-white font-medium">{item}</h1>
                   </div>
                 ))}

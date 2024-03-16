@@ -36,8 +36,6 @@ const Profile: React.FC<ProfileProps> = ({
   startLoading,
   stopLoading 
 }) => {
-  if (!isOpen) return null;
-  
   const dispatch = useDispatch<AppDispatch>();
   const userId = useAppSelector((state) => state.auth.userId);
   const spots = useAppSelector((state) => state.spots.spots);
@@ -100,6 +98,8 @@ const Profile: React.FC<ProfileProps> = ({
     };
     stopLoading();
   }, [currentSpot]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-20 flex justify-center items-center mx-4">
@@ -199,8 +199,8 @@ const Profile: React.FC<ProfileProps> = ({
               <h1 className="text-black font-medium text-sm">My Performance Styles</h1>
             </div>
             <div className="flex flex-row flex-wrap mt-5">
-              {performanceStyles.map((item: any) => (
-                <div className="rounded bg-purple-500 py-2 px-4 mr-2 w-auto">
+              {performanceStyles.map((item: any, index) => (
+                <div key={index} className="rounded bg-purple-500 py-2 px-4 mr-2 w-auto">
                   <h1 className="text-xs text-white font-medium">{item}</h1>
                 </div>
               ))}

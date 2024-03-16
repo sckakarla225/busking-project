@@ -23,8 +23,8 @@ export default function CityHome() {
       <section className="px-16 py-10">
         <h1 className="text-black font-bold text-xl mt-20 mb-10">Performers in Raleigh ({numPerformers})</h1>
         <div className="flex flex-col w-full h-96 overflow-y-auto">
-          {samplePerformerData.map((performer: Performer) => (
-            <div className="rounded-md bg-purple-500 px-5 py-4 mb-5 flex flex-row justify-between items-center">
+          {samplePerformerData.map((performer: Performer, index) => (
+            <div key={index} className="rounded-md bg-purple-500 px-5 py-4 mb-5 flex flex-row justify-between items-center">
               <div className="flex flex-row items-center">
                 <div className={`
                   h-5 w-5 rounded-full border-2
