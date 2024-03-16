@@ -259,7 +259,7 @@ export default function Home() {
           pitch={45}
           mapStyle="mapbox://styles/sckakarla36/clrtwmjh800rh01o86wqfe7rx"
         >
-          {spots !== [] && (
+          {spots.length !== 0 && (
             spots.map((spot: any) => (
               <Marker 
                 key={spot.spotId}

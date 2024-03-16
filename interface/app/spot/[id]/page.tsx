@@ -136,7 +136,7 @@ export default function Spot(
       return activityLevelNum;
     };
 
-    if (allSpots !== []) {
+    if (allSpots.length !== 0) {
       const spotInfo = allSpots.find((spot) => spot.spotId === params.id);
       if (spotInfo) {
         setSpotId(spotInfo.spotId);
