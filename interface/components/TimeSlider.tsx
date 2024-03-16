@@ -33,7 +33,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
       <TbTriangleFilled 
         aria-disabled={value === 0} 
         size={40} 
-        className="text-zinc-700 -rotate-90" 
+        className="text-spotlite-orange -rotate-90" 
         onClick={() => scrollTime(-1)}
       />
       <div className="flex-1 relative">
@@ -64,7 +64,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
       <TbTriangleFilled 
         aria-disabled={value === 17} 
         size={40} 
-        className="text-zinc-700 rotate-90" 
+        className="text-spotlite-orange rotate-90" 
         onClick={() => scrollTime(1)}
       />
     </div>

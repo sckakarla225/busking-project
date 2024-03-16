@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { HiLocationMarker } from 'react-icons/hi';
+import { RiArrowRightUpLine } from 'react-icons/ri';
 import { FaStreetView } from 'react-icons/fa';
 
 import { useAppSelector, AppDispatch } from '@/redux/store';
@@ -110,23 +111,23 @@ const Profile: React.FC<ProfileProps> = ({
               <LiaTimesSolid size={15} color="white" onClick={onClose} />
             </div>
             <div className="flex flex-row items-center my-3 pr-10 pl-4">
-              <Image src={logo} alt="logo" width={75} height={75} />
+              <Image src={'/logos/spotlite-icon.png'} alt="logo" width={75} height={75} />
               <div className="flex flex-col ml-5">
-                <h1 className="text-white font-semibold text-lg">{name}</h1>
-                <h1 className="text-white font-light text-sm mt-2">{email}</h1>
+                <h1 className="text-white font-eau-medium text-lg">{name}</h1>
+                <h1 className="text-white font-eau-light text-sm mt-2">{email}</h1>
               </div>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between mt-5 mx-5">
-            <h1 className="text-black font-medium text-xs">Date Joined: {dateJoined} </h1>
+            <h1 className="text-black font-eau-medium text-xs">Date Joined: {dateJoined} </h1>
           </div>
-          <div className="flex flex-row items-center mt-6 mx-5">
-            <h1 className="text-black font-medium text-sm">My Current Spot: </h1>
-            <h1 className="text-black font-semibold text-sm ml-2 mr-4">
+          <div className="flex flex-row items-center mt-4 mx-5">
+            <h1 className="text-black font-eau-regular text-sm">My Current Spot: </h1>
+            <h1 className="text-black font-eau-medium text-sm ml-2 mr-4">
               {currentSpot.name ? currentSpot.name : 'None'}
             </h1>
             {currentSpot.name && (
-              <button className="text-white font-semibold text-xs rounded-md bg-purple-600 border-2 border-purple-600 px-1 py-1">
+              <button className="text-white font-semibold text-xs rounded-md bg-spotlite-orange border-2 border-spotlite-orange border-opacity-80 px-1 py-1">
                 <HiLocationMarker 
                   size={15} 
                   color="white"
@@ -136,13 +137,13 @@ const Profile: React.FC<ProfileProps> = ({
             )}
           </div>
           {reservedFromDate && reservedToDate ? (
-            <div className="flex flex-row justify-between mx-5 mt-4 bg-purple-600 rounded-md py-5 px-4">
+            <div className="flex flex-row justify-between mx-5 mt-4 bg-spotlite-dark-purple rounded-md py-5 px-4">
               <div className="flex flex-col w-full">
                 <div className="flex flex-row items-center">
-                  <h1 className="text-white text-sm font-light">
+                  <h1 className="text-white text-sm font-eau-light">
                     Reserved from:
                   </h1>
-                  <h1 className="text-white text-sm font-semibold ml-2">
+                  <h1 className="text-white text-xs font-semibold ml-2">
                     {
                       reservedFromDate.toLocaleTimeString('en-US', {
                         hour: 'numeric',
@@ -160,17 +161,17 @@ const Profile: React.FC<ProfileProps> = ({
                   </h1>
                 </div>
                 <div className="flex flex-row items-center mt-2">
-                  <h1 className="text-white text-sm font-light">
+                  <h1 className="text-white text-sm font-eau-light">
                     Time until reservation ends:
                   </h1>
-                  <h1 className="text-white text-sm font-semibold ml-2">
+                  <h1 className="text-white text-xs font-semibold ml-2">
                     {calculateTimeLeft(reservedToDate)}
                   </h1>
                 </div>
                 <div className="flex flex-row justify-between items-center mt-4">
                   <Link href={`/spot/${currentSpot.spotId}`}>
                     <button 
-                      className="text-black font-semibold text-xs rounded-md bg-slate-100 border-2 border-slate-200 px-3 py-3 mr-4 cursor-pointer"
+                      className="text-black font-eau-medium text-xs rounded-md bg-slate-100 border-2 border-slate-200 px-2 py-2 mr-4 cursor-pointer"
                       
                     >
                       <div className="flex flex-row items-center">
@@ -180,7 +181,7 @@ const Profile: React.FC<ProfileProps> = ({
                     </button>
                   </Link>
                   <button 
-                    className="text-white font-semibold text-xs rounded-md bg-red-600 border-2 border-red-600 px-2 py-3 mr-4 cursor-pointer"
+                    className="text-white font-eau-medium text-xs rounded-md bg-red-600 border-2 border-red-600 px-2 py-2 mr-4 cursor-pointer"
                     onClick={leaveCurrentSpot}
                   >
                     Leave Spot
@@ -189,19 +190,19 @@ const Profile: React.FC<ProfileProps> = ({
               </div>
             </div>
           ) : (
-            <div className="bg-purple-600 border-2 border-purple-700 w-5/6 mx-5 py-5 px-3 rounded-md mt-4">
-              <h1 className="italic font-semibold text-white">Browse the map and select a spot!</h1>
+            <div className="bg-gray-200 border-2 border-gray-300 w-5/6 mx-5 py-5 px-3 rounded-md mt-3">
+              <h1 className="italic font-eau-medium text-black text-sm">Browse the map and select a spot!</h1>
             </div>
           )}
           
           <div className="flex flex-col mt-5 mx-5">
             <div className="flex flex-row items-center">
-              <h1 className="text-black font-medium text-sm">My Performance Styles</h1>
+              <h1 className="text-black font-eau-regular text-sm">My Performance Styles</h1>
             </div>
-            <div className="flex flex-row flex-wrap mt-5">
+            <div className="flex flex-row flex-wrap mt-3">
               {performanceStyles.map((item: any, index) => (
-                <div key={index} className="rounded bg-purple-500 py-2 px-4 mr-2 w-auto">
-                  <h1 className="text-xs text-white font-medium">{item}</h1>
+                <div key={index} className="rounded bg-spotlite-dark-purple py-2 px-4 mr-2 w-auto">
+                  <h1 className="text-xs text-white font-eau-regular">{item}</h1>
                 </div>
               ))}
             </div>
@@ -209,18 +210,18 @@ const Profile: React.FC<ProfileProps> = ({
 
           <div className="flex flex-col mt-8 mx-5">
             <div className="flex flex-row items-center">
-              <h1 className="text-black font-medium text-sm">My Recent Spots</h1>
+              <h1 className="text-black font-eau-regular text-sm">My Recent Spots</h1>
             </div>
             {recentSpots.length !== 0 ? (
-              <div className="flex space-x-4 p-4 bg-slate-200 rounded-md mt-3">
+              <div className="flex space-x-4 mt-3">
                 {recentSpots.map((spot, index) => (
-                  <div key={index} className="flex flex-col bg-purple-500 p-3 w-1/3 rounded-lg justify-between">
-                    <h1 className="text-white font-semibold text-center text-xs">{spot.name}</h1>
+                  <div key={index} className="flex flex-col bg-spotlite-light-purple p-3 w-1/3 rounded-lg justify-between">
+                    <h1 className="text-white font-eau-medium text-center text-xs">{spot.name}</h1>
                     <Link href={`/spot/${spot.spotId}`}>
                       <button 
-                        className=" hover:bg-slate-100 bg-slate-200 text-black font-black py-1 px-2 rounded-md focus:outline-none focus:shadow-outline mt-4 w-full"
+                        className="flex justify-center hover:bg-opacity-80 bg-spotlite-orange text-black font-black py-1 px-2 rounded-md focus:outline-none focus:shadow-outline mt-4 w-full"
                       >
-                        View
+                        <RiArrowRightUpLine color="white" size={20} />
                       </button>
                     </Link>
                   </div>

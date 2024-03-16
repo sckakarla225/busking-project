@@ -134,42 +134,42 @@ export default function Register() {
       <Loading isLoading={loading} />
       <main className={`flex min-h-screen flex-col ${loading ? 'opacity-40' : ''}`}>
         <nav className= "border-gray-200 bg-zinc-800">
-          <div className="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl p-4">
+          <div className="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl p-3">
             <div className="flex flex-row items-center">
               <Link href="/" className="flex items-center">
-                <Image src={logo} alt="logo" width={35} height={35} />
+                <Image src={'/logos/spotlite-icon.PNG'} alt="logo" width={30} height={30} />
               </Link>
             </div>
           </div>
         </nav>
         <section className="px-16 py-6">
-          <h1 className="justify-center text-black text-4xl font-bold pt-24">
+          <h1 className="justify-center text-black text-2xl font-eau-bold pt-20">
             Start Busking!
           </h1>
-          <form onSubmit={handleRegister} className="flex flex-col mx-auto mt-10">
-            <h1 className="font-semibold text-black mb-2">Your Name</h1>
+          <form onSubmit={handleRegister} className="flex flex-col mx-auto mt-8">
+            <h1 className="font-eau-medium text-black mb-2 text-sm">Your Name</h1>
             <input 
               type="text" 
               value={name} 
               onChange={(e) => setName(e.target.value)}
-              className="mb-4 shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
+              className="text-sm mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
               placeholder="Name"
             />
-            <h1 className="font-semibold text-black mb-2 mt-2">Your Email</h1>
+            <h1 className="font-eau-medium text-black mb-2 mt-2 text-sm">Your Email</h1>
             <input 
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
-              className="mb-4 shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
+              className="text-sm mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
               placeholder="Email"
             />
-            <h1 className="font-semibold text-black mb-2 mt-2">Set a Password</h1>
+            <h1 className="font-eau-medium text-black mb-2 mt-2 text-sm">Set a Password</h1>
             <div className="relative mb-4">
               <input
                 type={showPassword ? 'text' : 'password'} 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}
-                className="shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
+                className="text-sm shadow-sm appearance-none border border-gray-200 bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Password"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
@@ -182,16 +182,16 @@ export default function Register() {
                 </button>
               </div>
             </div>
-            <div className="flex flex-row mb-2 mt-2 items-end">
-              <h1 className="font-semibold text-black">What do you perform?</h1>
-              <p className="font-normal text-black text-xs ml-2 mb-1">(Select up to 3)</p>
+            <div className="flex flex-row mb-2 mt-2 items-center">
+              <h1 className="font-eau-medium text-black text-sm">What do you perform?</h1>
+              <p className="font-eau-regular text-black text-xs ml-2">(Select up to 3)</p>
             </div>
             <div className="relative">
               <div className="shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline">
                 {selectedItems.length !== 0 ? (
                   <div className="flex flex-row flex-wrap w-3/4">
                     {selectedItems.map((item: any, index) => (
-                      <div key={index} className="rounded bg-purple-500 py-2 px-4 ml-2 w-auto mb-2">
+                      <div key={index} className="rounded bg-spotlite-dark-purple py-2 px-3 ml-2 w-auto mb-2">
                         <h1 className="text-xs text-white font-medium">{item}</h1>
                       </div>
                     ))}
@@ -226,7 +226,7 @@ export default function Register() {
                         type="checkbox"
                         checked={selectedItems.includes(option)}
                         onChange={() => handleSelection(option)}
-                        className="form-checkbox h-4 w-4 text-purple-600"
+                        className="form-checkbox text-sm h-4 w-4 text-spotlite-orange"
                       />
                     </div>
                   ))}
@@ -235,15 +235,15 @@ export default function Register() {
             </div>
             <button 
               type="submit"
-              className=" hover:bg-purple-600 bg-purple-500 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-10"
+              className=" hover:bg-opacity-80 bg-spotlite-dark-purple text-base text-white font-eau-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-10"
             >
               Get Started
             </button>
             {error && <p className="text-red-600 font-medium mt-4 text-center">{error}</p>}
-            <div className="flex flex-row items-center justify-center mt-10 mb-2">
-              <p className=" text-gray-700 text-sm font-light">Already a performer?</p>
+            <div className="flex flex-row items-center justify-center mt-7 mb-2">
+              <p className=" text-gray-700 text-sm font-eau-light">Already a performer?</p>
               <Link href="/login">
-                <p className="text-gray-700 text-sm font-semibold ml-2">Login</p>
+                <p className="text-gray-700 text-sm font-eau-medium ml-2">Login</p>
               </Link>
             </div>
           </form>

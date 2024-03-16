@@ -1,5 +1,6 @@
 import React from 'react';
-import { LiaTimesSolid } from 'react-icons/lia';
+import { FaTimesCircle } from 'react-icons/fa';
+import { MdKeyboardArrowLeft } from 'react-icons/md';
 
 interface ReserveErrorProps {
   isOpen: boolean,
@@ -14,18 +15,19 @@ const ReserveError: React.FC<ReserveErrorProps> = ({ isOpen, onClose, availabili
     <div className="fixed inset-0 z-20 flex justify-center items-center px-20">
       <div className="flex flex-row">
         <div className="bg-red-600 border-4 border-red-700 rounded-md px-4 py-5">
-          <h1 className="text-center font-bold text-2xl text-white">ERROR</h1>
-          <h3 className="text-center font-light text-base text-white mt-5">
+          <FaTimesCircle color="white" className="mx-auto" size={50} />
+          <h1 className="text-center mt-8 font-eau-bold text-xl text-white">ERROR</h1>
+          <h3 className="text-center font-eau-light text-sm text-white mt-2">
             {availability ? 
               'There was an error reserving this spot. Please try again.' : 
               'This spot is unavailable at this time. Please try again.'
             }
           </h3>
           <button 
-            className=" hover:bg-slate-200 bg-slate-100 text-black font-bold py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+            className=" hover:bg-opacity-80 bg-slate-100 text-black flex justify-center font-bold py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
             onClick={onClose}
           >
-            Back
+            <MdKeyboardArrowLeft size={30} color="black" />
           </button>
         </div>
       </div>

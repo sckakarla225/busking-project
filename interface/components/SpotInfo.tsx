@@ -157,40 +157,40 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div 
           className={`
-            bg-slate-100 border-4 border-purple-900 rounded-full flex items-center justify-center w-10 h-10
+            bg-slate-100 border-4 border-spotlite-dark-purple rounded-full flex items-center justify-center w-10 h-10
             ${!availability && 'bg-zinc-700'}
           `}
         >
           {availability && activity == 3 && (
-            <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave flex items-center justify-center">
-              <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave"></div>
+            <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center">
+              <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave"></div>
             </div>
           )}
           {availability && activity == 2 && (
-            <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-purple-500 animate-wave flex items-center justify-center"></div>
+            <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center"></div>
           )}
         </div>
       </div>
-      <div className="flex flex-col">
-        <h1 className="text-black font-light text-sm">Spot Name:</h1>
-        <h1 className="text-black font-semibold text-lg">{name}</h1>
+      <div className="flex flex-col mt-3">
+        <h1 className="text-black font-eau-light text-sm">Spot Name:</h1>
+        <h1 className="text-black font-eau-medium text-base">{name}</h1>
       </div>
       <div className="flex flex-row mt-4">
         <div className="flex flex-col w-2/3">
-          <h1 className="text-black font-light text-xs">Spot Region:</h1>
-          <h1 className="text-black font-semibold text-base">{region}</h1>
+          <h1 className="text-black font-eau-light text-xs">Spot Region:</h1>
+          <h1 className="text-black font-eau-medium text-base">{region}</h1>
         </div>
         <div className="flex flex-col w-1/3">
-          <h1 className="text-black font-light text-xs">Date:</h1>
-          <h1 className="text-black font-semibold text-sm mt-1">{getCurrentDate()}</h1>
+          <h1 className="text-black font-eau-light text-xs">Date:</h1>
+          <h1 className="text-black font-eau-medium text-sm mt-1">{getCurrentDate()}</h1>
         </div>
       </div>
-      <div className="flex flex-col mt-3">
-        <h1 className="text-black font-light text-xs">Reservation Time:</h1>
+      <div className="flex flex-col mt-4">
+        <h1 className="text-black font-eau-light text-xs">Reservation Time:</h1>
         <div className="flex flex-row justify-between items-center mt-2">
           <div className="inline-block relative w-52">
             <select
-              className="block appearance-none text-sm font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              className="block appearance-none text-xs font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
               value={reservedFrom}
               onChange={(e) => setReservedFrom(e.target.value)}
             >
@@ -199,10 +199,10 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
               ))}
             </select>
           </div>
-          <h1 className="text-black font-semibold text-sm px-2">TO</h1>
+          <h1 className="text-black font-eau-medium text-xs px-2">TO</h1>
           <div className="inline-block relative w-52">
             <select
-              className="block appearance-none text-sm font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              className="block appearance-none text-xs font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
               value={reservedTo}
               onChange={(e) => setReservedTo(e.target.value)}
             >
@@ -215,7 +215,7 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
       </div>
       <div>
         <button 
-          className=" hover:bg-purple-600 bg-purple-500 text-white font-black py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+          className=" hover:bg-opacity-80 bg-spotlite-dark-purple text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
           onClick={makeReservation}
         >
           Reserve

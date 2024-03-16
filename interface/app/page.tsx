@@ -209,16 +209,16 @@ export default function Home() {
         ${loading ? 'opacity-40' : ''}
       `}>
         <nav className="absolute top-0 left-0 z-10 w-full border-gray-200 bg-zinc-800">
-          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 px-8">
+          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-3 px-8">
             <div className="flex flex-row items-center">
               <Link href="/" className="flex items-center">
-                <Image src={logo} alt="logo" width={35} height={35} />
+                <Image src={'/logos/spotlite-icon.PNG'} alt="logo" width={30} height={30} />
               </Link>
             </div>
             <div className="flex flex-row items-center">
-              <HiMiniUserCircle size={30} color="white" onClick={() => setIsProfileOpen(true)} />
+              <HiMiniUserCircle size={25} color="white" onClick={() => setIsProfileOpen(true)} />
               <MdLogout 
-                size={25} 
+                size={20} 
                 color="white" 
                 className="ml-4"
                 onClick={() => logoutUser()} 
@@ -226,22 +226,22 @@ export default function Home() {
             </div>
           </div>
         </nav>
-        <div className="absolute top-24 left-5 z-10 px-4 py-2 border-4 border-purple-800 bg-white rounded-lg">
+        <div className="absolute top-20 left-5 z-10 px-3 py-2 border-4 border-opacity-80 border-spotlite-light-purple bg-spotlite-light-purple rounded-lg">
           <div className="flex flex-row items-center justify-center">
-            <p className="text-black font-semibold text-sm">{selectedTime}</p>
+            <p className="text-white font-semibold text-xs">{selectedTime}</p>
           </div>
         </div>
         <button 
-          className="absolute top-24 right-5 z-10 px-4 py-2 border-2 border-purple-800 bg-purple-700 rounded-lg"
+          className="absolute top-20 right-5 z-10 px-3 py-2 border-2 border-opacity-80 border-spotlite-dark-purple bg-spotlite-dark-purple rounded-lg"
           onClick={() => setIsKeyOpen(!isKeyOpen)}
         >
           <div className="flex flex-row items-center justify-center">
             <TbMapPinPlus size={20} color="white" />
-            <p className="text-white font-semibold text-xs ml-2">Key</p>
+            <p className="text-white font-eau-medium text-sm ml-2">Key</p>
           </div>
         </button>
         <Key isOpen={isKeyOpen} onClose={() => setIsKeyOpen(!isKeyOpen)} />
-        <div className="absolute bottom-10 px-5 z-10 w-full">
+        <div className="absolute bottom-20 px-5 z-10 w-full">
           <TimeSlider updateSelectedTime={(newTime) => setSelectedTime(newTime)} />
         </div>
         <Map

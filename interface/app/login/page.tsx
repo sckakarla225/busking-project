@@ -15,7 +15,6 @@ import { loadUser, resetUser } from '@/redux/reducers/performer';
 import { loadSpots, resetSpots } from '@/redux/reducers/spots';
 import { getUser, getSpots } from '@/api';
 import { Loading } from '@/components';
-import logo from '../logo.png';
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
@@ -89,34 +88,34 @@ export default function Login() {
       <Loading isLoading={loading} />
       <main className={`flex min-h-screen flex-col ${loading ? 'opacity-40' : ''}`}>
         <nav className= "border-gray-200 bg-zinc-800">
-          <div className="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl p-4">
+          <div className="flex flex-wrap justify-center items-center mx-auto max-w-screen-xl p-3">
             <div className="flex flex-row items-center">
-              <Link href="/spotlite-icon.PNG" className="flex items-center">
-                <Image src={'/logos/'} alt="logo" width={35} height={35} />
+              <Link href="/" className="flex items-center">
+                <Image src={'/logos/spotlite-icon.PNG'} alt="logo" width={30} height={30} />
               </Link>
             </div>
           </div>
         </nav>
-        <section className="px-16 py-10">
-          <h1 className="justify-center text-black text-3xl font-bold pt-24">
+        <section className="px-16 py-8">
+          <h1 className="justify-center text-black text-2xl font-eau-bold pt-24">
             Welcome Back!
           </h1>
-          <form onSubmit={handleLogin} className="flex flex-col mx-auto mt-16">
-            <h1 className="font-semibold text-black mb-2">Email</h1>
+          <form onSubmit={handleLogin} className="flex flex-col mx-auto mt-8">
+            <h1 className=" text-black mb-2 text-sm font-eau-medium">Email</h1>
             <input 
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
-              className="mb-4 shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
+              className="text-sm mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
               placeholder="Your Email"
             />
-            <h1 className="font-semibold text-black mb-2 mt-2">Password</h1>
+            <h1 className=" text-black mb-2 mt-2 text-sm font-eau-medium">Password</h1>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'} 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}
-                className="shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
+                className="text-sm shadow-sm appearance-none border border-gray-200 bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Your Password"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
@@ -131,15 +130,15 @@ export default function Login() {
             </div>
             <button 
               type="submit"
-              className=" hover:bg-purple-600 bg-purple-500 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-10"
+              className="text-base hover:bg-opacity-80 bg-spotlite-dark-purple text-white py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-10 font-eau-bold"
             >
               Login
             </button>
             {error && <p className="text-red-600 font-medium mt-4 text-center">{error}</p>}
             <div className="flex flex-row items-center justify-center mb-2 mt-10">
-              <p className=" text-gray-700 text-sm font-light">Not a performer yet?</p>
+              <p className=" text-gray-700 text-sm font-eau-light">Not a performer yet?</p>
               <Link href="/register">
-                <p className="text-gray-700 text-sm font-semibold ml-2">Get Started</p>
+                <p className="text-gray-700 text-sm font-eau-medium ml-2">Get Started</p>
               </Link>
             </div>
           </form>

@@ -33,19 +33,19 @@ const SpotPopup: React.FC<SpotPopupProps> = ({
   return (
     <div className="bg-white px-4 py-2 flex flex-col justify-between">
       <div className="mt-5 mb-5">
-        <h1 className="text-black font-light text-xs">Spot Name:</h1>
-        <h1 className="text-black font-semibold text-base mt-1">{spotName}</h1>
-        <h1 className="text-black font-light text-xs mt-3">Region:</h1>
-        <h1 className="text-black font-medium text-sm mt-1">{region}</h1>
+        <h1 className="text-black font-eau-light text-xs">Spot Name:</h1>
+        <h1 className="text-black font-eau-medium text-base mt-1">{spotName}</h1>
+        <h1 className="text-black font-eau-light text-xs mt-3">Region:</h1>
+        <h1 className="text-black font-eau-medium text-sm mt-1">{region}</h1>
         <div className="flex flex-row items-center mt-7">
           <IoCheckbox size={20} color="black" />
-          <h1 className="font-normal ml-2 text-xs">
+          <h1 className="font-eau-regular ml-2 text-xs">
             {availability ? `Available @ ${selectedTime}` : `Unavailable @ ${selectedTime}`}
           </h1>
         </div>
         <div className="flex flex-row items-center mt-4">
           <FaStar size={20} color="black" />
-          <h1 className="font-normal ml-2 text-xs">
+          <h1 className="font-eau-regular ml-2 text-xs">
             {`
               ${activityString !== '' && activityString}
               Activity @ ${selectedTime}
@@ -56,7 +56,7 @@ const SpotPopup: React.FC<SpotPopupProps> = ({
       <div>
         <Link href={`/spot/${spotId}`}>
           <button 
-            className=" hover:bg-purple-600 bg-purple-500 text-white font-black py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+            className=" hover:bg-opacity-80 bg-spotlite-dark-purple text-white font-black py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
           >
             View
           </button>

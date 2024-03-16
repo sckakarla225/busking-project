@@ -187,21 +187,21 @@ export default function Spot(
         ${loading ? 'opacity-40': ''}
       `}>
         <nav className= " border-gray-200 bg-zinc-800">
-          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 px-8">
+          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-3 px-8">
             <div className="flex flex-row items-center">
               <Link href="/" className="flex items-center">
-                <Image src={logo} alt="logo" width={35} height={35} />
+                <Image src={'/logos/spotlite-icon.PNG'} alt="logo" width={30} height={30} />
               </Link>
             </div>
             <MdLogout 
-              size={25} 
+              size={20} 
               color="white" 
               className="ml-4"
               onClick={() => logoutUser()} 
             />
           </div>
         </nav>
-        <div className="absolute bottom-16 z-10 px-16 w-full mx-auto">
+        <div className="absolute bottom-20 z-10 px-16 w-full mx-auto">
           <SpotInfo
             spotId={spotId} 
             name={spotName}

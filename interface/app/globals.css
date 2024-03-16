@@ -16,6 +16,48 @@
   }
 }
 
+@font-face {
+  font-family: 'EauBold';
+  src: url('/fonts/eau_naturelle_sans_bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EauHeavy';
+  src: url('/fonts/eau_naturelle_sans_heavy.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EauLight';
+  src: url('/fonts/eau_naturelle_sans_light.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EauMedium';
+  src: url('/fonts/eau_naturelle_sans_medium.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EauRegular';
+  src: url('/fonts/eau_naturelle_sans_regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EauThin';
+  src: url('/fonts/eau_naturelle_sans_thin.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   background-color: white;
 }

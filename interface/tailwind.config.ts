@@ -38,7 +38,22 @@ const config: Config = {
         pulse3: 'pulse3 1s infinite',
         wave: 'wave 2s ease-in-out infinite'
         // Corresponding animations for each keyframe
-      }
+      },
+      colors: {
+        'spotlite-dark-purple': '#6e14af',
+        'spotlite-light-purple': '#7d53b5',
+        'spotlite-orange': '#ff8312',
+        'spotlite-pink': '#fe4093',
+        'spotlite-yellow': '#fcbb29'
+      },
+      fontFamily: {
+        'eau-bold': ['EauBold', 'sans-serif'],
+        'eau-heavy': ['EauHeavy', 'sans-serif'],
+        'eau-light': ['EauLight', 'sans-serif'],
+        'eau-medium': ['EauMedium', 'sans-serif'],
+        'eau-regular': ['EauRegular', 'sans-serif'],
+        'eau-thin': ['EauThin', 'sans-serif'],
+      },
     },
   },
   plugins: [
