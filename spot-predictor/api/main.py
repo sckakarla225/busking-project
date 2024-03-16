@@ -6,7 +6,9 @@ from router import app_router
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000", # edit after domains are acquired
+    "https://www.spotlite.fun/",
+    "http://api.spotlite.site/",
+    "https://api.spotlite.site/"
 ]
 
 # MIDDLEWARE
