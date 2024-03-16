@@ -50,6 +50,7 @@ const SpotGraphics: React.FC<SpotGraphicsProps> = ({
         src={`/videos/${spotId}.mp4`}
         className="absolute top-0 left-0 w-full h-full object-cover"
         muted
+        autoPlay
       />
       <div className="absolute top-5 z-30 left-1/2 transform -translate-x-1/2 w-3/4">
         <input

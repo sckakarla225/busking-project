@@ -241,7 +241,7 @@ export default function Home() {
           </div>
         </button>
         <Key isOpen={isKeyOpen} onClose={() => setIsKeyOpen(!isKeyOpen)} />
-        <div className="absolute bottom-20 px-5 z-10 w-full">
+        <div className="absolute bottom-28 px-5 z-10 w-full">
           <TimeSlider updateSelectedTime={(newTime) => setSelectedTime(newTime)} />
         </div>
         <Map
