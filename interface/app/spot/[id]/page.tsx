@@ -190,7 +190,7 @@ export default function Spot(
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-3 px-8">
             <div className="flex flex-row items-center">
               <Link href="/" className="flex items-center">
-                <Image src={'/logos/spotlite-icon.PNG'} alt="logo" width={30} height={30} />
+                <Image src={'/logos/spotlite-icon.png'} alt="logo" width={30} height={30} />
               </Link>
             </div>
             <MdLogout 

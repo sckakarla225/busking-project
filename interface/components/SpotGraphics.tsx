@@ -47,7 +47,7 @@ const SpotGraphics: React.FC<SpotGraphicsProps> = ({
     <div className="relative h-screen w-screen overflow-hidden">
       <video
         ref={videoRef} 
-        src={`/videos/${spotId}.MOV`}
+        src={`/videos/${spotId}.mov`}
         className="absolute top-0 left-0 w-full h-full object-cover"
         muted
       />
