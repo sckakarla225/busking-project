@@ -4,13 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { HiLocationMarker } from 'react-icons/hi';
-import { RiArrowRightUpLine } from 'react-icons/ri';
 import { FaStreetView } from 'react-icons/fa';
 
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { updateCurrentSpot } from '@/redux/reducers/performer';
 import { leaveSpot } from '@/api';
-import logo from '../app/logo.png';
 
 interface ProfileProps {
   isOpen: boolean,
@@ -76,6 +74,8 @@ const Profile: React.FC<ProfileProps> = ({
     const spotLeft = await leaveSpot(userId, spotId, reservationId);
     if (spotLeft.success) {
       dispatch(updateCurrentSpot({ currentSpot: {} }));
+      setReservedFromDate(null);
+      setReservedToDate(null);
       onClose();
     }
     stopLoading();
