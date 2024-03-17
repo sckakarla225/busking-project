@@ -92,8 +92,11 @@ const Profile: React.FC<ProfileProps> = ({
   useEffect(() => {
     startLoading();
     if (currentSpot.name) {
-      const formattedReservedFrom = new Date(currentSpot.reservedFrom);
-      const formattedReservedTo = new Date(currentSpot.reservedTo);
+      let formattedReservedFrom = new Date(currentSpot.reservedFrom);
+      let formattedReservedTo = new Date(currentSpot.reservedTo);
+      formattedReservedFrom = new Date(formattedReservedFrom.getTime() + 4 * 60 * 60 * 1000);
+      formattedReservedTo = new Date(formattedReservedTo.getTime() + 4 * 60 * 60 * 1000);
+      
       setReservedToDate(formattedReservedTo);
       setReservedFromDate(formattedReservedFrom);
     };
