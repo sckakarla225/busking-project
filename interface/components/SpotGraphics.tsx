@@ -29,6 +29,7 @@ const SpotGraphics: React.FC<SpotGraphicsProps> = ({
     };
 
     video?.addEventListener('loadedmetadata', setVideoData);
+    setLoading(false);
 
     return () => {
       video?.removeEventListener('loadedmetadata', setVideoData);
@@ -58,7 +59,10 @@ const SpotGraphics: React.FC<SpotGraphicsProps> = ({
           muted
           autoPlay
         />
-        <div className="absolute top-5 z-30 left-1/2 transform -translate-x-1/2 w-3/4">
+        <div className={`
+          absolute top-5 z-30 left-1/2 transform -translate-x-1/2 w-3/4
+          ${loading ? 'opacity:50': ''}
+        `}>
           <input
             type="range"
             min="0"
