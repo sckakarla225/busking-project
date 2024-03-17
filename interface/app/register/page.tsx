@@ -152,7 +152,7 @@ export default function Register() {
               type="text" 
               value={name} 
               onChange={(e) => setName(e.target.value)}
-              className="text-sm mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
+              className="text-base mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
               placeholder="Name"
             />
             <h1 className="font-eau-medium text-black mb-2 mt-2 text-sm">Your Email</h1>
@@ -160,7 +160,7 @@ export default function Register() {
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
-              className="text-sm mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
+              className="text-base mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
               placeholder="Email"
             />
             <h1 className="font-eau-medium text-black mb-2 mt-2 text-sm">Set a Password</h1>
@@ -169,7 +169,7 @@ export default function Register() {
                 type={showPassword ? 'text' : 'password'} 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}
-                className="text-sm shadow-sm appearance-none border border-gray-200 bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
+                className="text-base shadow-sm appearance-none border border-gray-200 bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Password"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
@@ -226,7 +226,7 @@ export default function Register() {
                         type="checkbox"
                         checked={selectedItems.includes(option)}
                         onChange={() => handleSelection(option)}
-                        className="form-checkbox text-sm h-4 w-4 text-spotlite-orange"
+                        className="form-checkbox text-base h-4 w-4 text-spotlite-orange"
                       />
                     </div>
                   ))}

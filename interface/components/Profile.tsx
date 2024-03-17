@@ -208,7 +208,7 @@ const Profile: React.FC<ProfileProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-col mt-8 mx-5">
+          {/* <div className="flex flex-col mt-8 mx-5">
             <div className="flex flex-row items-center">
               <h1 className="text-black font-eau-regular text-sm">My Recent Spots</h1>
             </div>
@@ -232,7 +232,7 @@ const Profile: React.FC<ProfileProps> = ({
                 <h1 className="text-lg">No recent spots to show.</h1>
               </div>
             )}
-          </div>
+          </div> */}
           
         </div>
       </div>

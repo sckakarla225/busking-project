@@ -106,7 +106,7 @@ export default function Login() {
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
-              className="text-sm mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
+              className="text-base mb-4 shadow-sm border border-gray-200 appearance-none bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"  
               placeholder="Your Email"
             />
             <h1 className=" text-black mb-2 mt-2 text-sm font-eau-medium">Password</h1>
@@ -115,7 +115,7 @@ export default function Login() {
                 type={showPassword ? 'text' : 'password'} 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}
-                className="text-sm shadow-sm appearance-none border border-gray-200 bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
+                className="text-base shadow-sm appearance-none border border-gray-200 bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Your Password"
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
