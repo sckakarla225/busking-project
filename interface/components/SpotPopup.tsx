@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { IoCheckbox } from 'react-icons/io5';
 import { FaStar } from 'react-icons/fa';
 
+import { useAppSelector } from '@/redux/store';
+import { logSpotViewed } from '@/firebase/analytics';
+
 interface SpotPopupProps {
   spotId: string,
   spotName: string,
@@ -15,6 +18,7 @@ interface SpotPopupProps {
 const SpotPopup: React.FC<SpotPopupProps> = ({
   spotId, spotName, region, selectedTime, availability, activity
 }) => {
+  const userId = useAppSelector((state) => state.auth.userId);
   let activityString = '';
   switch(activity) {
     case 1:
@@ -57,6 +61,7 @@ const SpotPopup: React.FC<SpotPopupProps> = ({
         <Link href={`/spot/${spotId}`}>
           <button 
             className=" hover:bg-opacity-80 bg-spotlite-dark-purple text-white font-black py-3 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+            onClick={() => logSpotViewed(userId, spotId)}
           >
             View
           </button>

@@ -8,6 +8,7 @@ import {
   updateRecentSpots as ReduxUpdateRecentSpots
 } from '@/redux/reducers/performer';
 import { useAppSelector, AppDispatch } from '@/redux/store';
+import { logSpotReserved } from '@/firebase/analytics';
 
 interface SpotInfoProps {
   activity: number | null,
@@ -130,6 +131,7 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
         };
         dispatch(updateCurrentSpot({ currentSpot: currentSpot }));
         saveToRecentSpots();
+        logSpotReserved(spotId);
         stopLoading();
         openSuccessPopup();
       } else {

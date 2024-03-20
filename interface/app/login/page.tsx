@@ -15,6 +15,7 @@ import { loadUser, resetUser } from '@/redux/reducers/performer';
 import { loadSpots, resetSpots } from '@/redux/reducers/spots';
 import { getUser, getSpots } from '@/api';
 import { Loading } from '@/components';
+import { logUserLoggedIn } from '@/firebase/analytics';
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
@@ -55,6 +56,7 @@ export default function Login() {
         if (spots.success) {
           dispatch(loadSpots({ spots: spots.data }));
         }
+        logUserLoggedIn();
       };
 
       setLoading(false);

@@ -26,7 +26,13 @@ import { resetUser } from '@/redux/reducers/performer';
 import { changeSelectedTime, resetSpots } from '@/redux/reducers/spots';
 import { predictSpots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
-import logo from './logo.png';
+import { 
+  logViewMapPage, 
+  logSpotClicked,
+  logTimeViewed,
+  logKeyClicked,
+  logProfileViewed 
+} from '@/firebase/analytics';
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,6 +46,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const userId = useAppSelector((state) => state.auth.userId);
   const email = useAppSelector((state) => state.auth.email);
   const name = useAppSelector((state) => state.performer.name);
   const dateJoined = useAppSelector((state) => state.performer.dateJoined);
@@ -101,11 +108,21 @@ export default function Home() {
     router.push('/login');
   };
 
+  const logTimeToAnalytics = () => {
+    if (selectedTime) {
+      logTimeViewed(userId, selectedTime);
+    }
+  };
+
   useEffect(() => {
     if (!isAuthenticated) {
       redirect('/login');
     };
   }, [isAuthenticated, router]);
+
+  useEffect(() => {
+    logViewMapPage();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -216,7 +233,14 @@ export default function Home() {
               </Link>
             </div>
             <div className="flex flex-row items-center">
-              <HiMiniUserCircle size={25} color="white" onClick={() => setIsProfileOpen(true)} />
+              <HiMiniUserCircle 
+                size={25} 
+                color="white" 
+                onClick={() => {
+                  setIsProfileOpen(true);
+                  logProfileViewed();
+                }} 
+              />
               <MdLogout 
                 size={20} 
                 color="white" 
@@ -233,7 +257,10 @@ export default function Home() {
         </div>
         <button 
           className="absolute top-20 right-5 z-10 px-3 py-2 border-2 border-opacity-80 border-spotlite-dark-purple bg-spotlite-dark-purple rounded-lg"
-          onClick={() => setIsKeyOpen(!isKeyOpen)}
+          onClick={() => {
+            setIsKeyOpen(!isKeyOpen);
+            logKeyClicked();
+          }}
         >
           <div className="flex flex-row items-center justify-center">
             <TbMapPinPlus size={20} color="white" />
@@ -242,7 +269,10 @@ export default function Home() {
         </button>
         <Key isOpen={isKeyOpen} onClose={() => setIsKeyOpen(!isKeyOpen)} />
         <div className="absolute bottom-32 px-5 z-10 w-full">
-          <TimeSlider updateSelectedTime={(newTime) => setSelectedTime(newTime)} />
+          <TimeSlider 
+            updateSelectedTime={(newTime) => setSelectedTime(newTime)}
+            logTime={() => logTimeToAnalytics()} 
+          />
         </div>
         <Map
           mapboxAccessToken={MAPBOX_API_KEY}
@@ -268,6 +298,7 @@ export default function Home() {
                 onClick={(e) => {
                   e.originalEvent.stopPropagation();
                   setSelectedSpot(spot);
+                  logSpotClicked(userId, spot.spotId);
                 }}
               >
                 <SpotMarker 

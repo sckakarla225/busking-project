@@ -3,10 +3,11 @@ import { TbTriangleFilled } from 'react-icons/tb';
 import './styles.css';
 
 interface TimeSliderProps {
-  updateSelectedTime: (time: string) => void
+  updateSelectedTime: (time: string) => void,
+  logTime: () => void
 };
 
-const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
+const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime, logTime }) => {
   const [value, setValue] = useState(9);
 
   const formatTime = (index: number) => {
@@ -18,6 +19,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime }) => {
   };
 
   const scrollTime = (direction: any) => {
+    logTime();
     setValue((prevValue) => {
       const newValue = prevValue + direction * 1;
       return newValue < 0 ? 0 : newValue > 17 ? 17 : newValue;

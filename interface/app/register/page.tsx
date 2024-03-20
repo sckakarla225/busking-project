@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
@@ -16,7 +16,7 @@ import { loadUser, resetUser } from '@/redux/reducers/performer';
 import { loadSpots, resetSpots } from '@/redux/reducers/spots';
 import { createUser, getSpots } from '@/api';
 import { Loading } from '@/components';
-import logo from '../logo.png';
+import { logViewRegisterPage } from '@/firebase/analytics';
 
 export default function Register() {
   const dispatch = useDispatch<AppDispatch>();
@@ -127,7 +127,11 @@ export default function Register() {
       dispatch(resetUser());
       dispatch(resetSpots());
     }
-  }
+  };
+
+  useEffect(() => {
+    logViewRegisterPage();
+  }, []);
 
   return (
     <>

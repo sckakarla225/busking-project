@@ -9,6 +9,7 @@ import { FaStreetView } from 'react-icons/fa';
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { updateCurrentSpot } from '@/redux/reducers/performer';
 import { leaveSpot } from '@/api';
+import { logSpotLeft } from '@/firebase/analytics';
 
 interface ProfileProps {
   isOpen: boolean,
@@ -76,6 +77,7 @@ const Profile: React.FC<ProfileProps> = ({
       dispatch(updateCurrentSpot({ currentSpot: {} }));
       setReservedFromDate(null);
       setReservedToDate(null);
+      logSpotLeft(spotId);
       onClose();
     }
     stopLoading();
