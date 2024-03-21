@@ -30,6 +30,16 @@ struct ContentView: View {
     private var crowdFeedManager = CrowdFeedManager()
 
     var body: some View {
+        Group {
+            if isLoading {
+                LoadingView()
+            } else {
+                mainContentView
+            }
+        }
+    }
+    
+    var mainContentView: some View {
         VStack {
             HStack {
                 Image("spotlite-icon")
