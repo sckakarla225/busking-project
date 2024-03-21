@@ -28,6 +28,7 @@
 		EFE11C9E2B852259001BF3D2 /* crowd_feedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11C9D2B852259001BF3D2 /* crowd_feedTests.swift */; };
 		EFE11CA82B852259001BF3D2 /* crowd_feedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11CA72B852259001BF3D2 /* crowd_feedUITests.swift */; };
 		EFE11CAA2B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE11CA92B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift */; };
+		EFF40D0A2BAB9DEF00A68F62 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFF40D092BAB9DEF00A68F62 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		EFE11CA32B852259001BF3D2 /* crowd-feedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "crowd-feedUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE11CA72B852259001BF3D2 /* crowd_feedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crowd_feedUITests.swift; sourceTree = "<group>"; };
 		EFE11CA92B852259001BF3D2 /* crowd_feedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crowd_feedUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EFF40D092BAB9DEF00A68F62 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		EFE11C892B852257001BF3D2 /* crowd-feed */ = {
 			isa = PBXGroup;
 			children = (
+				EFF40D092BAB9DEF00A68F62 /* GoogleService-Info.plist */,
 				EFC1B6DD2BA90C0E000083AA /* Views */,
 				EFC1B6D82BA90A1F000083AA /* Managers */,
 				EFE11C8A2B852257001BF3D2 /* crowd_feedApp.swift */,
@@ -296,6 +299,7 @@
 			files = (
 				EFE11C942B852258001BF3D2 /* Preview Assets.xcassets in Resources */,
 				EFE11C912B852258001BF3D2 /* Assets.xcassets in Resources */,
+				EFF40D0A2BAB9DEF00A68F62 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

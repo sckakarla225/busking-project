@@ -7,9 +7,15 @@
 
 import SwiftUI
 import SwiftData
+import Firebase
+
 
 @main
 struct crowd_feedApp: App {
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,

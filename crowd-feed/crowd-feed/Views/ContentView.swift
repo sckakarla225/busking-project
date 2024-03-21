@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseCore
+import FirebaseFirestore
 
 struct DeviceEntry: Identifiable {
     let id = UUID()
@@ -19,17 +21,13 @@ struct ContentView: View {
     @State private var performerName: String = ""
     @State private var spotName: String = ""
     @State private var date: Date = Date()
-    @State private var entries: [DeviceEntry] = [
-        DeviceEntry(
-            time: "5:23 PM",
-            numberOfDevices: 14,
-            averageDistance: 24.03
-        )
-    ]
+    @State private var entries: [DeviceEntry] = []
     
     @State private var isLoading: Bool = false
     @State private var performerNameDisabled: Bool = false
     @State private var spotNameDisabled: Bool = false
+    
+    private var crowdFeedManager = CrowdFeedManager()
 
     var body: some View {
         VStack {
@@ -120,9 +118,9 @@ struct ContentView: View {
                 .frame(minHeight: 50, maxHeight: 300)
                 .cornerRadius(5)
                 .listStyle(PlainListStyle())
-                Button(action: {}) {
-                    Text("Upload Media")
-                }
+//                Button(action: {}) {
+//                    Text("Upload Media")
+//                }
             }
             .padding(.top, 30)
             Spacer()
@@ -142,14 +140,58 @@ struct ContentView: View {
         spotNameDisabled = !spotNameDisabled
     }
     
-    func getSnapshot() {
-        isLoading = true
-        // Bluetooth device snapshot here
-        isLoading = false
+    func addSnapshotToFirebase(
+        time: String,
+        numDevices: Int,
+        averageDistance: Double
+    ) async {
+        let db = Firestore.firestore()
+        do {
+            let ref = try await db.collection("feed").addDocument(data: [
+                    "performerName": performerName,
+                    "spotName": spotName,
+                    "date": date,
+                    "time": time,
+                    "numDevices": numDevices,
+                    "averageDistance": averageDistance,
+                ])
+            print("Document added with ID: \(ref.documentID)")
+        } catch {
+            print("Error adding document: \(error)")
+        }
     }
     
-    func uploadMedia() {
+    func getCurrentTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
         
+        let now = Date()
+        let estTimeString = dateFormatter.string(from: now)
+        
+        return estTimeString
+    }
+    
+    func getSnapshot() {
+        isLoading = true
+        let currentTimeString: String = getCurrentTime()
+        let numDevices = crowdFeedManager.numberOfDetectedDevices()
+        let averageDistance = crowdFeedManager.averageDistance() ?? 0.0
+        
+        Task {
+            await addSnapshotToFirebase(
+                time: currentTimeString,
+                numDevices: numDevices,
+                averageDistance: averageDistance
+            )
+        }
+        let newEntry = DeviceEntry(
+            time: currentTimeString,
+            numberOfDevices: numDevices,
+            averageDistance: averageDistance
+        )
+        entries.append(newEntry)
+        isLoading = false
     }
 }
 
