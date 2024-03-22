@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EFA82F5C2BAD206500D138B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EFC1B6D92BA90A3A000083AA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		EFC1B6E22BA91257000083AA /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EFC1B6E42BAA2739000083AA /* CrowdFeedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrowdFeedManager.swift; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 		EFE11C892B852257001BF3D2 /* crowd-feed */ = {
 			isa = PBXGroup;
 			children = (
+				EFA82F5C2BAD206500D138B4 /* Info.plist */,
 				EFF40D092BAB9DEF00A68F62 /* GoogleService-Info.plist */,
 				EFC1B6DD2BA90C0E000083AA /* Views */,
 				EFC1B6D82BA90A1F000083AA /* Managers */,
@@ -493,8 +495,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"crowd-feed/Preview Content\"";
+				DEVELOPMENT_TEAM = VTZ4JXJ7YX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "crowd-feed/Info.plist";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow bluetooth usage?";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow bluetooth scanning?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -521,8 +527,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"crowd-feed/Preview Content\"";
+				DEVELOPMENT_TEAM = VTZ4JXJ7YX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "crowd-feed/Info.plist";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow bluetooth usage?";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow bluetooth scanning?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -18,6 +18,7 @@ struct DeviceEntry: Identifiable {
 }
 
 struct ContentView: View {
+    @StateObject private var crowdFeedManager = CrowdFeedManager()
     @State private var performerName: String = ""
     @State private var spotName: String = ""
     @State private var date: Date = Date()
@@ -27,7 +28,7 @@ struct ContentView: View {
     @State private var performerNameDisabled: Bool = false
     @State private var spotNameDisabled: Bool = false
     
-    private var crowdFeedManager = CrowdFeedManager()
+//    private var crowdFeedManager = CrowdFeedManager()
 
     var body: some View {
         Group {
@@ -128,9 +129,6 @@ struct ContentView: View {
                 .frame(minHeight: 50, maxHeight: 300)
                 .cornerRadius(5)
                 .listStyle(PlainListStyle())
-//                Button(action: {}) {
-//                    Text("Upload Media")
-//                }
             }
             .padding(.top, 30)
             Spacer()

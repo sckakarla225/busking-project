@@ -8,20 +8,24 @@
 import Foundation
 import CoreBluetooth
 
-class CrowdFeedManager: NSObject, CBCentralManagerDelegate {
+class CrowdFeedManager: NSObject, ObservableObject, CBCentralManagerDelegate {
     var centralManager: CBCentralManager!
     var discoveredPeripherals = Set<CBPeripheral>()
     var rssiValues = [NSNumber]()
     
     override init() {
         super.init()
-        centralManager = CBCentralManager(delegate: self, queue: nil)
+        DispatchQueue.main.async {
+            self.centralManager = CBCentralManager(delegate: self, queue: nil)
+            print("Bluetooth initialized")
+        }
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
             // Start scanning for devices
             centralManager.scanForPeripherals(withServices: nil, options: nil)
+            print("Bluetooth started scanning for devices.");
         } else {
             print("Bluetooth is not available.")
         }
@@ -36,6 +40,7 @@ class CrowdFeedManager: NSObject, CBCentralManagerDelegate {
         if !discoveredPeripherals.contains(peripheral) {
             discoveredPeripherals.insert(peripheral)
             rssiValues.append(RSSI)
+            print("Bluetooth discovered peripherals")
         }
     }
     
