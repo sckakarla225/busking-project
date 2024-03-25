@@ -8,6 +8,8 @@ import SpotGraphics from './SpotGraphics';
 import Loading from './Loading';
 import ReserveSuccess from "./ReserveSuccess";
 import ReserveError from "./ReserveError";
+import ProgressBar from './ProgressBar';
+import Carousel from './Carousel';
 
 export { 
   TimeSlider, 
@@ -19,5 +21,7 @@ export {
   SpotGraphics,
   Loading,
   ReserveSuccess,
-  ReserveError
+  ReserveError,
+  ProgressBar,
+  Carousel
 };
