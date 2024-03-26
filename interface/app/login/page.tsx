@@ -11,7 +11,7 @@ import { IoEyeSharp } from 'react-icons/io5';
 import { auth } from '../../firebase/firebaseConfig';
 import { AppDispatch } from '@/redux/store';
 import { login, logout } from '@/redux/reducers/auth';
-import { loadUser, resetUser } from '@/redux/reducers/performer';
+import { loadUser, loadUserFull, resetUser } from '@/redux/reducers/performer';
 import { loadSpots, resetSpots } from '@/redux/reducers/spots';
 import { getUser, getSpots } from '@/api';
 import { Loading } from '@/components';
@@ -41,26 +41,50 @@ export default function Login() {
         if (userInfo.success) {
           const name = userInfo.data.name;
           const dateJoined = userInfo.data.dateJoined;
-          const performanceStyles = userInfo.data.performanceStyles;
           const recentSpots = userInfo.data.recentSpots;
           const currentSpot = userInfo.data.currentSpot;
+          const setupComplete = userInfo.data.setupComplete;
           dispatch(loadUser({
             name: name,
             dateJoined: dateJoined,
-            performanceStyles: performanceStyles,
+            setupComplete: setupComplete,
             recentSpots: recentSpots,
             currentSpot: currentSpot
           }));
+          const spots = await getSpots();
+          if (spots.success) {
+            dispatch(loadSpots({ spots: spots.data }));
+          }
+          logUserLoggedIn();
+          if (!setupComplete) {
+            setLoading(false);
+            router.push('/setup');
+          } else {
+            const performerDescription = userInfo.data.performerDescription;
+            const performanceStyles = userInfo.data.performanceStyles;
+            const instrumentTypes = userInfo.data.instrumentTypes;
+            const audioTools = userInfo.data.audioTools;
+            const stagingAndVisuals = userInfo.data.stagingAndVisuals;
+            const socialMediaHandles = userInfo.data.socialMediaHandles;
+            dispatch(loadUserFull({
+              performerDescription: performerDescription,
+              performanceStyles: performanceStyles,
+              instrumentTypes: instrumentTypes,
+              audioTools: audioTools,
+              stagingAndVisuals: stagingAndVisuals,
+              socialMediaHandles: socialMediaHandles
+            }));
+            setLoading(false);
+            router.push('/');
+          }
+        } else {
+          setLoading(false);
+          setError('Unknown error. Please try again later.');
+          dispatch(logout());
+          dispatch(resetUser());
+          dispatch(resetSpots());
         }
-        const spots = await getSpots();
-        if (spots.success) {
-          dispatch(loadSpots({ spots: spots.data }));
-        }
-        logUserLoggedIn();
       };
-
-      setLoading(false);
-      router.push('/');
     } catch (error: any) {
       setLoading(false);
       switch (error.code) {

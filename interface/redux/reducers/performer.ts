@@ -17,33 +17,80 @@ interface RecentSpot {
   dateAdded: Date;
 }
 
+interface SocialMediaHandle {
+  platform: string,
+  handle: string,
+};
+
 interface PerformerState {
   name: string,
   dateJoined: string,
-  performanceStyles: string[],
+  setupComplete: boolean,
   currentSpot: Object | CurrentSpot,
-  recentSpots: RecentSpot[]
+  recentSpots: RecentSpot[],
+  performerDescription: string,
+  performanceStyles: string[],
+  instrumentTypes: string[],
+  audioTools: string[],
+  stagingAndVisuals: string[],
+  socialMediaHandles: SocialMediaHandle[]
 };
 
 const initialState: PerformerState = {
   name: "",
   dateJoined: "",
-  performanceStyles: [],
+  setupComplete: false,
   currentSpot: {},
-  recentSpots: []
+  recentSpots: [],
+  performerDescription: "",
+  performanceStyles: [],
+  instrumentTypes: [],
+  audioTools: [],
+  stagingAndVisuals: [],
+  socialMediaHandles: []
 };
 
 export const performer = createSlice({
   name: "performer",
   initialState,
   reducers: {
-    loadUser: (state, action: PayloadAction<{ name: string, dateJoined: string, performanceStyles: string[], currentSpot: Object | CurrentSpot, recentSpots: RecentSpot[] }>) => {
+    loadUser: (state, action: PayloadAction<{ 
+      name: string, 
+      dateJoined: string,
+      setupComplete: boolean,  
+      currentSpot: Object | CurrentSpot, 
+      recentSpots: RecentSpot[] 
+    }>) => {
       return {
+        ...state,
         name: action.payload.name,
         dateJoined: action.payload.dateJoined,
-        performanceStyles: action.payload.performanceStyles,
+        setupComplete: action.payload.setupComplete,
         currentSpot: action.payload.currentSpot,
         recentSpots: action.payload.recentSpots
+      }
+    },
+    loadUserFull: (state, action: PayloadAction<{
+      performerDescription: string,
+      performanceStyles: string[],
+      instrumentTypes: string[],
+      audioTools: string[],
+      stagingAndVisuals: string[],
+      socialMediaHandles: SocialMediaHandle[]
+    }>) => {
+      return {
+        ...state,
+        performerDescription: action.payload.performerDescription,
+        performanceStyles: action.payload.performanceStyles,
+        instrumentTypes: action.payload.instrumentTypes,
+        audioTools: action.payload.audioTools,
+        socialMediaHandles: action.payload.socialMediaHandles
+      }
+    },
+    changeSetupComplete: (state, action: PayloadAction<{ setupComplete: boolean }>) => {
+      return {
+        ...state,
+        setupComplete: action.payload.setupComplete
       }
     },
     resetUser: () => {
@@ -72,7 +119,9 @@ export const performer = createSlice({
 
 export const {
   loadUser,
+  loadUserFull,
   resetUser,
+  changeSetupComplete,
   updatePerformanceStyles,
   updateCurrentSpot,
   updateRecentSpots

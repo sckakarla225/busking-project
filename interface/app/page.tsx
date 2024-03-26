@@ -46,6 +46,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const setupComplete = useAppSelector((state) => state.performer.setupComplete);
   const userId = useAppSelector((state) => state.auth.userId);
   const email = useAppSelector((state) => state.auth.email);
   const name = useAppSelector((state) => state.performer.name);
@@ -118,7 +119,10 @@ export default function Home() {
     if (!isAuthenticated) {
       redirect('/login');
     };
-  }, [isAuthenticated, router]);
+    if (!setupComplete) {
+      redirect('/setup');
+    }
+  }, [isAuthenticated, setupComplete, router]);
 
   useEffect(() => {
     logViewMapPage();

@@ -14,7 +14,6 @@ export interface CreateUser {
   userId: string,
   email: string,
   name: string,
-  performanceStyles: string[]
 };
 
 export interface SocialMediaHandle {

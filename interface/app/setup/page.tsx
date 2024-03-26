@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MdLogout, MdKeyboardArrowLeft } from 'react-icons/md';
@@ -21,7 +21,7 @@ import { auth } from '@/firebase/firebaseConfig';
 import { AppDispatch, useAppSelector } from '@/redux/store';
 import { setupUser } from '@/api';
 import { logout } from '@/redux/reducers/auth';
-import { resetUser } from '@/redux/reducers/performer';
+import { loadUserFull, resetUser, changeSetupComplete } from '@/redux/reducers/performer';
 import { resetSpots } from '@/redux/reducers/spots';
 import { 
   PERFORMANCE_STYLES,
@@ -35,7 +35,9 @@ export default function SetupPerformer() {
   const router = useRouter();
 
   const userId = useAppSelector((state) => state.auth.userId);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [currentStep, setCurrentStep] = useState(1);
   const [performerDescription, setPerformerDescription] = useState<string>('');
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
@@ -99,6 +101,7 @@ export default function SetupPerformer() {
   }
 
   const finishPerformerSetup = async () => {
+    setLoading(true);
     const socialMediaHandles = formatSocialMediaHandles();
     const setupUserInfo = await setupUser(
       userId,
@@ -109,9 +112,32 @@ export default function SetupPerformer() {
       selectedStagings,
       socialMediaHandles
     );
+
     if (setupUserInfo.success) {
       const newUserInfo = setupUserInfo.data;
-      // TODO: Store to redux here
+      const performerDescription = newUserInfo.performerDescription;
+      const performanceStyles = newUserInfo.performanceStyles;
+      const instrumentTypes = newUserInfo.instrumentTypes;
+      const audioTools = newUserInfo.audioTools;
+      const stagingAndVisuals = newUserInfo.stagingAndVisuals;
+      const socialMediaHandles = newUserInfo.socialMediaHandles;
+      
+      dispatch(loadUserFull({
+        performerDescription: performerDescription,
+        performanceStyles: performanceStyles,
+        instrumentTypes: instrumentTypes,
+        audioTools: audioTools,
+        stagingAndVisuals: stagingAndVisuals,
+        socialMediaHandles: socialMediaHandles
+      }));
+      dispatch(changeSetupComplete({ setupComplete: true }));
+
+      setError('');
+      setLoading(false);
+      router.push('/');
+    } else {
+      setLoading(false);
+      setError('Unable to finish setup. Please try again later.');
     };
   };
 
@@ -181,6 +207,7 @@ export default function SetupPerformer() {
     setNoEquipmentCheck(event.target.checked);
   };
 
+  // TODO: Handle disabling going to next step
   const checkCanProceed = () => {
     if (currentStep == 2) {
       if (noEquipmentCheck) {
@@ -197,7 +224,7 @@ export default function SetupPerformer() {
         }
       }
     } else if (currentStep == 1) {
-      // TODO: Handle this too
+      
     } else {
       return true;
     }
@@ -210,6 +237,12 @@ export default function SetupPerformer() {
     dispatch(resetSpots());
     router.push('/login');
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      redirect('/login');
+    };
+  }, [isAuthenticated, router]);
 
   return (
     <>
@@ -436,6 +469,7 @@ export default function SetupPerformer() {
               {currentStep == 3 ? 'Finish' : 'Next'}
             </button>
           </div>
+          {error && <p className="text-red-600 font-medium mt-4 text-center">{error}</p>}
         </section>
       </main>
     </>
