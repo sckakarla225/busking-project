@@ -18,7 +18,8 @@ import { signOut } from 'firebase/auth';
 
 import { ProgressBar, Loading, Carousel } from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, useAppSelector } from '@/redux/store';
+import { setupUser } from '@/api';
 import { logout } from '@/redux/reducers/auth';
 import { resetUser } from '@/redux/reducers/performer';
 import { resetSpots } from '@/redux/reducers/spots';
@@ -33,8 +34,10 @@ export default function SetupPerformer() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
+  const userId = useAppSelector((state) => state.auth.userId);
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [performerDescription, setPerformerDescription] = useState<string>('');
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedInstruments, setSelectedInstruments] = useState<string[]>([]);
   const [selectedAudioTools, setSelectedAudioTools] = useState<string[]>([]);
@@ -47,9 +50,69 @@ export default function SetupPerformer() {
   const [soundcloudHandle, setSoundcloudHandle] = useState<string>('');
   const [spotifyHandle, setSpotifyHandle] = useState<string>('');
 
-  const finishPerformerSetup = () => {
-    setLoading(true);
-    setLoading(false);
+  const formatSocialMediaHandles = () => {
+    const socialMediaHandles: any[] = [];
+    if (instagramHandle !== '') {
+      const newHandle = {
+        platform: 'Instagram',
+        handle: instagramHandle
+      };
+      socialMediaHandles.push(newHandle);
+    }
+    if (facebookHandle !== '') {
+      const newHandle = {
+        platform: 'Facebook',
+        handle: facebookHandle
+      };
+      socialMediaHandles.push(newHandle);
+    }
+    if (twitterHandle !== '') {
+      const newHandle = {
+        platform: 'Twitter',
+        handle: twitterHandle
+      };
+      socialMediaHandles.push(newHandle);
+    }
+    if (youtubeHandle !== '') {
+      const newHandle = {
+        platform: 'Youtube',
+        handle: youtubeHandle
+      };
+      socialMediaHandles.push(newHandle);
+    }
+    if (soundcloudHandle !== '') {
+      const newHandle = {
+        platform: 'Soundcloud',
+        handle: soundcloudHandle
+      };
+      socialMediaHandles.push(newHandle);
+    }
+    if (spotifyHandle !== '') {
+      const newHandle = {
+        platform: 'Spotify',
+        handle: spotifyHandle
+      };
+      socialMediaHandles.push(newHandle);
+    }
+
+    return socialMediaHandles;
+  }
+
+  const finishPerformerSetup = async () => {
+    const socialMediaHandles = formatSocialMediaHandles();
+    const setupUserInfo = await setupUser(
+      userId,
+      performerDescription,
+      selectedStyles,
+      selectedInstruments,
+      selectedAudioTools,
+      selectedStagings,
+      socialMediaHandles
+    );
+    if (setupUserInfo.success) {
+      const newUserInfo = setupUserInfo.data;
+      // TODO: Store to redux here
+    };
   };
 
   const goToNextStep = () => {
@@ -58,7 +121,7 @@ export default function SetupPerformer() {
     } else if (currentStep == 2) {
       setCurrentStep(3);
     } else if (currentStep == 3) {
-      finishPerformerSetup();
+      finishPerformerSetup().then(() => router.push('/'));
     };
   };
 
@@ -175,7 +238,13 @@ export default function SetupPerformer() {
             {currentStep == 1 && (
               <>
                 <h1 className="text-base font-eau-medium mr-10">Provide a short description of what you perform:</h1>
-                <textarea rows={3} className="mt-3 block p-2.5 w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-300 focus:ring-spotlite-light-purple focus:border-spotlite-light-purple" placeholder="Enter description here..."></textarea>
+                <textarea 
+                  rows={3} 
+                  className="mt-3 block p-2.5 w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-300 focus:ring-spotlite-light-purple focus:border-spotlite-light-purple" 
+                  placeholder="Enter description here..."
+                  value={performerDescription}
+                  onChange={(e) => setPerformerDescription(e.target.value)}
+                ></textarea>
                 <div className="flex flex-row mb-2 mt-8 items-center">
                   <h1 className="font-eau-medium text-black text-sm">Select your performance styles:</h1>
                   <p className="font-eau-regular text-black text-xs ml-2">(Up to 3)</p>
@@ -239,7 +308,7 @@ export default function SetupPerformer() {
                       onChange={handleCheckboxChange}
                       className="form-checkbox text-base h-6 w-6 text-spotlite-orange"
                     />
-                    <span className="text-gray-700 text-sm font-eau-medium">I don't use any equipment</span>
+                    <span className="text-gray-700 text-sm font-eau-medium">I don&apos;t use any equipment</span>
                   </label>
                 </div>
               </>

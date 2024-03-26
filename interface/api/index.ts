@@ -1,6 +1,7 @@
 import {
   getUser,
   createUser,
+  setupUser,
   updatePerformanceStyles,
   updateRecentSpots
 } from './user';
@@ -18,6 +19,7 @@ import {
 export {
   getUser,
   createUser,
+  setupUser,
   updatePerformanceStyles,
   updateRecentSpots,
   getSpots,

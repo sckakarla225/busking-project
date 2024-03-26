@@ -1,7 +1,8 @@
 import express from 'express';
 import {
   getUser, 
-  createUser, 
+  createUser,
+  setupPerformerInfo, 
   updatePerformanceStyles, 
   updateRecentSpots 
 } from '../controllers/user';
@@ -46,6 +47,25 @@ router.get('/user/:userId', getUser);
  *                   type: string
  */
 router.post('/create', createUser);
+/**
+ * @swagger
+ * /users/setup_performer:
+ *   post:
+ *     summary: Setup performer info
+ *     responses:
+ *       200:
+ *         description: Successfully updated performer
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ */
+ router.post('/setup_performer', setupPerformerInfo);
 /**
  * @swagger
  * /users/update_performance_styles:

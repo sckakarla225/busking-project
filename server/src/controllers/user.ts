@@ -22,7 +22,7 @@ const getUser = async (req: Request, res: Response) => {
 };
 
 const createUser = async (req: Request, res: Response) => {
-  const { userId, name, email, performanceStyles } = req.body;
+  const { userId, name, email } = req.body;
   const currentDate = new Date();
   const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
@@ -32,7 +32,7 @@ const createUser = async (req: Request, res: Response) => {
     userId: userId,
     name: name,
     email: email,
-    performanceStyles: performanceStyles,
+    setupComplete: false,
     dateJoined: dateJoined,
     currentSpot: {},
     recentSpots: []
@@ -54,6 +54,48 @@ const createUser = async (req: Request, res: Response) => {
     }
   }
 };
+
+const setupPerformerInfo = async (req: Request, res: Response) => {
+  const {
+    userId,
+    performerDescription,
+    performanceStyles,
+    instrumentTypes,
+    audioTools,
+    stagingAndVisuals,
+    socialMediaHandles
+  } = req.body;
+  const query = { 'userId': userId };
+  const update = {
+    'setupComplete': true,
+    'performerDescription': performerDescription, 
+    'performanceStyles': performanceStyles,
+    'instrumentTypes': instrumentTypes,
+    'audioTools': audioTools,
+    'stagingAndVisuals': stagingAndVisuals,
+    'socialMediaHandles': socialMediaHandles
+  };
+  const options: QueryOptions = {
+    returnDocument: "after",
+    new: true,
+    runValidators: true
+  };
+  
+  try {
+    const updatedUser = await UserModel.findOneAndUpdate(query, update, options);
+    if (updatedUser) {
+      res.status(200).json(updatedUser);
+    } else {
+      res.status(404).send("Not found.");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("An unknown error occurred");
+    }
+  }
+}
 
 const updatePerformanceStyles = async (req: Request, res: Response) => {
   const { userId, performanceStyles } = req.body;
@@ -116,6 +158,7 @@ const updateRecentSpots = async (req: Request, res: Response) => {
 export {
   getUser,
   createUser,
+  setupPerformerInfo,
   updatePerformanceStyles,
   updateRecentSpots 
 };

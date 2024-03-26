@@ -17,6 +17,21 @@ export interface CreateUser {
   performanceStyles: string[]
 };
 
+export interface SocialMediaHandle {
+  platform: string,
+  handle: string,
+}
+
+export interface SetupUser {
+  userId: string,
+  performerDescription: string,
+  performanceStyles: string[],
+  instrumentTypes: string[],
+  audioTools: string[],
+  stagingAndVisuals: string[],
+  socialMediaHandles: SocialMediaHandle[]
+};
+
 export interface UpdateUser {
   userId: string,
   performanceStyles: string[]
