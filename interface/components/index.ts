@@ -10,6 +10,7 @@ import ReserveSuccess from "./ReserveSuccess";
 import ReserveError from "./ReserveError";
 import ProgressBar from './ProgressBar';
 import Carousel from './Carousel';
+import Navbar from './Navbar';
 
 export { 
   TimeSlider, 
@@ -23,5 +24,6 @@ export {
   ReserveSuccess,
   ReserveError,
   ProgressBar,
-  Carousel
+  Carousel,
+  Navbar
 };

@@ -4,12 +4,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter, redirect } from 'next/navigation';
 import { signOut } from 'firebase/auth';
-import Image from 'next/image'
-import Link from 'next/link';
 import Map, { Marker, Popup } from 'react-map-gl';
-import { HiMiniUserCircle } from 'react-icons/hi2';
 import { TbMapPinPlus } from 'react-icons/tb';
-import { MdLogout } from 'react-icons/md';
 
 import { 
   TimeSlider, 
@@ -17,7 +13,8 @@ import {
   Key,
   SpotMarker,
   SpotPopup,
-  Loading 
+  Loading,
+  Navbar 
 } from '../components';
 import { auth } from '@/firebase/firebaseConfig';
 import { useAppSelector, AppDispatch } from '@/redux/store';
@@ -229,31 +226,7 @@ export default function Home() {
         ${isProfileOpen ? 'opacity-50' : ''}
         ${loading ? 'opacity-40' : ''}
       `}>
-        <nav className="absolute top-0 left-0 z-10 w-full border-gray-200 bg-zinc-800">
-          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-3 px-8">
-            <div className="flex flex-row items-center">
-              <Link href="/" className="flex items-center">
-                <Image src={'/logos/spotlite-icon.png'} alt="logo" width={30} height={30} />
-              </Link>
-            </div>
-            <div className="flex flex-row items-center">
-              <HiMiniUserCircle 
-                size={25} 
-                color="white" 
-                onClick={() => {
-                  setIsProfileOpen(true);
-                  logProfileViewed();
-                }} 
-              />
-              <MdLogout 
-                size={20} 
-                color="white" 
-                className="ml-4"
-                onClick={() => logoutUser()} 
-              />
-            </div>
-          </div>
-        </nav>
+        <Navbar />
         <div className="absolute top-20 left-5 z-10 px-3 py-2 border-4 border-opacity-80 border-spotlite-light-purple bg-spotlite-light-purple rounded-lg">
           <div className="flex flex-row items-center justify-center">
             <p className="text-white font-semibold text-xs">{selectedTime}</p>
