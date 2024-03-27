@@ -28,7 +28,8 @@ interface SpotInfoProps {
 const SpotInfo: React.FC<SpotInfoProps> = ({
   activity, 
   availability, 
-  spotId, name, 
+  spotId, 
+  name, 
   region, 
   latitude, 
   longitude, 

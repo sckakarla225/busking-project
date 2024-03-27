@@ -46,3 +46,36 @@ export const STAGING_AND_VISUALS = [
     'Lights',
     'Wires'
 ];
+
+export const SAMPLE_RESERVATIONS = [
+    {
+        spotId: '01BS8Q3ZFlLWq3FtB6UU',
+        spotName: 'Weaver Street Market',
+        spotRegion: 'Warehouse District',
+        latitude: 35.77844374395934,
+        longitude: -78.64537190864566,
+        date: '03/27/2024',
+        reservedFrom: '5:00 PM',
+        reservedTo: '6:00 PM'
+    },
+    {
+        spotId: '2tnuhutovCU5h3zRFQbJ',
+        spotName: 'Smoky Hollows',
+        spotRegion: 'Glenwood Avenue',
+        latitude: 35.78645258120108,
+        longitude: -78.64504539673194,
+        date: '04/05/2024',
+        reservedFrom: '2:00 PM',
+        reservedTo: '4:00 PM'
+    },
+    {
+        spotId: 'BDTYFKGvzSBN1tKzDUmx',
+        spotName: 'The Creamery Art',
+        spotRegion: 'Glenwood Avenue',
+        latitude: 35.78684505372829,
+        longitude: -78.6472076783107,
+        date: '04/07/2024',
+        reservedFrom: '7:00 PM',
+        reservedTo: '9:00 PM'
+    }
+]
