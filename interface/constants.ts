@@ -78,4 +78,67 @@ export const SAMPLE_RESERVATIONS = [
         reservedFrom: '7:00 PM',
         reservedTo: '9:00 PM'
     }
+];
+
+export const SAMPLE_TIME_SLOTS = [
+    {
+        spotId: 'zCwOtcmTUaZ05EoPbRaM',
+        performerId: null,
+        spotName: 'Raleigh Convention Center',
+        spotDistrict: 'Fayetteville Street',
+        date: '04/03/2024',
+        startTime: '4:00 PM',
+        endTime: '5:00 PM',
+        activityLevel: 3
+    },
+    {
+        spotId: 'zCwOtcmTUaZ05EoPbRaM',
+        performerId: null,
+        spotName: 'Raleigh Convention Center',
+        spotDistrict: 'Fayetteville Street',
+        date: '04/02/2024',
+        startTime: '5:00 PM',
+        endTime: '6:00 PM',
+        activityLevel: 2
+    },
+    {
+        spotId: 'zCwOtcmTUaZ05EoPbRaM',
+        performerId: null,
+        spotName: 'Raleigh Convention Center',
+        spotDistrict: 'Fayetteville Street',
+        date: '04/03/2024',
+        startTime: '2:00 PM',
+        endTime: '3:00 PM',
+        activityLevel: 1
+    },
+    {
+        spotId: '01BS8Q3ZFlLWq3FtB6UU',
+        performerId: null,
+        spotName: 'Weaver Street Market',
+        spotDistrict: 'Warehouse District',
+        date: '04/02/2024',
+        startTime: '5:00 PM',
+        endTime: '6:00 PM',
+        activityLevel: 3
+    },
+    {
+        spotId: '01BS8Q3ZFlLWq3FtB6UU',
+        performerId: null,
+        spotName: 'Weaver Street Market',
+        spotDistrict: 'Warehouse District',
+        date: '04/01/2024',
+        startTime: '2:00 PM',
+        endTime: '3:00 PM',
+        activityLevel: 2
+    },
+    {
+        spotId: '01BS8Q3ZFlLWq3FtB6UU',
+        performerId: null,
+        spotName: 'Lichtin Plaza',
+        spotDistrict: 'Fayetteville Street',
+        date: '03/28/2024',
+        startTime: '3:00 PM',
+        endTime: '4:00 PM',
+        activityLevel: 1
+    }
 ]

@@ -11,8 +11,8 @@ import ReserveError from "./ReserveError";
 import ProgressBar from './ProgressBar';
 import Carousel from './Carousel';
 import Navbar from './Navbar';
-import Reservation from './Reservation';
-import TimeSlot from './TimeSlot';
+import ReservationView from './ReservationView';
+import TimeSlotView from './TimeSlotView';
 
 export { 
   TimeSlider, 
@@ -28,6 +28,6 @@ export {
   ProgressBar,
   Carousel,
   Navbar,
-  Reservation,
-  TimeSlot
+  ReservationView,
+  TimeSlotView,
 };

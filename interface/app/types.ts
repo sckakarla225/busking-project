@@ -16,3 +16,18 @@ export interface User {
   performanceStyles: string[],
   recentSpots: Spot[],
 };
+
+export interface Reservation {
+  
+};
+
+export interface TimeSlot {
+  spotId: string,
+  performerId: string | null,
+  spotName: string,
+  spotDistrict: string,
+  date: string,
+  startTime: string,
+  endTime: string,
+  activityLevel: number
+};

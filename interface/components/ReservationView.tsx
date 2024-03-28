@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FaStreetView, FaTimes } from 'react-icons/fa';
 import { HiLocationMarker } from 'react-icons/hi';
 
-interface ReservationProps {
+interface ReservationViewProps {
   spotId: string,
   spotName: string,
   latitude: number,
@@ -13,7 +13,7 @@ interface ReservationProps {
   reservedTo: string
 };
 
-const Reservation: React.FC<ReservationProps> = ({
+const ReservationView: React.FC<ReservationViewProps> = ({
   spotId,
   spotName,
   latitude,
@@ -102,4 +102,4 @@ const Reservation: React.FC<ReservationProps> = ({
   );
 };
 
-export default Reservation;
+export default ReservationView;

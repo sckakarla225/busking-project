@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 
-import { Navbar, Reservation } from '@/components';
+import { Navbar, ReservationView } from '@/components';
 import { useAppSelector } from '@/redux/store';
 import { SAMPLE_RESERVATIONS } from '@/constants';
 
@@ -76,7 +76,7 @@ export default function Profile() {
             </div>
             <div className="w-full rounded-sm bg-slate-50 border-2 border-slate-100 h-72 mt-3 p-2 overflow-y-auto scroll-smooth snap-none touch-pan-y">
               {SAMPLE_RESERVATIONS.map((reservation) => (
-                <Reservation 
+                <ReservationView 
                   spotId={reservation.spotId}
                   spotName={reservation.spotName}
                   latitude={reservation.latitude}
