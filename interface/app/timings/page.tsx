@@ -2,8 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { Navbar, TimeSlotView, Loading } from '@/components';
+import { 
+  Navbar, 
+  TimeSlotView, 
+  Loading,
+  ReserveSuccess,
+  ReserveError 
+} from '@/components';
 import { TimeSlot } from '../types';
+import { getTimeSlots, reserveTimeSlot } from '@/api';
 import { SAMPLE_TIME_SLOTS } from '@/constants';
 
 export default function TimingsList() {
@@ -37,11 +44,15 @@ export default function TimingsList() {
   ];
 
   useEffect(() => {
-    setFilteredTimeSlots(SAMPLE_TIME_SLOTS);
-  }, []);
-
-  useEffect(() => {
-    // TODO: Update filtered time slots accordingly
+    setLoading(true);
+    const filtered = SAMPLE_TIME_SLOTS.filter(timeSlot => timeSlot.date === selectedDate + '/2024');
+    if (selectedSpotName !== 'All Spots') {
+      const filteredAgain = filtered.filter(timeSlot => timeSlot.spotName === selectedSpotName);
+      setFilteredTimeSlots(filteredAgain);
+    } else {
+      setFilteredTimeSlots(filtered);
+    };
+    setLoading(false);
   }, [selectedDate, selectedSpotName]);
 
   return (

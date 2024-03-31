@@ -61,6 +61,12 @@ export interface LeaveSpot {
   reservationId: string
 };
 
+// Time Slots
+export interface EditTimeSlot {
+  timeSlotId: string,
+  performerId: string
+}
+
 // Predictions
 export interface PredictionInput {
   spotId: string,
