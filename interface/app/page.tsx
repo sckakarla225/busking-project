@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter, redirect } from 'next/navigation';
-import { signOut } from 'firebase/auth';
 import Map, { Marker, Popup } from 'react-map-gl';
 import { TbMapPinPlus } from 'react-icons/tb';
 
@@ -16,11 +15,8 @@ import {
   Loading,
   Navbar 
 } from '../components';
-import { auth } from '@/firebase/firebaseConfig';
 import { useAppSelector, AppDispatch } from '@/redux/store';
-import { logout } from '@/redux/reducers/auth';
-import { resetUser } from '@/redux/reducers/performer';
-import { changeSelectedTime, resetSpots } from '@/redux/reducers/spots';
+import { changeSelectedTime, changeSelectedDate } from '@/redux/reducers/spots';
 import { predictSpots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
 import { 
@@ -28,7 +24,6 @@ import {
   logSpotClicked,
   logTimeViewed,
   logKeyClicked,
-  logProfileViewed 
 } from '@/firebase/analytics';
 
 export default function Home() {
@@ -39,6 +34,9 @@ export default function Home() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isKeyOpen, setIsKeyOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>(
+    new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).slice(0, 5)
+  );
   const [selectedSpot, setSelectedSpot] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -76,35 +74,60 @@ export default function Home() {
       return givenDateTime >= startTime && givenDateTime <= endTime;
   }
 
-  const getCurrentDate = (): { dateString: string, dayOfWeek: string } => {
+  function getNextSevenDays(): string[] {
+    const dates = [];
     const currentDate = new Date();
-    const daysOfWeek: string[] = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
+    for (let i = 0; i < 7; i++) {
+      const nextDate = new Date(currentDate.getTime());
+      nextDate.setDate(currentDate.getDate() + i);
+      const day = String(nextDate.getDate()).padStart(2, '0');
+      const month = String(nextDate.getMonth() + 1).padStart(2, '0');
+      dates.push(`${month}/${day}`);
+    }
+    return dates;
+  };
+
+  function getDayOfWeek(dateStr: string): string {
+    const daysOfWeek = [
+      'Sunday', 
+      'Monday', 
+      'Tuesday', 
+      'Wednesday', 
+      'Thursday', 
+      'Friday', 
+      'Saturday'
     ];
-
-    const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
-    const month = String(currentDate.getMonth() + 1);
-    const day = String(currentDate.getDate());
-    const year = String(currentDate.getFullYear()).slice(-2);
-
-    const dateString = `${month}/${day}/${year}`;
-    console.log(dateString);
-    return { dateString, dayOfWeek };
+    const date = new Date(dateStr);
+    return daysOfWeek[date.getDay()];
   };
 
-  const logoutUser = async () => {
-    await signOut(auth);
-    dispatch(logout());
-    dispatch(resetUser());
-    dispatch(resetSpots());
-    router.push('/login');
-  };
+  function reformatDateString(dateStr: string): string {
+    const dateParts = dateStr.split('/').map(part => parseInt(part, 10));
+    const yearShort = dateParts[2] % 100;
+    return `${dateParts[0]}/${dateParts[1]}/${yearShort < 10 ? '0' + yearShort : yearShort}`;
+  }
+
+  // const getCurrentDate = (): { dateString: string, dayOfWeek: string } => {
+  //   const currentDate = new Date();
+  //   const daysOfWeek: string[] = [
+  //     'Sunday',
+  //     'Monday',
+  //     'Tuesday',
+  //     'Wednesday',
+  //     'Thursday',
+  //     'Friday',
+  //     'Saturday',
+  //   ];
+
+  //   const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
+  //   const month = String(currentDate.getMonth() + 1);
+  //   const day = String(currentDate.getDate());
+  //   const year = String(currentDate.getFullYear()).slice(-2);
+
+  //   const dateString = `${month}/${day}/${year}`;
+  //   console.log(dateString);
+  //   return { dateString, dayOfWeek };
+  // };
 
   const logTimeToAnalytics = () => {
     if (selectedTime) {
@@ -127,8 +150,6 @@ export default function Home() {
 
   useEffect(() => {
     setLoading(true);
-
-    const { dateString, dayOfWeek } = getCurrentDate();
     const setupPredictions = async (predictionInputs: any[], processedSpots: any[]) => {
       const predictions = await predictSpots(predictionInputs);
       
@@ -163,8 +184,13 @@ export default function Home() {
 
     const processedSpots: any[] = [];
     const predictionInputs: any[] = [];
-    if (selectedTime) {
+    if (selectedTime && selectedDate !== '') {
+      const dateString = selectedDate + '/2024';
+      const formattedDateString = reformatDateString(dateString);
+      console.log(formattedDateString);
+      const dayOfWeek = getDayOfWeek(dateString);
       dispatch(changeSelectedTime({ selectedTime: selectedTime }));
+      dispatch(changeSelectedDate({ selectedDate: dateString }));
       spotsInfo.map((spotInfo) => {
         let isReserved = false;
         spotInfo.reservations.map((reservation) => {
@@ -189,7 +215,7 @@ export default function Home() {
           spotId: spotInfo.spotId,
           latitude: spotInfo.latitude,
           longitude: spotInfo.longitude,
-          date: dateString,
+          date: formattedDateString,
           time: selectedTime,
           day: dayOfWeek
         };
@@ -204,7 +230,7 @@ export default function Home() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [selectedTime]);
+  }, [selectedTime, selectedDate]);
 
   return (
     <>
@@ -227,9 +253,32 @@ export default function Home() {
         ${loading ? 'opacity-40' : ''}
       `}>
         <Navbar />
-        <div className="absolute top-20 left-5 z-10 px-3 py-2 border-4 border-opacity-80 border-spotlite-light-purple bg-spotlite-light-purple rounded-lg">
-          <div className="flex flex-row items-center justify-center">
-            <p className="text-white font-semibold text-xs">{selectedTime}</p>
+        <div className="absolute top-20 left-5 z-10 flex flex-row items-center space-x-3">
+          <div className="relative">
+            <select
+              className="appearance-none bg-spotlite-light-purple text-white text-xs font-bold py-3 pl-4 pr-8 rounded leading-tight focus:outline-none"
+              name="date"
+              id="date-selector"
+              style={{
+                backgroundImage: `url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0.5rem center',
+                backgroundSize: '1.5em 1.5em',
+                WebkitAppearance: 'none',
+                MozAppearance: 'none'
+              }}
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            >
+              {getNextSevenDays().map(date => (
+                <option key={date} value={date}>{date}</option>
+              ))}
+            </select>
+          </div>
+          <div className="px-3 py-2 border-4 border-opacity-80 border-spotlite-light-purple bg-spotlite-light-purple rounded-lg">
+            <div className="flex flex-row items-center justify-center">
+              <p className="text-white font-semibold text-xs">{selectedTime}</p>
+            </div>
           </div>
         </div>
         <button 
@@ -254,8 +303,8 @@ export default function Home() {
         <Map
           mapboxAccessToken={MAPBOX_API_KEY}
           initialViewState={{
-            longitude: -78.63913983214495,
-            latitude: 35.78055856250403,
+            longitude: -78.64117434142987,
+            latitude: 35.773548310574924,
             zoom: 2
           }}
           maxBounds={[

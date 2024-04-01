@@ -114,7 +114,7 @@ export default function Profile() {
             <Image src={'/logos/spotlite-icon.png'} alt="logo" width={75} height={75} />
             <div className="flex flex-col ml-5">
               <h1 className="text-black font-eau-medium text-lg">{performerName}</h1>
-              <h1 className="text-black font-eau-light text-sm mt-2">&quot{description}&quot</h1>
+              <h1 className="text-black font-eau-light text-sm mt-2">&quot;{description}&quot;</h1>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between mt-5">

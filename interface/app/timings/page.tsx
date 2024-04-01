@@ -22,8 +22,10 @@ export default function TimingsList() {
   const [loading, setLoading] = useState(false);
   const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>([]);
   const [filteredTimeSlots, setFilteredTimeSlots] = useState<TimeSlot[]>([]);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedSpotName, setSelectedSpotName] = useState('');
+  const [selectedDate, setSelectedDate] = useState<string>(
+    new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).slice(0, 5)
+  );
+  const [selectedSpotName, setSelectedSpotName] = useState<string>('All Spots');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
 

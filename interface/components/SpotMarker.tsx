@@ -7,15 +7,21 @@ interface SpotMarkerProps {
 };
 
 const SpotMarker: React.FC<SpotMarkerProps> = ({
-  size, availability, activity
+  availability, activity
 }) => {
   return (
+    // <div 
+    //   className={`
+    //     bg-slate-100 border-4 border-spotlite-dark-purple mt-20 rounded-full flex items-center justify-center
+    //     ${((size === 1 || size === 2) && 'h-8 w-8')}
+    //     ${(size === 3) && 'h-12 w-12'}
+    //     ${((size === 4 || size === 5) && 'h-16 w-16')}
+    //     ${!availability && 'bg-zinc-700'}
+    //   `}
+    // >
     <div 
       className={`
-        bg-slate-100 border-4 border-spotlite-dark-purple mt-20 rounded-full flex items-center justify-center
-        ${((size === 1 || size === 2) && 'h-8 w-8')}
-        ${(size === 3) && 'h-12 w-12'}
-        ${((size === 4 || size === 5) && 'h-16 w-16')}
+        bg-slate-100 border-4 border-spotlite-dark-purple mt-20 rounded-full flex items-center justify-center h-12 w-12
         ${!availability && 'bg-zinc-700'}
       `}
     >
