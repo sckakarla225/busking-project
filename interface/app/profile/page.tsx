@@ -12,9 +12,13 @@ import {
 } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 
-import { Loading, Navbar, ReservationView } from '@/components';
+import { 
+  Loading, 
+  Navbar, 
+  ReservationView 
+} from '@/components';
 import { Reservation } from '../types';
-import { getTimeSlots, cancelTimeSlot } from '@/api';
+import { getTimeSlots } from '@/api';
 import { useAppSelector } from '@/redux/store';
 
 type PlatformType = 
@@ -110,7 +114,7 @@ export default function Profile() {
             <Image src={'/logos/spotlite-icon.png'} alt="logo" width={75} height={75} />
             <div className="flex flex-col ml-5">
               <h1 className="text-black font-eau-medium text-lg">{performerName}</h1>
-              <h1 className="text-black font-eau-light text-sm mt-2">"{description}"</h1>
+              <h1 className="text-black font-eau-light text-sm mt-2">&quot{description}&quot</h1>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between mt-5">
@@ -136,8 +140,9 @@ export default function Profile() {
             <div className="w-full rounded-sm bg-slate-50 border-2 border-slate-100 h-72 mt-3 p-2 overflow-y-auto scroll-smooth snap-none touch-pan-y">
               {reservations.length !== 0 ? (
                 <>
-                  {reservations.map((reservation: Reservation) => (
+                  {reservations.map((reservation: Reservation, index) => (
                     <ReservationView
+                      key={index}
                       timeSlotId={reservation.timeSlotId} 
                       spotId={reservation.spotId}
                       spotName={reservation.spotName}
@@ -167,10 +172,10 @@ export default function Profile() {
             <div className="flex flex-row items-center mb-3">
               <h1 className="text-black font-eau-regular text-sm">My Social Media</h1>
             </div>
-            {socialMediaHandles.map((handle) => {
+            {socialMediaHandles.map((handle, index) => {
               const IconComponent = iconMap[handle.platform as PlatformType];
               return (
-                <div className="flex flex-row items-center mb-2">
+                <div className="flex flex-row items-center mb-2" key={index}>
                   <div className="flex flex-row items-center justify-center p-2 rounded-md bg-spotlite-light-purple">
                     <IconComponent size={20} color="white" />
                   </div>

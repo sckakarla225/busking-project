@@ -212,10 +212,11 @@ export default function TimingsList() {
           <div className="w-full rounded-sm bg-white border-2 border-white mt-3">
             {filteredTimeSlots.length !== 0 ? (
               <>
-                {filteredTimeSlots.map((timeSlot) => {
+                {filteredTimeSlots.map((timeSlot, index) => {
                   if (!timeSlot.performerId) {
                     return (
                       <TimeSlotView
+                        key={index}
                         timeSlotId={timeSlot.timeSlotId} 
                         spotId={timeSlot.spotId}
                         spotName={timeSlot.spotName}
