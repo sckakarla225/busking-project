@@ -141,4 +141,14 @@ export const SAMPLE_TIME_SLOTS = [
         endTime: '4:00 PM',
         activityLevel: 1
     }
-]
+];
+
+export const SPOTS_TIME_SLOTS_OPTIONS = [
+    'All Spots',
+    'Raleigh Convention Center',
+    'Courthouse Plaza',
+    'Weaver Street Market',
+    'Lichtin Plaza',
+    'City Plaza',
+    'Capitol Building'
+];

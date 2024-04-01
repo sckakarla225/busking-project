@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import {
   FaInstagram,
@@ -12,9 +12,10 @@ import {
 } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 
-import { Navbar, ReservationView } from '@/components';
+import { Loading, Navbar, ReservationView } from '@/components';
+import { Reservation } from '../types';
+import { getTimeSlots, cancelTimeSlot } from '@/api';
 import { useAppSelector } from '@/redux/store';
-import { SAMPLE_RESERVATIONS } from '@/constants';
 
 type PlatformType = 
   'Instagram' |
@@ -26,12 +27,15 @@ type PlatformType =
 
 export default function Profile() {
   const userId = useAppSelector((state) => state.auth.userId);
+  const allSpots = useAppSelector((state) => state.spots.spots);
   const performerName = useAppSelector((state) => state.performer.name);
   const performerEmail = useAppSelector((state) => state.auth.email);
   const description = useAppSelector((state) => state.performer.performerDescription);
   const dateJoined = useAppSelector((state) => state.performer.dateJoined);
   const performanceStyles = useAppSelector((state) => state.performer.performanceStyles);
   const socialMediaHandles = useAppSelector((state) => state.performer.socialMediaHandles);
+  const [loading, setLoading] = useState(false);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
 
   const iconMap: Record<PlatformType, IconType> = {
     Instagram: FaInstagram,
@@ -42,9 +46,64 @@ export default function Profile() {
     Spotify: FaSpotify
   };
 
+  useEffect(() => {
+    setLoading(true);
+    const setupReservations = async () => {
+      const timeSlotsData = await getTimeSlots();
+      const userReservations: Reservation[] = [];
+      if (timeSlotsData.success) {
+        const timeSlots = timeSlotsData.data;
+        console.log(timeSlots);
+        timeSlots.map((timeSlot: any) => {
+          if (timeSlot.performerId && timeSlot.performerId === userId) {
+            const spotInfo = allSpots.find((spot) => spot.spotId === timeSlot.spotId);
+            if (spotInfo) {
+              const latitude = spotInfo.latitude;
+              const longitude = spotInfo.longitude;
+              let convertedTime = new Date(timeSlot.startTime);
+              let convertedEndTime = new Date(timeSlot.endTime);
+              convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+              convertedEndTime = new Date(convertedEndTime.getTime() + 0 * 60 * 60 * 1000);
+              const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              const formattedEndTime = convertedEndTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              const reservation: Reservation = {
+                timeSlotId: timeSlot.timeSlotId,
+                spotId: timeSlot.spotId,
+                spotName: timeSlot.spotName,
+                spotLatitude: latitude,
+                spotLongitude: longitude,
+                date: timeSlot.date,
+                startTime: formattedTime,
+                endTime: formattedEndTime
+              };
+              userReservations.push(reservation);
+            };
+          };
+        });
+      };
+      setReservations(userReservations);
+    };
+
+    setupReservations()
+      .then(() => setLoading(false))
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <>
-      <main className={`relative w-screen h-screen `}>
+      <Loading isLoading={loading} />
+      <main className={`
+        relative w-screen h-screen
+        ${loading ? 'opacity-50' : ''} 
+      `}>
         <Navbar />
         <section className="px-10 py-28 flex flex-col justify-center">
           <div className="flex flex-row items-center my-3">
@@ -75,17 +134,33 @@ export default function Profile() {
               <h1 className="text-black font-eau-regular text-sm">Upcoming Bookings</h1>
             </div>
             <div className="w-full rounded-sm bg-slate-50 border-2 border-slate-100 h-72 mt-3 p-2 overflow-y-auto scroll-smooth snap-none touch-pan-y">
-              {SAMPLE_RESERVATIONS.map((reservation) => (
-                <ReservationView 
-                  spotId={reservation.spotId}
-                  spotName={reservation.spotName}
-                  latitude={reservation.latitude}
-                  longitude={reservation.longitude}
-                  date={reservation.date}
-                  reservedTo={reservation.reservedTo}
-                  reservedFrom={reservation.reservedFrom}
-                />
-              ))}
+              {reservations.length !== 0 ? (
+                <>
+                  {reservations.map((reservation: Reservation) => (
+                    <ReservationView
+                      timeSlotId={reservation.timeSlotId} 
+                      spotId={reservation.spotId}
+                      spotName={reservation.spotName}
+                      latitude={reservation.spotLatitude}
+                      longitude={reservation.spotLongitude}
+                      date={reservation.date}
+                      reservedTo={reservation.endTime}
+                      reservedFrom={reservation.startTime}
+                      reservations={reservations}
+                      updateReservations={
+                        (reservations: Reservation[]) => setReservations(reservations)
+                      }
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  <h1 className="text-sm font-eau-medium m-5">
+                    No bookings found. Browse the map and sign up for a time-slot to get started!
+                  </h1>
+                </>
+              )}
+              
             </div>
           </div>
           <div className="flex flex-col mt-7">

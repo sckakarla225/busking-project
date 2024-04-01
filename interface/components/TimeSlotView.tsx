@@ -1,7 +1,12 @@
 import React from 'react';
+import Link from 'next/link';
 import { FaStreetView } from 'react-icons/fa';
 
+import { useAppSelector } from '@/redux/store';
+import { reserveTimeSlot } from '@/api';
+
 interface TimeSlotViewProps {
+  timeSlotId: string,
   spotId: string,
   spotName: string,
   spotRegion: string,
@@ -9,17 +14,33 @@ interface TimeSlotViewProps {
   startTime: string,
   endTime: string,
   activityLevel: number,
+  reserveSuccess: () => void,
+  reserveFail: () => void,
 };
 
 const TimeSlotView: React.FC<TimeSlotViewProps> = ({
+  timeSlotId,
   spotId,
   spotName,
   spotRegion,
   date,
   startTime,
   endTime,
-  activityLevel
+  activityLevel,
+  reserveSuccess,
+  reserveFail
 }) => {
+  const userId = useAppSelector((state) => state.auth.userId);
+
+  const reserve = async () => {
+    const reserveTimeSlotRes = await reserveTimeSlot(timeSlotId, userId);
+    if (reserveTimeSlotRes.success) {
+      reserveSuccess();
+    } else {
+      reserveFail();
+    }
+  };
+
   return (
     <div className="w-full bg-slate-50 px-5 py-4 rounded-md mb-4">
       <div className="flex flex-row justify-between">
@@ -27,12 +48,14 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
           <h1 className="font-eau-bold text-sm">{spotName}</h1>
           <h1 className="font-eau-light text-xs mt-2">{spotRegion}</h1>
         </div>
-        <button className="text-white font-semibold text-xs rounded-md bg-spotlite-dark-purple border-2 border-spotlite-dark-purple border-opacity-80 px-1 py-1 mt-4 flex flex-row justify-center w-10">
-          <FaStreetView 
-            size={15} 
-            color="white"
-          />
-        </button>
+        <Link href={`/spot/${spotId}`}>
+          <button className="text-white font-semibold text-xs rounded-md bg-spotlite-dark-purple border-2 border-spotlite-dark-purple border-opacity-80 px-1 py-1 mt-4 flex flex-row justify-center w-10">
+            <FaStreetView 
+              size={15} 
+              color="white"
+            />
+          </button>
+        </Link>
       </div>
       <h1 className="text-black font-eau-medium text-xs mt-4">Date: {date}</h1>
       <div className="flex flex-row items-center justify-between space-x-2 mt-3">
@@ -64,6 +87,7 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
           className={`
             text-sm hover:bg-opacity-80 bg-spotlite-orange text-white py-2 px-6 rounded focus:outline-none focus:shadow-outline font-eau-bold
           `}
+          onClick={() => reserve()}
         >
           Sign Up
         </button>

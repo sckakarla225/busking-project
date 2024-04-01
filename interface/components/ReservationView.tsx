@@ -1,62 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { FaStreetView, FaTimes } from 'react-icons/fa';
 import { HiLocationMarker } from 'react-icons/hi';
 
+import { Reservation } from '@/app/types';
+import { cancelTimeSlot } from '@/api';
+import { useAppSelector } from '@/redux/store';
+
 interface ReservationViewProps {
+  timeSlotId: string,
   spotId: string,
   spotName: string,
   latitude: number,
   longitude: number,
   date: string,
   reservedFrom: string,
-  reservedTo: string
+  reservedTo: string,
+  reservations: Reservation[],
+  updateReservations: (reservations: Reservation[]) => void,
 };
 
 const ReservationView: React.FC<ReservationViewProps> = ({
+  timeSlotId,
   spotId,
   spotName,
   latitude,
   longitude,
   date,
   reservedFrom,
-  reservedTo
+  reservedTo,
+  reservations,
+  updateReservations
 }) => {
-  const [reservedFromDate, setReservedFromDate] = useState<Date | null>(null);
-  const [reservedToDate, setReservedToDate] = useState<Date | null>(null);
+  const userId = useAppSelector((state) => state.auth.userId);
 
-  const calculateTimeLeft = (endTime: Date | null): string => {
-    if (endTime) {
-      const now = new Date();
-      let difference = endTime.getTime() - now.getTime();
-      if (difference < 0) {
-        return "0:00";
-      }
-
-      difference = difference / 1000 / 60;
-      const hours = Math.floor(difference / 60);
-      const minutes = Math.floor(difference % 60);
-
-      return `${hours}:${minutes.toString().padStart(2, '0')}`;
-    }
-    return '';
+  const cancel = async () => {
+    const cancelTimeSlotRes = await cancelTimeSlot(timeSlotId, userId);
+    if (cancelTimeSlotRes.success) {
+      const updatedReservations = reservations.filter(
+        (reservation) => reservation.timeSlotId !== timeSlotId
+      );
+      updateReservations(updatedReservations);
+    };
   };
 
   const openGoogleMaps = () => {
     const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
     window.open(url, '_blank');
   }
-
-  useEffect(() => {
-      let formattedReservedFrom = new Date(reservedFrom);
-      let formattedReservedTo = new Date(reservedTo);
-      formattedReservedFrom = new Date(formattedReservedFrom.getTime() + 4 * 60 * 60 * 1000);
-      formattedReservedTo = new Date(formattedReservedTo.getTime() + 4 * 60 * 60 * 1000);
-      
-      setReservedToDate(formattedReservedTo);
-      setReservedFromDate(formattedReservedFrom);
-  }, []);
-
   return (
     <div className="w-full bg-white border-2 border-slate-200 px-3 py-3 grid grid-cols-2 gap-4 rounded-md mb-4">
       <div className="flex flex-col">
@@ -72,10 +63,6 @@ const ReservationView: React.FC<ReservationViewProps> = ({
         </button>
       </div>
       <div className="flex flex-col">
-        <div className="flex flex-col">
-          <h1 className="text-xs font-eau-regular">Time left:</h1>
-          <h1 className="text-sm font-eau-medium">{calculateTimeLeft(reservedToDate)}</h1>
-        </div>
         <Link href={`/spot/${spotId}`}>
           <button 
             className="text-black font-eau-medium text-xs rounded-md bg-slate-100 border-2 border-slate-200 px-2 py-2 cursor-pointer mt-3"
@@ -89,7 +76,7 @@ const ReservationView: React.FC<ReservationViewProps> = ({
         <Link href={''}>
           <button 
             className="text-white font-eau-medium text-xs rounded-md bg-red-600 border-2 border-red-600 px-2 py-2 cursor-pointer mt-4"
-            onClick={() => {}}
+            onClick={() => cancel()}
           >
             <div className="flex flex-row items-center">
               <FaTimes size={15} color="white" />

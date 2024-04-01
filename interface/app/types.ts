@@ -18,14 +18,22 @@ export interface User {
 };
 
 export interface Reservation {
-  
+  timeSlotId: string,
+  spotId: string,
+  spotName: string,
+  spotLatitude: number,
+  spotLongitude: number,
+  date: string,
+  startTime: string,
+  endTime: string
 };
 
 export interface TimeSlot {
+  timeSlotId: string,
   spotId: string,
   performerId: string | null,
   spotName: string,
-  spotDistrict: string,
+  spotRegion: string,
   date: string,
   startTime: string,
   endTime: string,

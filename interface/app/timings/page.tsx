@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { 
   Navbar, 
@@ -10,19 +11,25 @@ import {
   ReserveError 
 } from '@/components';
 import { TimeSlot } from '../types';
-import { getTimeSlots, reserveTimeSlot } from '@/api';
-import { SAMPLE_TIME_SLOTS } from '@/constants';
+import { getTimeSlots, predictSpot } from '@/api';
+import { useAppSelector, AppDispatch } from '@/redux/store';
+import { SPOTS_TIME_SLOTS_OPTIONS } from '@/constants';
 
 export default function TimingsList() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const allSpots = useAppSelector((state) => state.spots.spots);
   const [loading, setLoading] = useState(false);
+  const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>([]);
   const [filteredTimeSlots, setFilteredTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedSpotName, setSelectedSpotName] = useState('');
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [signUpError, setSignUpError] = useState(false);
 
   function getNextSevenDays(): string[] {
     const dates = [];
     const currentDate = new Date();
-  
     for (let i = 0; i < 7; i++) {
       const nextDate = new Date(currentDate.getTime());
       nextDate.setDate(currentDate.getDate() + i);
@@ -30,22 +37,104 @@ export default function TimingsList() {
       const month = String(nextDate.getMonth() + 1).padStart(2, '0');
       dates.push(`${month}/${day}`);
     }
-  
     return dates;
   };
 
-  const options = [
-    'All Spots',
-    'Raleigh Convention Center',
-    'Weaver Street Market',
-    'Lichtin Plaza',
-    'City Plaza',
-    'Capitol Building'
-  ];
+  function getDayOfWeek(dateStr: string): string {
+    const daysOfWeek = [
+      'Sunday', 
+      'Monday', 
+      'Tuesday', 
+      'Wednesday', 
+      'Thursday', 
+      'Friday', 
+      'Saturday'
+    ];
+    const date = new Date(dateStr);
+    return daysOfWeek[date.getDay()];
+  };
+
+  const getPrediction = async (
+    spotInfo: any, 
+    timeStr: string, 
+    dateStr: string
+  ) => {
+    const dayOfWeek = getDayOfWeek(dateStr);
+    const predictionInput = {
+      spotId: spotInfo.spotId,
+      latitude: spotInfo.latitude,
+      longitude: spotInfo.longitude,
+      date: dateStr,
+      time: timeStr,
+      day: dayOfWeek
+    };
+
+    const activityLevel = await predictSpot(predictionInput);
+    console.log(activityLevel);
+    let activityLevelNum: number;
+    switch (activityLevel.data) {
+      case "Low":
+        activityLevelNum = 1;
+        break;
+      case "Medium":
+        activityLevelNum = 2;
+        break;
+      case "High":
+        activityLevelNum = 3;
+        break;
+      default:
+        activityLevelNum = 0;
+    };
+
+    return activityLevelNum;
+  };
 
   useEffect(() => {
     setLoading(true);
-    const filtered = SAMPLE_TIME_SLOTS.filter(timeSlot => timeSlot.date === selectedDate + '/2024');
+    const setupTimeSlots = async () => {
+      const timeSlotsData = await getTimeSlots();
+      const formattedTimeSlots: TimeSlot[] = [];
+      if (timeSlotsData.success) {
+        const timeSlots = timeSlotsData.data;
+        timeSlots.map(async (timeSlot: any) => {
+          if (!timeSlot.performerId) {
+            const spotInfo = allSpots.find((spot) => spot.spotId === timeSlot.spotId);
+            if (spotInfo) {
+              let convertedTime = new Date(timeSlot.startTime);
+              let convertedEndTime = new Date(timeSlot.endTime);
+              convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+              convertedEndTime = new Date(convertedEndTime.getTime() + 0 * 60 * 60 * 1000);
+              const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              const formattedEndTime = convertedEndTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              const activityLevel = await getPrediction(spotInfo, formattedTime, timeSlot.date);
+              console.log(activityLevel);
+              timeSlot.startTime = formattedTime;
+              timeSlot.endTime = formattedEndTime;
+              const formattedTimeSlot = { ...timeSlot, activityLevel: activityLevel };
+              formattedTimeSlots.push(formattedTimeSlot);
+            };
+          }
+        });
+        setAllTimeSlots(formattedTimeSlots);
+      }
+    };
+
+    setupTimeSlots()
+      .then(() => setLoading(false))
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    const filtered = allTimeSlots.filter(timeSlot => timeSlot.date === selectedDate + '/2024');
     if (selectedSpotName !== 'All Spots') {
       const filteredAgain = filtered.filter(timeSlot => timeSlot.spotName === selectedSpotName);
       setFilteredTimeSlots(filteredAgain);
@@ -58,7 +147,21 @@ export default function TimingsList() {
   return (
     <>
       <Loading isLoading={loading} />
-      <main className={`relative w-screen h-screen ${loading ? 'opacity-50' : ''}`}>
+      <ReserveSuccess 
+        isOpen={signUpSuccess}
+        onClose={() => setSignUpSuccess(false)}
+      />
+      <ReserveError 
+        isOpen={signUpError}
+        onClose={() => setSignUpError(false)}
+        availability={true}
+      />
+      <main className={`
+        relative w-screen h-screen 
+        ${loading ? 'opacity-50' : ''}
+        ${signUpSuccess ? 'opacity-50': ''}
+        ${signUpError ? 'opacity-50' : ''}
+      `}>
         <Navbar />
         <section className="px-10 py-28">
           <div className="flex flex-row justify-between space-x-2">
@@ -100,7 +203,7 @@ export default function TimingsList() {
                 value={selectedSpotName}
                 onChange={(e) => setSelectedSpotName(e.target.value)}
               >
-                {options.map((option: string, index) => (
+                {SPOTS_TIME_SLOTS_OPTIONS.map((option: string, index) => (
                   <option key={index} value={option}>{option}</option>
                 ))}
               </select>
@@ -112,14 +215,17 @@ export default function TimingsList() {
                 {filteredTimeSlots.map((timeSlot) => {
                   if (!timeSlot.performerId) {
                     return (
-                      <TimeSlotView 
+                      <TimeSlotView
+                        timeSlotId={timeSlot.timeSlotId} 
                         spotId={timeSlot.spotId}
                         spotName={timeSlot.spotName}
-                        spotRegion={timeSlot.spotDistrict}
+                        spotRegion={timeSlot.spotRegion}
                         date={timeSlot.date}
                         startTime={timeSlot.startTime}
                         endTime={timeSlot.endTime}
                         activityLevel={timeSlot.activityLevel}
+                        reserveSuccess={() => setSignUpSuccess(true)}
+                        reserveFail={() => setSignUpError(true)}
                       />
                     )
                   }
