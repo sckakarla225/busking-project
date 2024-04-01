@@ -6,7 +6,10 @@ import { useRouter, redirect } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MdLogout } from 'react-icons/md';
+import { 
+  MdLogout, 
+  MdKeyboardArrowLeft 
+} from 'react-icons/md';
 
 import { 
   SpotInfo, 
@@ -21,7 +24,6 @@ import { useAppSelector, AppDispatch } from '@/redux/store';
 import { logout } from '@/redux/reducers/auth';
 import { resetUser } from '@/redux/reducers/performer';
 import { resetSpots } from '@/redux/reducers/spots';
-import logo from '../../logo.png';
 
 export default function Spot(
   { params }: { params: { id: string } }
@@ -32,6 +34,7 @@ export default function Spot(
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const allSpots = useAppSelector((state) => state.spots.spots);
   const selectedTime = useAppSelector((state) => state.spots.selectedTime);
+  const selectedDate = useAppSelector((state) => state.spots.selectedDate);
   const [spotId, setSpotId] = useState<string>('');
   const [spotName, setSpotName] = useState<string>('');
   const [spotRegion, setSpotRegion] = useState<string>('');
@@ -88,6 +91,26 @@ export default function Spot(
     return { dateString, dayOfWeek };
   };
 
+  function getDayOfWeek(dateStr: string): string {
+    const daysOfWeek = [
+      'Sunday', 
+      'Monday', 
+      'Tuesday', 
+      'Wednesday', 
+      'Thursday', 
+      'Friday', 
+      'Saturday'
+    ];
+    const date = new Date(dateStr);
+    return daysOfWeek[date.getDay()];
+  };
+
+  function reformatDateString(dateStr: string): string {
+    const dateParts = dateStr.split('/').map(part => parseInt(part, 10));
+    const yearShort = dateParts[2] % 100;
+    return `${dateParts[0]}/${dateParts[1]}/${yearShort < 10 ? '0' + yearShort : yearShort}`;
+  }
+
   const logoutUser = async () => {
     await signOut(auth);
     dispatch(logout());
@@ -106,7 +129,10 @@ export default function Spot(
     setLoading(true);
 
     const getPrediction = async (spotInfo: any) => {
-      const { dateString, dayOfWeek } = getCurrentDate();
+      const dateString = reformatDateString(selectedDate);
+      console.log(dateString);
+      const dayOfWeek = getDayOfWeek(selectedDate);
+      console.log(dayOfWeek);
       const predictionInput = {
         spotId: spotInfo.spotId,
         latitude: spotInfo.latitude,
@@ -189,7 +215,12 @@ export default function Spot(
         <nav className= " border-gray-200 bg-zinc-800">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-3 px-8">
             <div className="flex flex-row items-center">
-              <Link href="/" className="flex items-center">
+              <MdKeyboardArrowLeft 
+                size={30} 
+                color="white"
+                onClick={() => router.back()} 
+              />
+              <Link href="/" className="flex items-center ml-5">
                 <Image src={'/logos/spotlite-icon.png'} alt="logo" width={30} height={30} />
               </Link>
             </div>

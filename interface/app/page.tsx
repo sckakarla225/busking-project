@@ -107,28 +107,6 @@ export default function Home() {
     return `${dateParts[0]}/${dateParts[1]}/${yearShort < 10 ? '0' + yearShort : yearShort}`;
   }
 
-  // const getCurrentDate = (): { dateString: string, dayOfWeek: string } => {
-  //   const currentDate = new Date();
-  //   const daysOfWeek: string[] = [
-  //     'Sunday',
-  //     'Monday',
-  //     'Tuesday',
-  //     'Wednesday',
-  //     'Thursday',
-  //     'Friday',
-  //     'Saturday',
-  //   ];
-
-  //   const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
-  //   const month = String(currentDate.getMonth() + 1);
-  //   const day = String(currentDate.getDate());
-  //   const year = String(currentDate.getFullYear()).slice(-2);
-
-  //   const dateString = `${month}/${day}/${year}`;
-  //   console.log(dateString);
-  //   return { dateString, dayOfWeek };
-  // };
-
   const logTimeToAnalytics = () => {
     if (selectedTime) {
       logTimeViewed(userId, selectedTime);

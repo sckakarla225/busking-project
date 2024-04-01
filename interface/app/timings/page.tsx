@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { 
   Navbar, 
@@ -16,8 +15,6 @@ import { useAppSelector, AppDispatch } from '@/redux/store';
 import { SPOTS_TIME_SLOTS_OPTIONS } from '@/constants';
 
 export default function TimingsList() {
-  const dispatch = useDispatch<AppDispatch>();
-
   const allSpots = useAppSelector((state) => state.spots.spots);
   const [loading, setLoading] = useState(false);
   const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>([]);

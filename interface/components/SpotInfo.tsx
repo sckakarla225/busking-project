@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
 
-import { reserveSpot, updateRecentSpots } from '@/api';
 import { 
-  updateCurrentSpot, 
-  updateRecentSpots as ReduxUpdateRecentSpots
-} from '@/redux/reducers/performer';
-import { useAppSelector, AppDispatch } from '@/redux/store';
+  reserveTimeSlot,
+  getTimeSlots
+} from '@/api';
+import { useAppSelector } from '@/redux/store';
 import { logSpotReserved } from '@/firebase/analytics';
 
 interface SpotInfoProps {
@@ -39,21 +36,10 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   startLoading,
   stopLoading
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
   const userId = useAppSelector((state) => state.auth.userId);
+  const selectedDate = useAppSelector((state) => state.spots.selectedDate);
   const [reservedFrom, setReservedFrom] = useState<string>(startTime);
   const [reservedTo, setReservedTo] = useState<string>('');
-
-  const getCurrentDate = (): string => {
-    const currentDate = new Date();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const year = currentDate.getFullYear();
-
-    const dateString = `${month}/${day}/${year}`;
-    console.log(dateString);
-    return dateString;
-  }
 
   const getDefaultEndTime = (startTime: string): string => {
     const [time, period] = startTime.split(' ');
@@ -75,77 +61,48 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
     return `${hours}:${minutes.toString().padStart(2, '0')} ${newPeriod}`;
   }
 
-  const generateTimeOptions = (): string[] => {
-    const times: string[] = [];
-    for (let hour = 6; hour <= 23; hour++) {
-      const hourToShow = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-      times.push(`${hourToShow}:00 ${hour < 12 || hour === 24 ? 'AM' : 'PM'}`);
-    }
-    return times;
-  };
-
-  const saveToRecentSpots = async () => {
-    const updatedRecentSpots = await updateRecentSpots(userId, spotId, name, region);
-    if (updatedRecentSpots.success) {
-      const userInfo = updatedRecentSpots.data;
-      const recentSpots = userInfo.recentSpots;
-      dispatch(ReduxUpdateRecentSpots({ recentSpots: recentSpots }));
-    };
-  }
-
   const makeReservation = async () => {
     startLoading();
-
-    if (!availability) {
-      stopLoading();
-      openErrorPopup();
-      return
-    };
-
-    if (
-      latitude && 
-      longitude &&
-      reservedFrom !== '' &&
-      reservedTo !== ''
-    ) {
-      const reservationStatus = await reserveSpot(
-        userId,
-        spotId,
-        name,
-        region,
-        latitude,
-        longitude,
-        reservedFrom,
-        reservedTo
-      );
-      if (reservationStatus.success) {
-        console.log(reservationStatus.data);
-        const currentSpotData = reservationStatus.data.currentSpot;
-        const currentSpot = {
-          spotId: currentSpotData.spotId,
-          name: currentSpotData.name,
-          region: currentSpotData.region,
-          latitude: currentSpotData.latitude,
-          longitude: currentSpotData.longitude,
-          reservedFrom: currentSpotData.reservedFrom,
-          reservedTo: currentSpotData.reservedTo,
-        };
-        dispatch(updateCurrentSpot({ currentSpot: currentSpot }));
-        saveToRecentSpots();
-        logSpotReserved(spotId);
-        stopLoading();
-        openSuccessPopup();
+    let timeSlotId;
+    const timeSlotsData = await getTimeSlots();
+    if (timeSlotsData.success) {
+      const allSlots = timeSlotsData.data;
+      const timeSlot = allSlots.find((slot: any) => {
+        let convertedTime = new Date(slot.startTime);
+        convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+        const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+        console.log(formattedTime);
+        if (
+          slot.spotId === spotId &&
+          formattedTime === startTime &&
+          slot.date === selectedDate
+        ) {
+          return slot;
+        }
+      });
+      console.log(timeSlot);
+      if (timeSlot) {
+        timeSlotId = timeSlot.timeSlotId;
       } else {
         stopLoading();
         openErrorPopup();
       }
+    };
+
+    const reserveTimeSlotRes = await reserveTimeSlot(timeSlotId, userId);
+    if (reserveTimeSlotRes.success) {
+      logSpotReserved(spotId);
+      stopLoading();
+      openSuccessPopup();
     } else {
       stopLoading();
       openErrorPopup();
-    };
+    }
   };
-
-  const timeOptions = generateTimeOptions();
 
   useEffect(() => {
     startLoading();
@@ -185,43 +142,31 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
         </div>
         <div className="flex flex-col w-1/3">
           <h1 className="text-black font-eau-light text-xs">Date:</h1>
-          <h1 className="text-black font-eau-medium text-sm mt-1">{getCurrentDate()}</h1>
+          <h1 className="text-black font-eau-medium text-sm mt-1">{selectedDate}</h1>
         </div>
       </div>
       <div className="flex flex-col mt-4">
-        <h1 className="text-black font-eau-light text-xs">Reservation Time:</h1>
+        <h1 className="text-black font-eau-light text-xs">Booking Time:</h1>
         <div className="flex flex-row justify-between items-center mt-2">
-          <div className="inline-block relative w-52">
-            <select
-              className="block appearance-none text-xs font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              value={reservedFrom}
-              onChange={(e) => setReservedFrom(e.target.value)}
-            >
-              {timeOptions.map((time, index) => (
-                <option key={index} value={time}>{time}</option>
-              ))}
-            </select>
+          <div className="inline-block relative w-40">
+            <div className="py-2 px-2 bg-slate-200 border-2 border-slate-300 border-opacity-50 flex flex-row items-center justify-center rounded-md">
+              <h1 className="text-black font-semibold text-xs">{reservedFrom}</h1>
+            </div>
           </div>
           <h1 className="text-black font-eau-medium text-xs px-2">TO</h1>
-          <div className="inline-block relative w-52">
-            <select
-              className="block appearance-none text-xs font-medium w-full bg-white border border-slate-100 hover:border-slate-200 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              value={reservedTo}
-              onChange={(e) => setReservedTo(e.target.value)}
-            >
-              {timeOptions.map((time, index) => (
-                <option key={index} value={time}>{time}</option>
-              ))}
-            </select>
+          <div className="inline-block relative w-40">
+            <div className="py-2 px-2 bg-slate-200 border-2 border-slate-300 border-opacity-50 flex flex-row items-center justify-center rounded-md">
+              <h1 className="text-black font-semibold text-xs">{reservedTo}</h1>
+            </div>
           </div>
         </div>
       </div>
       <div>
         <button 
-          className=" hover:bg-opacity-80 bg-spotlite-dark-purple text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+          className=" hover:bg-opacity-80 bg-spotlite-orange text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
           onClick={makeReservation}
         >
-          Reserve
+          Sign Up
         </button>
       </div>
     </div>
