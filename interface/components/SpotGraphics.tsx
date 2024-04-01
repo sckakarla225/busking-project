@@ -57,7 +57,6 @@ const SpotGraphics: React.FC<SpotGraphicsProps> = ({
           src={`/videos/${spotId}.mp4`}
           className="absolute top-0 left-0 w-full h-full object-cover"
           muted
-          autoPlay
           playsInline
         />
         <div className={`
