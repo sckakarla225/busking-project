@@ -70,7 +70,6 @@ const reserveTimeSlot = async (req: Request, res: Response) => {
       if (timeSlot) {
         timeSlot.performerId = String(performerId);
         await timeSlot.save();
-        // TODO: Update user reservations here
         res.status(201).send(timeSlot);
       } else {
         res.status(404).send("Time slot not found.");
@@ -97,7 +96,6 @@ const freeTimeSlot = async (req: Request, res: Response) => {
       if (timeSlot) {
         timeSlot.performerId = undefined;
         await timeSlot.save();
-        // TODO: Update user reservations here
         res.status(201).send(timeSlot);
       } else {
         res.status(404).send("Time slot not found.");
