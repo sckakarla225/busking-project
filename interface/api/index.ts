@@ -15,6 +15,11 @@ import {
   predictSpot,
   predictSpots
 } from './predictions';
+import {
+  getTimeSlots,
+  reserveTimeSlot,
+  cancelTimeSlot
+} from './timeslots';
 
 export {
   getUser,
@@ -27,5 +32,8 @@ export {
   reserveSpot,
   leaveSpot,
   predictSpot,
-  predictSpots
+  predictSpots,
+  getTimeSlots,
+  reserveTimeSlot,
+  cancelTimeSlot
 };

@@ -14,7 +14,6 @@ export interface CreateUser {
   userId: string,
   email: string,
   name: string,
-  performanceStyles: string[]
 };
 
 export interface SocialMediaHandle {
@@ -61,6 +60,12 @@ export interface LeaveSpot {
   spotId: string,
   reservationId: string
 };
+
+// Time Slots
+export interface EditTimeSlot {
+  timeSlotId: string,
+  performerId: string
+}
 
 // Predictions
 export interface PredictionInput {

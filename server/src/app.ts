@@ -8,6 +8,7 @@ import { swaggerSpec } from './swagger';
 import usersRouter from './routes/user';
 import spotsRouter from './routes/spots';
 import predictionsRouter from './routes/predictions';
+import timeSlotsRouter from './routes/time-slots';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/users', usersRouter);
 app.use('/spots', spotsRouter);
 app.use('/predictions', predictionsRouter);
+app.use('/time-slots', timeSlotsRouter);
 
 app.post('/test', (req, res) => {
     res.status(200).send('POST request to the homepage');

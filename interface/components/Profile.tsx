@@ -177,7 +177,6 @@ const Profile: React.FC<ProfileProps> = ({
                   <Link href={`/spot/${currentSpot.spotId}`}>
                     <button 
                       className="text-black font-eau-medium text-xs rounded-md bg-slate-100 border-2 border-slate-200 px-2 py-2 mr-4 cursor-pointer"
-                      
                     >
                       <div className="flex flex-row items-center">
                         <FaStreetView size={15} color="black" />

@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoEyeSharp } from 'react-icons/io5';
-import { MdKeyboardArrowDown } from 'react-icons/md';
 
 import { auth } from '../../firebase/firebaseConfig';
 import { AppDispatch } from '@/redux/store';
@@ -26,43 +25,8 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const options: string[] = [
-    'Singing', 
-    'Guitar', 
-    'Drums',
-    'Keyboard',
-    'Violin',
-    'Saxophone',
-    'Harmonica',
-    'Banjo',
-    'Fiddle',
-    'Organ',
-    'Jazz',
-    'Mandola',
-    'Sound Mixing',
-    'Looping',
-    'Painting & Art',
-    'Games'
-  ]
-
-  const handleSelection = (item: string) => {
-    setSelectedItems((prevSelectedItems: any) => {
-      if (prevSelectedItems.includes(item)) {
-        return prevSelectedItems.filter((currentItem: any) => currentItem !== item);
-      } 
-      else if (prevSelectedItems.length < 3) {
-        return [...prevSelectedItems, item];
-      } 
-      else {
-        return prevSelectedItems;
-      }
-    });
-  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,31 +41,40 @@ export default function Register() {
         const userInfo = await createUser(
           newUser.uid,
           newUser.email,
-          name,
-          selectedItems
+          name
         );
         if (userInfo.success) {
           const name = userInfo.data.name;
           const dateJoined = userInfo.data.dateJoined;
-          const performanceStyles = userInfo.data.performanceStyles;
           const recentSpots = userInfo.data.recentSpots;
           const currentSpot = userInfo.data.currentSpot;
+          const setupComplete = userInfo.data.setupComplete;
           dispatch(loadUser({
             name: name,
             dateJoined: dateJoined,
-            performanceStyles: performanceStyles,
+            setupComplete: setupComplete,
             recentSpots: recentSpots,
             currentSpot: currentSpot
           }));
-        };
-        const spots = await getSpots();
-        if (spots.success) {
-          dispatch(loadSpots({ spots: spots.data }));
+          const spots = await getSpots();
+          if (spots.success) {
+            dispatch(loadSpots({ spots: spots.data }));
+          };
+          if (!setupComplete) {
+            setLoading(false);
+            router.push('/setup');
+          } else {
+            setLoading(false);
+            router.push('/');
+          }
+        } else {
+          setLoading(false);
+          setError('Unknown error. Please try again later.');
+          dispatch(logout());
+          dispatch(resetUser());
+          dispatch(resetSpots());
         }
       };
-
-      setLoading(false);
-      router.push('/');
     } catch (error: any) {
       setLoading(false);
       switch (error.code) {
@@ -184,57 +157,6 @@ export default function Register() {
                 >
                   <IoEyeSharp size={20} />
                 </button>
-              </div>
-            </div>
-            <div className="flex flex-row mb-2 mt-2 items-center">
-              <h1 className="font-eau-medium text-black text-sm">What do you perform?</h1>
-              <p className="font-eau-regular text-black text-xs ml-2">(Select up to 3)</p>
-            </div>
-            <div className="relative">
-              <div className="shadow appearance-none border bg-gray-100 rounded w-full py-3 px-3 text-gray-700 italic leading-tight focus:outline-none focus:shadow-outline">
-                {selectedItems.length !== 0 ? (
-                  <div className="flex flex-row flex-wrap w-3/4">
-                    {selectedItems.map((item: any, index) => (
-                      <div key={index} className="rounded bg-spotlite-dark-purple py-2 px-3 ml-2 w-auto mb-2">
-                        <h1 className="text-xs text-white font-medium">{item}</h1>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <>
-                    <h1 className="text-gray-700 italic text-xs">None Selected</h1>
-                  </>
-                )}
-              </div>
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                <button
-                  type="button"
-                  className="text-gray-600 hover:text-gray-800 focus:outline-none"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  data-dropdown-toggle="dropdownDefaultCheckbox"
-                >
-                  <MdKeyboardArrowDown size={20} />
-                </button>
-              </div>
-              <div 
-                className="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-                hidden={!showDropdown}
-              >
-                <div className="px-4 flex flex-col" role="menu" aria-orientation="vertical">
-                  {options.map((option: string, index) => (
-                    <div key={index} className="flex flex-row justify-between items-center py-3">
-                      <div className="block text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-                        {option}
-                      </div>
-                      <input 
-                        type="checkbox"
-                        checked={selectedItems.includes(option)}
-                        onChange={() => handleSelection(option)}
-                        className="form-checkbox text-base h-4 w-4 text-spotlite-orange"
-                      />
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
             <button 

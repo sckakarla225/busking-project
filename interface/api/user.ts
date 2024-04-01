@@ -40,13 +40,11 @@ const createUser = async (
   userId: string,
   email: string,
   name: string,
-  performanceStyles: string[]
 ) => {
   const newUser: CreateUser = {
     userId: userId,
     email: email,
-    name: name,
-    performanceStyles: performanceStyles
+    name: name
   };
 
   try {

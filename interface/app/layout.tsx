@@ -7,8 +7,8 @@ import { ReduxProvider } from '@/redux/provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Spotlite',
-  description: 'Busking platform for downtowns',
+  title: 'Spotlite - Discover the best spots for street performing in real-time',
+  description: 'A busking platform for downtowns',
 }
 
 export default function RootLayout({

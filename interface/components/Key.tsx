@@ -10,11 +10,11 @@ const Key: React.FC<KeyProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute right-5 ml-40 h-64 top-36 inset-0 z-20 flex flex-col px-4 py-3 bg-spotlite-light-purple border-2 border-spotlite-light-purple border-opacity-80 rounded-md">
+    <div className="absolute right-5 ml-40 h-48 top-36 inset-0 z-20 flex flex-col px-4 py-3 bg-spotlite-light-purple border-2 border-spotlite-light-purple border-opacity-80 rounded-md">
       <div className="flex flex-row justify-end">
         <LiaTimesSolid size={15} color="black" onClick={onClose} />
       </div>
-      <div className="flex flex-row items-center mt-2">
+      {/* <div className="flex flex-row items-center mt-2">
         <h1 className="text-white font-eau-bold text-xs">Spot Size:</h1>
         <div className="flex flex-row items-end ml-3">
           <div className="flex flex-col justify-center items-center">
@@ -30,7 +30,7 @@ const Key: React.FC<KeyProps> = ({ isOpen, onClose }) => {
             <h1 className="text-white font-semibold mt-1 text-xs">3</h1>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="flex flex-row items-center mt-7">
         <h1 className="text-white font-eau-bold text-xs">Spot Availability:</h1>
         <div className="flex flex-row items-center ml-3">
