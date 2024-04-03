@@ -101,6 +101,14 @@ export default function Home() {
     return daysOfWeek[date.getDay()];
   };
 
+  function getDayOfWeekShort(dateStr: string): string {
+    const daysOfWeek = [
+      'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
+    ];
+    const date = new Date(dateStr);
+    return daysOfWeek[date.getDay()];
+  };
+
   function reformatDateString(dateStr: string): string {
     const dateParts = dateStr.split('/').map(part => parseInt(part, 10));
     const yearShort = dateParts[2] % 100;
@@ -260,7 +268,9 @@ export default function Home() {
               onChange={(e) => setSelectedDate(e.target.value)}
             >
               {getNextSevenDays().map(date => (
-                <option key={date} value={date}>{date}</option>
+                <option key={date} value={date}>
+                  {getDayOfWeekShort(date + '/2024')} - {date}
+                </option>
               ))}
             </select>
           </div>

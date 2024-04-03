@@ -57,7 +57,6 @@ export default function Profile() {
       const userReservations: Reservation[] = [];
       if (timeSlotsData.success) {
         const timeSlots = timeSlotsData.data;
-        console.log(timeSlots);
         timeSlots.map((timeSlot: any) => {
           if (timeSlot.performerId && timeSlot.performerId === userId) {
             const spotInfo = allSpots.find((spot) => spot.spotId === timeSlot.spotId);
@@ -172,17 +171,26 @@ export default function Profile() {
             <div className="flex flex-row items-center mb-3">
               <h1 className="text-black font-eau-regular text-sm">My Social Media</h1>
             </div>
-            {socialMediaHandles.map((handle, index) => {
-              const IconComponent = iconMap[handle.platform as PlatformType];
-              return (
-                <div className="flex flex-row items-center mb-2" key={index}>
-                  <div className="flex flex-row items-center justify-center p-2 rounded-md bg-spotlite-light-purple">
-                    <IconComponent size={20} color="white" />
-                  </div>
-                  <h1 className="ml-3 font-eau-medium text-sm">@{handle.handle}</h1>
-                </div>
-              )
-            })}
+            {socialMediaHandles.length !== 0 ? (
+              <>
+                {socialMediaHandles.map((handle, index) => {
+                  const IconComponent = iconMap[handle.platform as PlatformType];
+                  return (
+                    <div className="flex flex-row items-center mb-2" key={index}>
+                      <div className="flex flex-row items-center justify-center p-2 rounded-md bg-spotlite-light-purple">
+                        <IconComponent size={20} color="white" />
+                      </div>
+                      <h1 className="ml-3 font-eau-medium text-sm">@{handle.handle}</h1>
+                    </div>
+                  )
+                })}
+              </>
+            ) : (
+              <>
+                <h1 className="text-base font-eau-medium text-black">None</h1>
+              </>
+            )}
+            
           </div>
         </section>
       </main>

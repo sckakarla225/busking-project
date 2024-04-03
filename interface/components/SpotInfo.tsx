@@ -76,7 +76,6 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
           minute: '2-digit',
           hour12: true
         });
-        console.log(formattedTime);
         if (
           slot.spotId === spotId &&
           formattedTime === startTime &&
@@ -85,7 +84,6 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
           return slot;
         }
       });
-      console.log(timeSlot);
       if (timeSlot) {
         timeSlotId = timeSlot.timeSlotId;
       } else {
