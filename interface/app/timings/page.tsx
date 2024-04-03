@@ -69,7 +69,6 @@ export default function TimingsList() {
     };
 
     const activityLevel = await predictSpot(predictionInput);
-    console.log(activityLevel);
     let activityLevelNum: number;
     switch (activityLevel.data) {
       case "Low":
@@ -113,8 +112,12 @@ export default function TimingsList() {
                 minute: '2-digit',
                 hour12: true
               });
-              const activityLevel = await getPrediction(spotInfo, formattedTime, timeSlot.date);
-              console.log(activityLevel);
+              const formattedDate = new Date(timeSlot.date).toLocaleDateString(
+                'en-US', 
+                { year: '2-digit', month: 'numeric', day: 'numeric' }
+              );
+
+              const activityLevel = await getPrediction(spotInfo, formattedTime, formattedDate);
               timeSlot.startTime = formattedTime;
               timeSlot.endTime = formattedEndTime;
               const formattedTimeSlot = { ...timeSlot, activityLevel: activityLevel };

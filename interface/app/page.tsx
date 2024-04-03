@@ -17,7 +17,7 @@ import {
 } from '../components';
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { changeSelectedTime, changeSelectedDate } from '@/redux/reducers/spots';
-import { predictSpots } from '@/api';
+import { predictSpots, getTimeSlots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
 import { 
   logViewMapPage, 
@@ -130,12 +130,14 @@ export default function Home() {
     setLoading(true);
     const setupPredictions = async (predictionInputs: any[], processedSpots: any[]) => {
       const predictions = await predictSpots(predictionInputs);
+      const timeSlots = await getTimeSlots();
       
       if (predictions.data) {
         predictions.data.map((prediction: any) => {
           const parts = prediction.predictionKey.split("||");
           const spotId = parts[0];
           const spotToUpdate = processedSpots.find((spot) => spot.spotId === spotId);
+          
           if (spotToUpdate) {
             let activityLevel: number;
             switch (prediction.predictionValue) {
@@ -152,11 +154,39 @@ export default function Home() {
                 activityLevel = 0;
             };
             spotToUpdate.activity = activityLevel;
-          }
+          };
+
+          if (timeSlots.success && spotToUpdate) {
+            const slots = timeSlots.data;
+            let isAvailable = false;
+            slots.map((slot: any) => {
+              let convertedTime = new Date(slot.startTime);
+              convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+              const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              const formattedDate = selectedDate + '/2024';
+              if (!slot.performerId && spotToUpdate.activity !== 1) {
+                isAvailable = true;
+              };
+              // if (
+              //   spotToUpdate.spotId === slot.spotId &&
+              //   selectedTime === formattedTime &&
+              //   formattedDate === slot.date
+              // ) {
+              //   console.log(spotToUpdate.activityLevel);
+              //   if (!slot.performerId) {
+              //     isAvailable = true;
+              //   }
+              // };
+            });
+            spotToUpdate.availability = isAvailable;
+          };
         })
       };
 
-      console.log(processedSpots);
       return processedSpots;
     }
 
@@ -165,30 +195,11 @@ export default function Home() {
     if (selectedTime && selectedDate !== '') {
       const dateString = selectedDate + '/2024';
       const formattedDateString = reformatDateString(dateString);
-      console.log(formattedDateString);
       const dayOfWeek = getDayOfWeek(dateString);
       dispatch(changeSelectedTime({ selectedTime: selectedTime }));
       dispatch(changeSelectedDate({ selectedDate: dateString }));
       spotsInfo.map((spotInfo) => {
-        let isReserved = false;
-        spotInfo.reservations.map((reservation) => {
-          const startTime = new Date(reservation.startTime);
-          const endTime = new Date(reservation.endTime);
-
-          const spotReserved = checkTimeWithinReservation(
-            startTime, 
-            endTime, 
-            selectedTime
-          );
-          if (spotReserved) {
-            isReserved = true;
-          }
-        });
-
-        const processedSpot = {
-          ...spotInfo,
-          availability: !isReserved,
-        };
+        const processedSpot = { ...spotInfo };
         const predictionInput = {
           spotId: spotInfo.spotId,
           latitude: spotInfo.latitude,

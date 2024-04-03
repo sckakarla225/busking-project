@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 import { 
   reserveTimeSlot,
@@ -162,12 +163,26 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
         </div>
       </div>
       <div>
-        <button 
-          className=" hover:bg-opacity-80 bg-spotlite-orange text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
-          onClick={makeReservation}
-        >
-          Sign Up
-        </button>
+        {availability ? (
+          <button 
+            className=" hover:bg-opacity-80 bg-spotlite-orange text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+            onClick={makeReservation}
+          >
+            Sign Up
+          </button>
+        ) : (
+          <div className="flex flex-row items-center justify-between w-full mt-10">
+            <h1 className="text-black text-base font-eau-medium">Unavailable.</h1>
+            <Link href="/timings">
+              <button 
+                className="hover:bg-opacity-80 bg-spotlite-dark-purple text-white text-sm font-eau-heavy py-2 px-3 rounded-md focus:outline-none focus:shadow-outline"
+                onClick={makeReservation}
+              >
+                View Time Slots
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )

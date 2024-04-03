@@ -19,7 +19,7 @@ import {
   Loading 
 } from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
-import { predictSpot } from '@/api';
+import { predictSpot, getTimeSlots } from '@/api';
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { logout } from '@/redux/reducers/auth';
 import { resetUser } from '@/redux/reducers/performer';
@@ -45,51 +45,6 @@ export default function Spot(
   const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
   const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  function convertTime12to24(time12h: string): [number, number] {
-    const [time, modifier] = time12h.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
-    if (modifier === 'PM' && hours !== 12) {
-      hours += 12;
-    } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
-    }
-  
-    return [hours, minutes];
-  }
-
-  function checkTimeWithinReservation(startTime: Date, endTime: Date, givenTime: string): boolean {
-      const givenDateTime = new Date(
-        startTime.getFullYear(),
-        startTime.getMonth(),
-        startTime.getDate(),
-        ...convertTime12to24(givenTime)
-      );
-
-      return givenDateTime >= startTime && givenDateTime <= endTime;
-  }
-
-  const getCurrentDate = (): { dateString: string, dayOfWeek: string } => {
-    const currentDate = new Date();
-    const daysOfWeek: string[] = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ];
-
-    const dayOfWeek: string = daysOfWeek[currentDate.getDay()];
-    const month = String(currentDate.getMonth() + 1);
-    const day = String(currentDate.getDate());
-    const year = String(currentDate.getFullYear()).slice(-2);
-
-    const dateString = `${month}/${day}/${year}`;
-    console.log(dateString);
-    return { dateString, dayOfWeek };
-  };
 
   function getDayOfWeek(dateStr: string): string {
     const daysOfWeek = [
@@ -128,11 +83,39 @@ export default function Spot(
   useEffect(() => {
     setLoading(true);
 
+    const checkTimeSlots = async (spotId: string) => {
+      const timeSlots = await getTimeSlots();
+      let isAvailable = false;
+
+      if (timeSlots.success) {
+        const slots = timeSlots.data;
+        slots.map((slot: any) => {
+          let convertedTime = new Date(slot.startTime);
+          convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+          const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          });
+          const formattedDate = selectedDate;
+          if (
+            spotId === slot.spotId &&
+            selectedTime === formattedTime &&
+            formattedDate === slot.date
+          ) {
+            console.log(isAvailable);
+            if (!slot.performerId) {
+              isAvailable = true;
+            }
+          };
+        });
+      };
+      return isAvailable;
+    }
+
     const getPrediction = async (spotInfo: any) => {
       const dateString = reformatDateString(selectedDate);
-      console.log(dateString);
       const dayOfWeek = getDayOfWeek(selectedDate);
-      console.log(dayOfWeek);
       const predictionInput = {
         spotId: spotInfo.spotId,
         latitude: spotInfo.latitude,
@@ -143,7 +126,6 @@ export default function Spot(
       };
 
       const activityLevel = await predictSpot(predictionInput);
-      console.log(activityLevel);
       let activityLevelNum: number;
       switch (activityLevel.data) {
         case "Low":
@@ -170,22 +152,21 @@ export default function Spot(
         setSpotRegion(spotInfo.region);
         setSpotLatitude(spotInfo.latitude);
         setSpotLongitude(spotInfo.longitude);
-        let isReserved = false;
-        spotInfo.reservations.map((reservation) => {
-          const startTime = new Date(reservation.startTime);
-          const endTime = new Date(reservation.endTime);
-          const spotReserved = checkTimeWithinReservation(
-            startTime, 
-            endTime, 
-            selectedTime
-          );
-          if (spotReserved) {
-            isReserved = true;
-          }
-        });
-        setSpotAvailability(!isReserved);
+
         getPrediction(spotInfo)
           .then((activityLevelNum: number) => {
+            if (activityLevelNum == 1) {
+              setSpotAvailability(false);
+            } else {
+              checkTimeSlots(spotInfo.spotId)
+                .then((isAvailable: boolean) => {
+                  setSpotAvailability(isAvailable);
+                })
+                .catch(() => {
+                  setActivityLevel(activityLevelNum);
+                  setLoading(false);
+                });
+            }
             setActivityLevel(activityLevelNum);
             setLoading(false);
           })
