@@ -11,7 +11,7 @@ import {
 } from '@/components';
 import { TimeSlot } from '../types';
 import { getTimeSlots, predictSpot } from '@/api';
-import { useAppSelector, AppDispatch } from '@/redux/store';
+import { useAppSelector } from '@/redux/store';
 import { SPOTS_TIME_SLOTS_OPTIONS } from '@/constants';
 
 export default function TimingsList() {
@@ -87,14 +87,13 @@ export default function TimingsList() {
     return activityLevelNum;
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     setLoading(true);
     const setupTimeSlots = async () => {
       const timeSlotsData = await getTimeSlots();
-      const formattedTimeSlots: TimeSlot[] = [];
       if (timeSlotsData.success) {
         const timeSlots = timeSlotsData.data;
-        timeSlots.map(async (timeSlot: any) => {
+        const promises = timeSlots.map(async (timeSlot: any) => {
           if (!timeSlot.performerId) {
             const spotInfo = allSpots.find((spot) => spot.spotId === timeSlot.spotId);
             if (spotInfo) {
@@ -118,19 +117,32 @@ export default function TimingsList() {
               );
 
               const activityLevel = await getPrediction(spotInfo, formattedTime, formattedDate);
-              timeSlot.startTime = formattedTime;
-              timeSlot.endTime = formattedEndTime;
-              const formattedTimeSlot = { ...timeSlot, activityLevel: activityLevel };
-              formattedTimeSlots.push(formattedTimeSlot);
+              return { 
+                ...timeSlot, 
+                startTime: formattedTime, 
+                endTime: formattedEndTime, 
+                activityLevel: activityLevel 
+              };
             };
+          } else {
+            return null;
           }
         });
-        setAllTimeSlots(formattedTimeSlots);
+
+        const resolvedTimeSlots = (await Promise.all(promises)).filter(ts => ts !== null);
+        setAllTimeSlots(resolvedTimeSlots);
+        const currDate = new Date().toLocaleDateString(
+          'en-US', 
+          { 
+            month: '2-digit', day: '2-digit' 
+          }).slice(0, 5);
+        const filtered = resolvedTimeSlots.filter(timeSlot => timeSlot.date === currDate + '/2024');
+        setFilteredTimeSlots(filtered);
       }
+      setLoading(false);
     };
 
     setupTimeSlots()
-      .then(() => setLoading(false))
       .catch((error) => console.log(error));
   }, []);
 

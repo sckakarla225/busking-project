@@ -1,8 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { FaStreetView } from 'react-icons/fa';
 
 import { useAppSelector } from '@/redux/store';
+import { changeSelectedDate, changeSelectedTime } from '@/redux/reducers/spots';
 import { reserveTimeSlot } from '@/api';
 
 interface TimeSlotViewProps {
@@ -30,6 +32,8 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
   reserveSuccess,
   reserveFail
 }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const userId = useAppSelector((state) => state.auth.userId);
 
   const reserve = async () => {
@@ -41,6 +45,12 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
     }
   };
 
+  const viewSpot = async () => {
+    dispatch(changeSelectedDate({ selectedDate: date }));
+    dispatch(changeSelectedTime({ selectedTime: startTime }));
+    router.push(`/spot/${spotId}`)
+  }
+
   return (
     <div className="w-full bg-slate-50 px-5 py-4 rounded-md mb-4">
       <div className="flex flex-row justify-between">
@@ -48,14 +58,15 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
           <h1 className="font-eau-bold text-sm">{spotName}</h1>
           <h1 className="font-eau-light text-xs mt-2">{spotRegion}</h1>
         </div>
-        <Link href={`/spot/${spotId}`}>
-          <button className="text-white font-semibold text-xs rounded-md bg-spotlite-dark-purple border-2 border-spotlite-dark-purple border-opacity-80 px-1 py-1 mt-4 flex flex-row justify-center w-10">
-            <FaStreetView 
-              size={15} 
-              color="white"
-            />
-          </button>
-        </Link>
+        <button 
+          className="text-white font-semibold text-xs rounded-md bg-spotlite-dark-purple border-2 border-spotlite-dark-purple border-opacity-80 px-1 py-1 mt-4 flex flex-row justify-center w-10"
+          onClick={() => viewSpot()}
+        >
+          <FaStreetView 
+            size={15} 
+            color="white"
+          />
+        </button>
       </div>
       <h1 className="text-black font-eau-medium text-xs mt-4">Date: {date}</h1>
       <div className="flex flex-row items-center justify-between space-x-2 mt-3">
