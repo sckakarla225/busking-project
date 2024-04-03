@@ -207,7 +207,6 @@ export default function SetupPerformer() {
     setNoEquipmentCheck(event.target.checked);
   };
 
-  // TODO: Handle disabling going to next step
   const checkCanProceed = () => {
     if (currentStep == 2) {
       if (noEquipmentCheck) {
@@ -224,7 +223,14 @@ export default function SetupPerformer() {
         }
       }
     } else if (currentStep == 1) {
-      
+      if (
+        selectedStyles.length !== 0 &&
+        performerDescription !== ''
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return true;
     }
@@ -461,10 +467,11 @@ export default function SetupPerformer() {
             <button 
               type="submit"
               className={`
-                text-sm hover:bg-opacity-80 bg-spotlite-dark-purple text-white py-3 px-8 rounded focus:outline-none focus:shadow-outline mt-5 font-eau-bold
-                ${!checkCanProceed() ? 'disabled': ''}
+                text-sm bg-spotlite-dark-purple text-white py-3 px-8 rounded focus:outline-none focus:shadow-outline mt-5 font-eau-bold
+                ${!checkCanProceed() ? 'opacity-60 cursor-not-allowed': 'hover:bg-opacity-80 cursor-pointer'}
               `}
               onClick={goToNextStep}
+              disabled={!checkCanProceed()}
             >
               {currentStep == 3 ? 'Finish' : 'Next'}
             </button>
