@@ -1,6 +1,7 @@
 import firebase_admin
 import random
 import datetime
+from datetime import datetime
 from firebase_admin import credentials
 from firebase_admin import firestore, storage
 
@@ -131,3 +132,12 @@ def get_spot_media(spot_id):
         files_urls[blob.name] = url
     
     return files_urls
+
+def create_timeslots(timeslots):
+    timeslots_ref = db.collection('time-slots')
+    for timeslot in timeslots:
+        date_string = timeslot['date']
+        date_obj = datetime.strptime(date_string, '%m/%d/%y')
+        new_date_string = date_obj.strftime('%m/%d/%Y')
+        timeslot['date'] = new_date_string
+        timeslots_ref.add(timeslot)

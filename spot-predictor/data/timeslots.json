@@ -1,0 +1,962 @@
+[
+    {
+        "spotName": "Courthouse Plaza",
+        "spotId": "RKhtn3Gr3WYmf4cyaaTT",
+        "date": "4/3/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Courthouse Plaza",
+        "spotId": "RKhtn3Gr3WYmf4cyaaTT",
+        "date": "4/4/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Courthouse Plaza",
+        "spotId": "RKhtn3Gr3WYmf4cyaaTT",
+        "date": "4/5/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Courthouse Plaza",
+        "spotId": "RKhtn3Gr3WYmf4cyaaTT",
+        "date": "4/6/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Courthouse Plaza",
+        "spotId": "RKhtn3Gr3WYmf4cyaaTT",
+        "date": "4/7/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Courthouse Plaza",
+        "spotId": "RKhtn3Gr3WYmf4cyaaTT",
+        "date": "4/8/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Lichtin Plaza",
+        "spotId": "FGKLt0f9HR0f3pPGZZYN",
+        "date": "4/3/24",
+        "startTime": "9:00 AM",
+        "endTime": "10:00 AM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Lichtin Plaza",
+        "spotId": "FGKLt0f9HR0f3pPGZZYN",
+        "date": "4/4/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Lichtin Plaza",
+        "spotId": "FGKLt0f9HR0f3pPGZZYN",
+        "date": "4/5/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Lichtin Plaza",
+        "spotId": "FGKLt0f9HR0f3pPGZZYN",
+        "date": "4/6/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Lichtin Plaza",
+        "spotId": "FGKLt0f9HR0f3pPGZZYN",
+        "date": "4/7/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Lichtin Plaza",
+        "spotId": "FGKLt0f9HR0f3pPGZZYN",
+        "date": "4/8/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Raleigh Convention Center",
+        "spotId": "zCwOtcmTUaZ05EoPbRaM",
+        "date": "4/3/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Raleigh Convention Center",
+        "spotId": "zCwOtcmTUaZ05EoPbRaM",
+        "date": "4/4/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Raleigh Convention Center",
+        "spotId": "zCwOtcmTUaZ05EoPbRaM",
+        "date": "4/5/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Raleigh Convention Center",
+        "spotId": "zCwOtcmTUaZ05EoPbRaM",
+        "date": "4/6/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Raleigh Convention Center",
+        "spotId": "zCwOtcmTUaZ05EoPbRaM",
+        "date": "4/7/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Raleigh Convention Center",
+        "spotId": "zCwOtcmTUaZ05EoPbRaM",
+        "date": "4/8/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "The Acorn",
+        "spotId": "XMo7AYD1SHKkPSdnWRXe",
+        "date": "4/3/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "The Acorn",
+        "spotId": "XMo7AYD1SHKkPSdnWRXe",
+        "date": "4/4/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "The Acorn",
+        "spotId": "XMo7AYD1SHKkPSdnWRXe",
+        "date": "4/5/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "The Acorn",
+        "spotId": "XMo7AYD1SHKkPSdnWRXe",
+        "date": "4/6/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "The Acorn",
+        "spotId": "XMo7AYD1SHKkPSdnWRXe",
+        "date": "4/7/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "The Acorn",
+        "spotId": "XMo7AYD1SHKkPSdnWRXe",
+        "date": "4/8/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Market Hall",
+        "spotId": "3xGv7gyIgT4gn6hTsDGQ",
+        "date": "4/3/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Market Hall",
+        "spotId": "3xGv7gyIgT4gn6hTsDGQ",
+        "date": "4/4/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Market Hall",
+        "spotId": "3xGv7gyIgT4gn6hTsDGQ",
+        "date": "4/5/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Market Hall",
+        "spotId": "3xGv7gyIgT4gn6hTsDGQ",
+        "date": "4/6/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Market Hall",
+        "spotId": "3xGv7gyIgT4gn6hTsDGQ",
+        "date": "4/7/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Market Hall",
+        "spotId": "3xGv7gyIgT4gn6hTsDGQ",
+        "date": "4/8/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Exchange Plaza",
+        "spotId": "RQcWLwgIb9fooEdxQap4",
+        "date": "4/3/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Exchange Plaza",
+        "spotId": "RQcWLwgIb9fooEdxQap4",
+        "date": "4/4/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Exchange Plaza",
+        "spotId": "RQcWLwgIb9fooEdxQap4",
+        "date": "4/5/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Exchange Plaza",
+        "spotId": "RQcWLwgIb9fooEdxQap4",
+        "date": "4/6/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Exchange Plaza",
+        "spotId": "RQcWLwgIb9fooEdxQap4",
+        "date": "4/7/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Exchange Plaza",
+        "spotId": "RQcWLwgIb9fooEdxQap4",
+        "date": "4/8/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Circles",
+        "spotId": "vjXscM16UqmNfP4DxLjF",
+        "date": "4/3/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Circles",
+        "spotId": "vjXscM16UqmNfP4DxLjF",
+        "date": "4/4/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Circles",
+        "spotId": "vjXscM16UqmNfP4DxLjF",
+        "date": "4/5/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Circles",
+        "spotId": "vjXscM16UqmNfP4DxLjF",
+        "date": "4/6/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Circles",
+        "spotId": "vjXscM16UqmNfP4DxLjF",
+        "date": "4/7/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Circles",
+        "spotId": "vjXscM16UqmNfP4DxLjF",
+        "date": "4/8/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Moores Square"
+    },
+    {
+        "spotName": "Presidents Statue",
+        "spotId": "2BmEtmKgHDvD15N1YwLl",
+        "date": "4/3/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "Presidents Statue",
+        "spotId": "2BmEtmKgHDvD15N1YwLl",
+        "date": "4/4/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "Presidents Statue",
+        "spotId": "2BmEtmKgHDvD15N1YwLl",
+        "date": "4/5/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "Presidents Statue",
+        "spotId": "2BmEtmKgHDvD15N1YwLl",
+        "date": "4/6/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "Presidents Statue",
+        "spotId": "2BmEtmKgHDvD15N1YwLl",
+        "date": "4/7/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "Presidents Statue",
+        "spotId": "2BmEtmKgHDvD15N1YwLl",
+        "date": "4/8/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Bell",
+        "spotId": "I51RGieNiSFDwrXbummS",
+        "date": "4/3/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Bell",
+        "spotId": "I51RGieNiSFDwrXbummS",
+        "date": "4/4/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Bell",
+        "spotId": "I51RGieNiSFDwrXbummS",
+        "date": "4/5/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Bell",
+        "spotId": "I51RGieNiSFDwrXbummS",
+        "date": "4/6/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Bell",
+        "spotId": "I51RGieNiSFDwrXbummS",
+        "date": "4/7/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Bell",
+        "spotId": "I51RGieNiSFDwrXbummS",
+        "date": "4/8/24",
+        "startTime": "11:00 AM",
+        "endTime": "12:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Globe",
+        "spotId": "OiMaozB0aK1ECFkypDjf",
+        "date": "4/3/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Globe",
+        "spotId": "OiMaozB0aK1ECFkypDjf",
+        "date": "4/4/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Globe",
+        "spotId": "OiMaozB0aK1ECFkypDjf",
+        "date": "4/5/24",
+        "startTime": "10:00 AM",
+        "endTime": "11:00 AM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Globe",
+        "spotId": "OiMaozB0aK1ECFkypDjf",
+        "date": "4/6/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Globe",
+        "spotId": "OiMaozB0aK1ECFkypDjf",
+        "date": "4/7/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Globe",
+        "spotId": "OiMaozB0aK1ECFkypDjf",
+        "date": "4/8/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Capital District"
+    },
+    {
+        "spotName": "The Raleigh Depot",
+        "spotId": "KUmCTbDqocu9nshddx44",
+        "date": "4/3/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "The Raleigh Depot",
+        "spotId": "KUmCTbDqocu9nshddx44",
+        "date": "4/4/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "The Raleigh Depot",
+        "spotId": "KUmCTbDqocu9nshddx44",
+        "date": "4/5/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "The Raleigh Depot",
+        "spotId": "KUmCTbDqocu9nshddx44",
+        "date": "4/6/24",
+        "startTime": "8:00 PM",
+        "endTime": "9:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "The Raleigh Depot",
+        "spotId": "KUmCTbDqocu9nshddx44",
+        "date": "4/7/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "The Raleigh Depot",
+        "spotId": "KUmCTbDqocu9nshddx44",
+        "date": "4/8/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Nash Square",
+        "spotId": "EB4drRopi1u1cHLekXQM",
+        "date": "4/3/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Nash Square",
+        "spotId": "EB4drRopi1u1cHLekXQM",
+        "date": "4/4/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Nash Square",
+        "spotId": "EB4drRopi1u1cHLekXQM",
+        "date": "4/5/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Nash Square",
+        "spotId": "EB4drRopi1u1cHLekXQM",
+        "date": "4/6/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Nash Square",
+        "spotId": "EB4drRopi1u1cHLekXQM",
+        "date": "4/7/24",
+        "startTime": " 2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Nash Square",
+        "spotId": "EB4drRopi1u1cHLekXQM",
+        "date": "4/8/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Hedron",
+        "spotId": "Id04gbFYJNRs0p2HDFxK",
+        "date": "4/3/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Hedron",
+        "spotId": "Id04gbFYJNRs0p2HDFxK",
+        "date": "4/4/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Hedron",
+        "spotId": "Id04gbFYJNRs0p2HDFxK",
+        "date": "4/5/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Hedron",
+        "spotId": "Id04gbFYJNRs0p2HDFxK",
+        "date": "4/6/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Hedron",
+        "spotId": "Id04gbFYJNRs0p2HDFxK",
+        "date": "4/7/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Hedron",
+        "spotId": "Id04gbFYJNRs0p2HDFxK",
+        "date": "4/8/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Fayetteville Street"
+    },
+    {
+        "spotName": "Union Station Plaza",
+        "spotId": "hTLfBjnXsrdLCwdzrdV2",
+        "date": "4/3/24",
+        "startTime": "11:00 AM",
+        "endTime": "12:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Union Station Plaza",
+        "spotId": "hTLfBjnXsrdLCwdzrdV2",
+        "date": "4/4/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Union Station Plaza",
+        "spotId": "hTLfBjnXsrdLCwdzrdV2",
+        "date": "4/5/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Union Station Plaza",
+        "spotId": "hTLfBjnXsrdLCwdzrdV2",
+        "date": "4/6/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Union Station Plaza",
+        "spotId": "hTLfBjnXsrdLCwdzrdV2",
+        "date": "4/7/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Union Station Plaza",
+        "spotId": "hTLfBjnXsrdLCwdzrdV2",
+        "date": "4/8/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Weaver Street Market",
+        "spotId": "01BS8Q3ZFlLWq3FtB6UU",
+        "date": "4/3/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Weaver Street Market",
+        "spotId": "01BS8Q3ZFlLWq3FtB6UU",
+        "date": "4/4/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Weaver Street Market",
+        "spotId": "01BS8Q3ZFlLWq3FtB6UU",
+        "date": "4/5/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Weaver Street Market",
+        "spotId": "01BS8Q3ZFlLWq3FtB6UU",
+        "date": "4/6/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Weaver Street Market",
+        "spotId": "01BS8Q3ZFlLWq3FtB6UU",
+        "date": "4/7/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Weaver Street Market",
+        "spotId": "01BS8Q3ZFlLWq3FtB6UU",
+        "date": "4/8/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Warehouse District"
+    },
+    {
+        "spotName": "Glenwood TV",
+        "spotId": "UwJH3WQiQ8Te9eWV9f9H",
+        "date": "4/3/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Glenwood TV",
+        "spotId": "UwJH3WQiQ8Te9eWV9f9H",
+        "date": "4/4/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Glenwood TV",
+        "spotId": "UwJH3WQiQ8Te9eWV9f9H",
+        "date": "4/5/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Glenwood TV",
+        "spotId": "UwJH3WQiQ8Te9eWV9f9H",
+        "date": "4/6/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Glenwood TV",
+        "spotId": "UwJH3WQiQ8Te9eWV9f9H",
+        "date": "4/7/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Glenwood TV",
+        "spotId": "UwJH3WQiQ8Te9eWV9f9H",
+        "date": "4/8/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "400H Building",
+        "spotId": "wE3ugu8HRUWNvx0sqWSO",
+        "date": "4/3/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "400H Building",
+        "spotId": "wE3ugu8HRUWNvx0sqWSO",
+        "date": "4/4/24",
+        "startTime": "3:00 PM",
+        "endTime": "4:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "400H Building",
+        "spotId": "wE3ugu8HRUWNvx0sqWSO",
+        "date": "4/5/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "400H Building",
+        "spotId": "wE3ugu8HRUWNvx0sqWSO",
+        "date": "4/6/24",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "400H Building",
+        "spotId": "wE3ugu8HRUWNvx0sqWSO",
+        "date": "4/7/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "400H Building",
+        "spotId": "wE3ugu8HRUWNvx0sqWSO",
+        "date": "4/8/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Irish Corner",
+        "spotId": "vLfKtAr7HWQEZkWi3OMn",
+        "date": "4/3/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Irish Corner",
+        "spotId": "vLfKtAr7HWQEZkWi3OMn",
+        "date": "4/4/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Irish Corner",
+        "spotId": "vLfKtAr7HWQEZkWi3OMn",
+        "date": "4/5/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Irish Corner",
+        "spotId": "vLfKtAr7HWQEZkWi3OMn",
+        "date": "4/6/24",
+        "startTime": "10:00 PM",
+        "endTime": "11:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Irish Corner",
+        "spotId": "vLfKtAr7HWQEZkWi3OMn",
+        "date": "4/7/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Irish Corner",
+        "spotId": "vLfKtAr7HWQEZkWi3OMn",
+        "date": "4/8/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Smoky Hollows",
+        "spotId": "2tnuhutovCU5h3zRFQbJ",
+        "date": "4/3/24",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Smoky Hollows",
+        "spotId": "2tnuhutovCU5h3zRFQbJ",
+        "date": "4/4/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Smoky Hollows",
+        "spotId": "2tnuhutovCU5h3zRFQbJ",
+        "date": "4/5/24",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Smoky Hollows",
+        "spotId": "2tnuhutovCU5h3zRFQbJ",
+        "date": "4/6/24",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Smoky Hollows",
+        "spotId": "2tnuhutovCU5h3zRFQbJ",
+        "date": "4/7/24",
+        "startTime": "11:00 AM",
+        "endTime": "12:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Smoky Hollows",
+        "spotId": "2tnuhutovCU5h3zRFQbJ",
+        "date": "4/8/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Shadows",
+        "spotId": "gnltz7oGbONnWtXVSiJG",
+        "date": "4/3/24",
+        "startTime": "1:00 PM",
+        "endTime": "2:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Shadows",
+        "spotId": "gnltz7oGbONnWtXVSiJG",
+        "date": "4/4/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Shadows",
+        "spotId": "gnltz7oGbONnWtXVSiJG",
+        "date": "4/5/24",
+        "startTime": "10:00 PM",
+        "endTime": "11:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Shadows",
+        "spotId": "gnltz7oGbONnWtXVSiJG",
+        "date": "4/6/24",
+        "startTime": "8:00 PM",
+        "endTime": "9:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Shadows",
+        "spotId": "gnltz7oGbONnWtXVSiJG",
+        "date": "4/7/24",
+        "startTime": "2:00 PM",
+        "endTime": "3:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    },
+    {
+        "spotName": "Shadows",
+        "spotId": "gnltz7oGbONnWtXVSiJG",
+        "date": "4/8/24",
+        "startTime": "12:00 PM",
+        "endTime": "1:00 PM",
+        "spotRegion": "Glenwood Avenue"
+    }
+]

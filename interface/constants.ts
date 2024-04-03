@@ -1,6 +1,6 @@
 export const MAPBOX_API_KEY = 'pk.eyJ1Ijoic2NrYWthcmxhMzYiLCJhIjoiY2xybnYycm83MDNhNTJxbXQ2cmQ5ZmJ0dCJ9.ZSJE4zAuy3c2WxfnO69igQ';
-export const API_ENDPOINT = 'https://api.spotlite.site';
-export const DEV_ENDPOINT = 'http://localhost:4001';
+export const DEV_ENDPOINT = 'https://api.spotlite.site';
+export const API_ENDPOINT = 'http://localhost:4001';
 
 export const PERFORMANCE_STYLES: string[] = [
     'Singing', 
@@ -145,10 +145,24 @@ export const SAMPLE_TIME_SLOTS = [
 
 export const SPOTS_TIME_SLOTS_OPTIONS = [
     'All Spots',
-    'Raleigh Convention Center',
     'Courthouse Plaza',
-    'Weaver Street Market',
     'Lichtin Plaza',
-    'City Plaza',
-    'Capitol Building'
+    'Raleigh Convention Center',
+    'The Acorn',
+    'Market Hall',
+    'Exchange Plaza',
+    'Circles',
+    'Presidents Statue',
+    'The Bell',
+    'The Globe',
+    'The Raleigh Depot',
+    'Nash Square',
+    'Hedron',
+    'Union Station Plaza',
+    'Weaver Street Market',
+    'Glenwood TV',
+    '400H Building',
+    'Irish Corner',
+    'Smoky Hollows',
+    'Shadows'
 ];

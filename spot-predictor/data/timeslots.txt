@@ -1,0 +1,199 @@
+Name: Courthouse Plaza
+ID: RKhtn3Gr3WYmf4cyaaTT 
+Time Slots:
+4/3/24 - 1:00 PM - 2:00 PM
+4/4/24 - 2:00 PM - 3:00 PM
+4/5/24 - 6:00 PM - 7:00 PM
+4/6/24 - 7:00 PM - 8:00 PM
+4/7/24 - 12:00 PM - 1:00 PM
+4/8/24 - 2:00 PM - 3:00 PM
+
+Name: Lichtin Plaza
+ID: FGKLt0f9HR0f3pPGZZYN
+Time Slots:
+4/3/24 - 9:00 AM - 10:00 AM
+4/4/24 - 7:00 PM - 8:00 PM
+4/5/24 - 4:00 PM - 5:00 PM
+4/6/24 - 5:00 PM - 6:00 PM
+4/7/24 - 1:00 PM - 2:00 PM
+4/8/24 - 3:00 PM - 4:00 PM
+
+Name: Raleigh Convention Center
+ID: zCwOtcmTUaZ05EoPbRaM
+Time Slots:
+4/3/24 - 12:00 PM - 1:00 PM
+4/4/24 - 3:00 PM - 4:00 PM
+4/5/24 - 4:00 PM - 5:00 PM
+4/6/24 - 6:00 PM - 7:00 PM
+4/7/24 - 1:00 PM - 2:00 PM
+4/8/24 - 12:00 PM - 1:00 PM
+
+Name: The Acorn
+ID: XMo7AYD1SHKkPSdnWRXe
+Time Slots:
+4/3/24 - 12:00 PM - 1:00 PM
+4/4/24 - 4:00 PM - 5:00 PM
+4/5/24 - 5:00 PM - 6:00 PM
+4/6/24 - 7:00 PM - 8:00 PM
+4/7/24 - 3:00 PM - 4:00 PM
+4/8/24 - 1:00 PM - 2:00 PM
+
+Name: Market Hall
+ID: 3xGv7gyIgT4gn6hTsDGQ
+Time Slots:
+4/3/24 - 1:00 PM - 2:00 PM
+4/4/24 - 12:00 PM - 1:00 PM
+4/5/24 - 6:00 PM - 7:00 PM
+4/6/24 - 7:00 PM - 8:00 PM
+4/7/24 - 4:00 PM - 5:00 PM
+4/8/24 - 1:00 PM - 2:00 PM
+
+Name: Exchange Plaza
+ID: RQcWLwgIb9fooEdxQap4
+Time Slots:
+4/3/24 - 12:00 PM - 1:00 PM
+4/4/24 - 1:00 PM - 2:00 PM
+4/5/24 - 3:00 PM - 4:00 PM
+4/6/24 - 5:00 PM - 6:00 PM
+4/7/24 - 1:00 PM - 2:00 PM
+4/8/24 - 12:00 PM - 1:00 PM
+
+Name: Circles
+ID: vjXscM16UqmNfP4DxLjF
+Time Slots:
+4/3/24 - 12:00 PM - 1:00 PM
+4/4/24 - 1:00 PM - 2:00 PM
+4/5/24 - 3:00 PM - 4:00 PM
+4/6/24 - 5:00 PM - 6:00 PM
+4/7/24 - 2:00 PM - 3:00 PM
+4/8/24 - 1:00 PM - 2:00 PM
+
+Name: Presidents Statue
+ID: 2BmEtmKgHDvD15N1YwLl
+Time Slots:
+4/3/24 - 2:00 PM - 3:00 PM
+4/4/24 - 5:00 PM - 6:00 PM
+4/5/24 - 12:00 PM - 1:00 PM
+4/6/24 - 2:00 PM - 3:00 PM
+4/7/24 - 5:00 PM - 6:00 PM
+4/8/24 - 1:00 PM - 2:00 PM
+
+Name: The Bell
+ID: I51RGieNiSFDwrXbummS
+Time Slots:
+4/3/24 - 2:00 PM - 3:00 PM
+4/4/24 - 12:00 PM - 1:00 PM
+4/5/24 - 3:00 PM - 4:00 PM
+4/6/24 - 4:00 PM - 5:00 PM
+4/7/24 - 1:00 PM - 2:00 PM
+4/8/24 - 11:00 AM - 12:00 PM
+
+Name: The Globe
+ID: OiMaozB0aK1ECFkypDjf
+Time Slots:
+4/3/24 - 1:00 PM - 2:00 PM
+4/4/24 - 2:00 PM - 3:00 PM
+4/5/24 - 10:00 AM - 11:00 AM
+4/6/24 - 6:00 PM - 7:00 PM
+4/7/24 - 3:00 PM - 4:00 PM
+4/8/24 - 12:00 PM - 1:00 PM
+
+Name: The Raleigh Depot
+ID: KUmCTbDqocu9nshddx44
+Time Slots:
+4/3/24 - 2:00 PM - 3:00 PM
+4/4/24 - 4:00 PM - 5:00 PM
+4/5/24 - 7:00 PM - 8:00 PM
+4/6/24 - 8:00 PM - 9:00 PM
+4/7/24 - 2:00 PM - 3:00 PM
+4/8/24 - 1:00 PM - 2:00 PM
+
+Name: Nash Square
+ID: EB4drRopi1u1cHLekXQM
+Time Slots:
+4/3/24 - 1:00 PM - 2:00 PM
+4/4/24 - 3:00 PM - 4:00 PM
+4/5/24 - 6:00 PM - 7:00 PM
+4/6/24 - 4:00 PM - 5:00 PM
+4/7/24 -  2:00 PM - 3:00 PM
+4/8/24 - 5:00 PM - 6:00 PM
+
+Name: Hedron
+ID: Id04gbFYJNRs0p2HDFxK
+Time Slots:
+4/3/24 - 5:00 PM - 6:00 PM
+4/4/24 - 3:00 PM - 4:00 PM
+4/5/24 - 6:00 PM - 7:00 PM
+4/6/24 - 5:00 PM - 6:00 PM
+4/7/24 - 2:00 PM - 3:00 PM
+4/8/24 - 4:00 PM - 5:00 PM
+
+Name: Union Station Plaza
+ID: hTLfBjnXsrdLCwdzrdV2
+Time Slots:
+4/3/24 - 11:00 AM - 12:00 PM
+4/4/24 - 4:00 PM - 5:00 PM
+4/5/24 - 6:00 PM - 7:00 PM
+4/6/24 - 6:00 PM - 7:00 PM
+4/7/24 - 3:00 PM - 4:00 PM
+4/8/24 - 5:00 PM - 6:00 PM
+
+Name: Weaver Street Market
+ID: 01BS8Q3ZFlLWq3FtB6UU
+Time Slots:
+4/3/24 - 4:00 PM - 5:00 PM
+4/4/24 - 5:00 PM - 6:00 PM
+4/5/24 - 7:00 PM - 8:00 PM
+4/6/24 - 2:00 PM - 3:00 PM
+4/7/24 - 3:00 PM - 4:00 PM
+4/8/24 - 2:00 PM - 3:00 PM
+
+Name: Glenwood TV
+ID: UwJH3WQiQ8Te9eWV9f9H
+Time Slots:
+4/3/24 - 12:00 PM - 1:00 PM
+4/4/24 - 1:00 PM - 2:00 PM
+4/5/24 - 12:00 PM - 1:00 PM
+4/6/24 - 6:00 PM - 7:00 PM
+4/7/24 - 4:00 PM - 5:00 PM
+4/8/24 - 12:00 PM - 1:00 PM
+
+Name: 400H Building
+ID: wE3ugu8HRUWNvx0sqWSO
+Time Slots:
+4/3/24 - 5:00 PM - 6:00 PM
+4/4/24 - 3:00 PM - 4:00 PM
+4/5/24 - 7:00 PM - 8:00 PM
+4/6/24 - 4:00 PM - 5:00 PM
+4/7/24 - 2:00 PM - 3:00 PM
+4/8/24 - 5:00 PM - 6:00 PM
+
+Name: Irish Corner
+ID: vLfKtAr7HWQEZkWi3OMn
+Time Slots:
+4/3/24 - 12:00 PM - 1:00 PM
+4/4/24 - 2:00 PM - 3:00 PM
+4/5/24 - 7:00 PM - 8:00 PM
+4/6/24 - 10:00 PM - 11:00 PM
+4/7/24 - 12:00 PM - 1:00 PM
+4/8/24 - 1:00 PM - 2:00 PM
+
+Name: Smoky Hollows
+ID: 2tnuhutovCU5h3zRFQbJ
+Time Slots:
+4/3/24 - 7:00 PM - 8:00 PM
+4/4/24 - 12:00 PM - 1:00 PM
+4/5/24 - 5:00 PM - 6:00 PM
+4/6/24 - 6:00 PM - 7:00 PM
+4/7/24 - 11:00 AM - 12:00 PM
+4/8/24 - 12:00 PM - 1:00 PM
+
+Name: Shadows
+ID: gnltz7oGbONnWtXVSiJG
+Time Slots:
+4/3/24 - 1:00 PM - 2:00 PM
+4/4/24 - 12:00 PM - 1:00 PM
+4/5/24 - 10:00 PM - 11:00 PM
+4/6/24 - 8:00 PM - 9:00 PM
+4/7/24 - 2:00 PM - 3:00 PM
+4/8/24 - 12:00 PM - 1:00 PM
