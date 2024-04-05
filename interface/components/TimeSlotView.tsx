@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { FaStreetView } from 'react-icons/fa';
 
-import { useAppSelector } from '@/redux/store';
+import { useAppSelector, AppDispatch } from '@/redux/store';
 import { changeSelectedDate, changeSelectedTime } from '@/redux/reducers/spots';
 import { reserveTimeSlot } from '@/api';
 
@@ -32,7 +32,7 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
   reserveSuccess,
   reserveFail
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const userId = useAppSelector((state) => state.auth.userId);
 
@@ -52,7 +52,7 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
   }
 
   return (
-    <div className="w-full bg-slate-50 px-5 py-4 rounded-md mb-4">
+    <div className="w-full md:w-4/5 md:mx-auto bg-slate-50 px-5 py-4 rounded-md mb-4">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
           <h1 className="font-eau-bold text-sm">{spotName}</h1>

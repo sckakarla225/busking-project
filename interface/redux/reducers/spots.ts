@@ -22,12 +22,14 @@ interface SpotsState {
   spots: Spot[],
   selectedTime: string,
   selectedDate: string,
+  selectedSpotName: string,
 };
 
 const initialState: SpotsState = {
   spots: [],
   selectedTime: '',
   selectedDate: '',
+  selectedSpotName: ''
 };
 
 export const spots = createSlice({
@@ -52,6 +54,12 @@ export const spots = createSlice({
         selectedDate: action.payload.selectedDate
       }
     },
+    changeSelectedSpotName: (state, action: PayloadAction<{ selectedSpotName: string }>) => {
+      return {
+        ...state,
+        selectedSpotName: action.payload.selectedSpotName
+      }
+    },
     resetSpots: () => {
       return initialState
     }
@@ -62,6 +70,7 @@ export const {
   loadSpots, 
   resetSpots,
   changeSelectedTime,
-  changeSelectedDate 
+  changeSelectedDate,
+  changeSelectedSpotName 
 } = spots.actions;
 export default spots.reducer;

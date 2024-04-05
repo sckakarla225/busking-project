@@ -122,7 +122,7 @@ export default function Login() {
             </div>
           </div>
         </nav>
-        <section className="px-16 py-8">
+        <section className="px-16 py-8 md:px-96">
           <h1 className="justify-center text-black text-2xl font-eau-bold pt-24">
             Welcome Back!
           </h1>

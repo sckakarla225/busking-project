@@ -119,7 +119,7 @@ export default function Register() {
             </div>
           </div>
         </nav>
-        <section className="px-16 py-6">
+        <section className="px-16 py-6 md:px-96">
           <h1 className="justify-center text-black text-2xl font-eau-bold pt-20">
             Start Busking!
           </h1>

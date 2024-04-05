@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import { 
   reserveTimeSlot,
   getTimeSlots
 } from '@/api';
-import { useAppSelector } from '@/redux/store';
+import { useAppSelector, AppDispatch } from '@/redux/store';
 import { logSpotReserved } from '@/firebase/analytics';
+import { changeSelectedDate, changeSelectedSpotName } from '@/redux/reducers/spots';
 
 interface SpotInfoProps {
   activity: number | null,
   availability: boolean | null,
+  isUser: boolean | null,
   spotId: string,
   name: string,
   region: string,
@@ -25,7 +29,8 @@ interface SpotInfoProps {
 
 const SpotInfo: React.FC<SpotInfoProps> = ({
   activity, 
-  availability, 
+  availability,
+  isUser, 
   spotId, 
   name, 
   region, 
@@ -37,6 +42,8 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
   startLoading,
   stopLoading
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const userId = useAppSelector((state) => state.auth.userId);
   const selectedDate = useAppSelector((state) => state.spots.selectedDate);
   const [reservedFrom, setReservedFrom] = useState<string>(startTime);
@@ -103,6 +110,12 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
     }
   };
 
+  const viewTimeSlots = () => {
+    dispatch(changeSelectedDate({ selectedDate: selectedDate }));
+    dispatch(changeSelectedSpotName({ selectedSpotName: name }));
+    router.push('/timings');
+  };
+
   useEffect(() => {
     startLoading();
     setReservedFrom(startTime);
@@ -117,15 +130,15 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
         <div 
           className={`
             bg-slate-100 border-4 border-spotlite-dark-purple rounded-full flex items-center justify-center w-10 h-10
-            ${!availability && 'bg-zinc-700'}
+            ${!availability && !isUser && 'bg-zinc-700'}
           `}
         >
-          {availability && activity == 3 && (
+          {(availability || isUser) && activity == 3 && (
             <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center">
               <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave"></div>
             </div>
           )}
-          {availability && activity == 2 && (
+          {(availability || isUser) && activity == 2 && (
             <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center"></div>
           )}
         </div>
@@ -161,20 +174,29 @@ const SpotInfo: React.FC<SpotInfoProps> = ({
         </div>
       </div>
       <div>
-        {availability ? (
+        {availability && !isUser && (
           <button 
             className=" hover:bg-opacity-80 bg-spotlite-orange text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
             onClick={makeReservation}
           >
             Sign Up
           </button>
-        ) : (
+        )}
+        {!availability && isUser && (
+          <button 
+            className="opacity-70 bg-spotlite-orange text-white font-eau-heavy py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mt-10 w-full"
+            disabled={true}
+          >
+            Reserved By Me
+          </button>
+        )}
+        {!availability && !isUser && (
           <div className="flex flex-row items-center justify-between w-full mt-10">
             <h1 className="text-black text-base font-eau-medium">Unavailable.</h1>
-            <Link href="/timings">
+            <Link href={'/timings'}>
               <button 
                 className="hover:bg-opacity-80 bg-spotlite-dark-purple text-white text-sm font-eau-heavy py-2 px-3 rounded-md focus:outline-none focus:shadow-outline"
-                onClick={makeReservation}
+                // onClick={() => viewTimeSlots()}
               >
                 View Time Slots
               </button>

@@ -31,6 +31,7 @@ export default function Spot(
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
+  const userId = useAppSelector((state) => state.auth.userId);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const allSpots = useAppSelector((state) => state.spots.spots);
   const selectedTime = useAppSelector((state) => state.spots.selectedTime);
@@ -41,6 +42,7 @@ export default function Spot(
   const [spotLatitude, setSpotLatitude] =  useState<number | null>(null);
   const [spotLongitude, setSpotLongitude] = useState<number | null>(null);
   const [spotAvailability, setSpotAvailability] = useState<boolean | null>(null);
+  const [spotIsUser, setSpotIsUser] = useState<boolean | null>(null);
   const [activityLevel, setActivityLevel] = useState<number | null>(null);
   const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
   const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
@@ -86,6 +88,7 @@ export default function Spot(
     const checkTimeSlots = async (spotId: string) => {
       const timeSlots = await getTimeSlots();
       let isAvailable = false;
+      let isUser = false;
 
       if (timeSlots.success) {
         const slots = timeSlots.data;
@@ -103,14 +106,15 @@ export default function Spot(
             selectedTime === formattedTime &&
             formattedDate === slot.date
           ) {
-            console.log(isAvailable);
             if (!slot.performerId) {
               isAvailable = true;
+            } else if (slot.performerId === userId) {
+              isUser = true;
             }
           };
         });
       };
-      return isAvailable;
+      return { isAvailable, isUser };
     }
 
     const getPrediction = async (spotInfo: any) => {
@@ -159,8 +163,9 @@ export default function Spot(
               setSpotAvailability(false);
             } else {
               checkTimeSlots(spotInfo.spotId)
-                .then((isAvailable: boolean) => {
+                .then(({ isAvailable, isUser }) => {
                   setSpotAvailability(isAvailable);
+                  setSpotIsUser(isUser);
                 })
                 .catch(() => {
                   setActivityLevel(activityLevelNum);
@@ -222,6 +227,7 @@ export default function Spot(
             longitude={spotLongitude}
             startTime={selectedTime}
             activity={activityLevel}
+            isUser={spotIsUser}
             availability={spotAvailability}
             openSuccessPopup={() => setReserveSuccessOpen(true)}
             openErrorPopup={() => setReserveErrorOpen(true)}

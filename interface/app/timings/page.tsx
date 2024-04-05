@@ -16,13 +16,21 @@ import { SPOTS_TIME_SLOTS_OPTIONS } from '@/constants';
 
 export default function TimingsList() {
   const allSpots = useAppSelector((state) => state.spots.spots);
+  const savedSpotName = useAppSelector((state) => state.spots.selectedSpotName);
+  const savedDate = useAppSelector((state) => state.spots.selectedDate);
   const [loading, setLoading] = useState(false);
   const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>([]);
   const [filteredTimeSlots, setFilteredTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>(
+    // savedDate !== '' 
+    //   ? savedDate.replace('/2024', '') 
+    //   : new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).slice(0, 5)
     new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).slice(0, 5)
   );
-  const [selectedSpotName, setSelectedSpotName] = useState<string>('All Spots');
+  const [selectedSpotName, setSelectedSpotName] = useState<string>(
+    // savedSpotName !== '' ? savedSpotName : 'All Spots'
+    'All Spots'
+  );
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
 
@@ -177,7 +185,7 @@ export default function TimingsList() {
         ${signUpError ? 'opacity-50' : ''}
       `}>
         <Navbar />
-        <section className="px-10 py-28">
+        <section className="px-10 md:px-96 py-28">
           <div className="flex flex-row justify-between space-x-2">
             <div className="relative">
               <select

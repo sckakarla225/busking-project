@@ -269,7 +269,7 @@ export default function SetupPerformer() {
             />
           </div>
         </nav>
-        <section className="px-10 py-16">
+        <section className="px-10 md:px-96 py-16">
           <div className="px-3">
             <ProgressBar currentStep={currentStep} />
           </div>

@@ -108,7 +108,7 @@ export default function Profile() {
         ${loading ? 'opacity-50' : ''} 
       `}>
         <Navbar />
-        <section className="px-10 py-28 flex flex-col justify-center">
+        <section className="px-10 md:px-96 py-28 flex flex-col justify-center">
           <div className="flex flex-row items-center my-3">
             <Image src={'/logos/spotlite-icon.png'} alt="logo" width={75} height={75} />
             <div className="flex flex-col ml-5">
