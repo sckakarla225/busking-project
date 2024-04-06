@@ -110,6 +110,10 @@ const freeTimeSlot = async (req: Request, res: Response) => {
       res.status(500).send("Unknown error has occurred");
     }
   }
+};
+
+const generateTimeSlots = async () => {
+  
 }
 
 export {

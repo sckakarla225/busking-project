@@ -88,46 +88,46 @@ def get_predictions(spots):
     return df
 
 # Create timeslots from predictions
-timeslot_dicts = []
-with open('timeslots.txt', 'r') as file:
-    text_data = file.read()
+# timeslot_dicts = []
+# with open('timeslots.txt', 'r') as file:
+#     text_data = file.read()
 
-entries = text_data.strip().split("Name:")
-for entry in entries:
-    if entry.strip():
-        lines = entry.strip().split("\n")
-        spotName = lines[0].strip()
-        spotId = lines[1].split("ID:")[1].strip()
-        time_slots = lines[3:]
+# entries = text_data.strip().split("Name:")
+# for entry in entries:
+#     if entry.strip():
+#         lines = entry.strip().split("\n")
+#         spotName = lines[0].strip()
+#         spotId = lines[1].split("ID:")[1].strip()
+#         time_slots = lines[3:]
 
-        for slot in time_slots:
-            parts = slot.split(" - ")
-            date = parts[0]
-            startTime = parts[1]
-            endTime = parts[2]
-            timeslot_dict = {
-                "spotName": spotName,
-                "spotId": spotId,
-                "date": date,
-                "startTime": startTime,
-                "endTime": endTime
-            }
-            timeslot_dicts.append(timeslot_dict)
+#         for slot in time_slots:
+#             parts = slot.split(" - ")
+#             date = parts[0]
+#             startTime = parts[1]
+#             endTime = parts[2]
+#             timeslot_dict = {
+#                 "spotName": spotName,
+#                 "spotId": spotId,
+#                 "date": date,
+#                 "startTime": startTime,
+#                 "endTime": endTime
+#             }
+#             timeslot_dicts.append(timeslot_dict)
 
-print(timeslot_dicts)
-print(len(timeslot_dicts))
+# print(timeslot_dicts)
+# print(len(timeslot_dicts))
 
-for timeslot in timeslot_dicts:
-    for spot in data:
-        if spot['spotId'] == timeslot['spotId']:
-            timeslot['spotRegion'] = spot['region']
+# for timeslot in timeslot_dicts:
+#     for spot in data:
+#         if spot['spotId'] == timeslot['spotId']:
+#             timeslot['spotRegion'] = spot['region']
 
-with open('timeslots.json', 'w') as file:
-    json.dump(timeslot_dicts, file, indent=4)
+# with open('timeslots.json', 'w') as file:
+#     json.dump(timeslot_dicts, file, indent=4)
 
 # Upload timeslots to firebase
 def upload_to_firebase(timeslots):
-    timeslots_ref = db.collection('time-slots')
+    timeslots_ref = db.collection('time-slots-new')
     for timeslot in timeslots:
         date_string = timeslot['date']
         date_obj = datetime.strptime(date_string, '%m/%d/%y')
@@ -135,12 +135,12 @@ def upload_to_firebase(timeslots):
         timeslot['date'] = new_date_string
         timeslots_ref.add(timeslot)
 
-upload_to_firebase(timeslot_dicts)
+# upload_to_firebase(timeslot_dicts)
 
 # Get timeslots from firebase and create json file
 def get_timeslots_and_create_json():
     try:
-        docs = db.collection('time-slots').stream()
+        docs = db.collection('time-slots-new').stream()
         docs_list = [{**doc.to_dict(), "id": doc.id} for doc in docs]
         
         # Write data to JSON file
