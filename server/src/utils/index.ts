@@ -1,5 +1,15 @@
-import { createTimeFromString } from "./time";
+import { 
+  createTimeFromString, 
+  getDayOfWeek,
+  getNextHour,
+  reformatDateString 
+} from "./time";
+import { sortPredictions } from "./predict";
 
 export {
-  createTimeFromString
+  createTimeFromString,
+  getDayOfWeek,
+  sortPredictions,
+  getNextHour,
+  reformatDateString
 };

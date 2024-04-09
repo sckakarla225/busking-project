@@ -22,7 +22,7 @@ const SpotMarker: React.FC<SpotMarkerProps> = ({
     <div 
       className={`
         bg-slate-100 border-4 border-spotlite-dark-purple mt-20 rounded-full flex items-center justify-center h-12 w-12
-        ${!availability && 'bg-zinc-700'}
+        ${!availability && 'bg-spotlite-light-purple'}
       `}
     >
       {availability && activity == 3 && (

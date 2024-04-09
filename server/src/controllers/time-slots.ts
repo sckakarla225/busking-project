@@ -1,7 +1,16 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from 'express';
 import { TimeSlotModel } from '../models/time-slots';
-import { UserModel } from '../models/user';
-import { createTimeFromString } from '../utils';
+import { UserModel } from '../models/user'
+import { SpotModel } from '../models/spots';
+import { getPredictions } from '../models/predictions';
+import { 
+  createTimeFromString, 
+  getDayOfWeek, 
+  sortPredictions,
+  getNextHour,
+  reformatDateString 
+} from '../utils';
 
 const createTimeSlots = async (req: Request, res: Response) => {
   const { timeSlots } = req.body;
@@ -112,13 +121,77 @@ const freeTimeSlot = async (req: Request, res: Response) => {
   }
 };
 
-const generateTimeSlots = async () => {
-  
-}
+const generateTimeSlots = async (req: Request, res: Response) => {
+  const { date } = req.body;
+  const times = [
+    '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM',
+    '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'
+  ];
+
+  try {
+    const spots = await SpotModel.find();
+    if (spots.length === 0) {
+      return res.status(404).send("Could not retrieve the spots");
+    }
+
+    const dayOfWeek = getDayOfWeek(date);
+    const predictionsTasks = spots.map(async (spot: any) => {
+      const predictionKeys = times.map((time: string) => `${spot.spotId}||${spot.latitude}||${spot.longitude}||${time}||${date}||${dayOfWeek}`);
+      const predictionsData = await getPredictions(predictionKeys);
+      if (!predictionsData) {
+        throw new Error("Error generating predictions");
+      }
+
+      const predictions = predictionsData.predictions;
+      if (predictions.length === 0) {
+        throw new Error("No predictions found");
+      }
+
+      const sortedPredictions = sortPredictions(predictions);
+      return sortedPredictions.slice(0, 3).map(async (prediction) => {
+        const parts = prediction.predictionKey.split('||');
+        const startTimeStr = parts[3];
+        const endTimeStr = getNextHour(startTimeStr);
+        const formattedStartTime = createTimeFromString(startTimeStr);
+        const formattedEndTime = createTimeFromString(endTimeStr);
+        const formattedDate = reformatDateString(date);
+        const timeSlotId = uuidv4();
+        const timeSlotToAdd = {
+          timeSlotId: timeSlotId,
+          spotId: spot.spotId,
+          spotName: spot.name,
+          spotRegion: spot.region,
+          date: formattedDate,
+          startTime: formattedStartTime,
+          endTime: formattedEndTime,
+        }
+        const newTimeSlot = new TimeSlotModel(timeSlotToAdd);
+        await newTimeSlot.save();
+
+        return {
+          id: timeSlotId,
+          spotId: spot.spotId,
+          spotName: spot.name,
+          spotRegion: spot.region,
+          date: formattedDate,
+          startTime: startTimeStr,
+          endTime: endTimeStr,
+        };
+      });
+    });
+
+    const generatedTimeSlots = (await Promise.all(predictionsTasks)).flat();
+    res.status(200).send(generatedTimeSlots);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error instanceof Error ? error.message : "Unknown error has occurred");
+  }
+};
 
 export {
   createTimeSlots,
   getTimeSlots,
   reserveTimeSlot,
-  freeTimeSlot
+  freeTimeSlot,
+  generateTimeSlots
 };

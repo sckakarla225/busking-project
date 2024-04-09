@@ -176,21 +176,21 @@ export default function Home() {
                 hour12: true
               });
               const formattedDate = selectedDate + '/2024';
-              if (!slot.performerId && spotToUpdate.activity !== 1) {
-                isAvailable = true;
-              };
-              // if (
-              //   spotToUpdate.spotId === slot.spotId &&
-              //   selectedTime === formattedTime &&
-              //   formattedDate === slot.date
-              // ) {
-              //   console.log(spotToUpdate.activityLevel);
-              //   if (!slot.performerId) {
-              //     isAvailable = true;
-              //   }
+              // if (!slot.performerId && spotToUpdate.activity !== 1) {
+              //   isAvailable = true;
               // };
+              if (
+                spotToUpdate.spotId === slot.spotId &&
+                selectedTime === formattedTime &&
+                formattedDate === slot.date
+              ) {
+                console.log(spotToUpdate.activityLevel);
+                if (!slot.performerId) {
+                  isAvailable = true;
+                }
+              };
             });
-            spotToUpdate.availability = isAvailable;
+            spotToUpdate.availability = isAvailable; // Change this back to isAvailable
           };
         })
       };

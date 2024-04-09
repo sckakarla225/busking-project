@@ -34,8 +34,8 @@ const Key: React.FC<KeyProps> = ({ isOpen, onClose }) => {
       <div className="flex flex-row items-center mt-3">
         <h1 className="text-white font-eau-bold text-xs">Spot Availability:</h1>
         <div className="flex flex-row items-center ml-3">
-          <div className="w-6 h-6 rounded-full bg-white border-2 border-purple-900"></div>
-          <div className="w-6 h-6 rounded-full bg-zinc-800 border-2 border-purple-900 ml-3"></div>
+          <div className="w-6 h-6 rounded-full bg-white border-2 border-zinc-800"></div>
+          <div className="w-6 h-6 rounded-full bg-spotlite-dark-purple border-2 border-zinc-800 ml-3"></div>
         </div>
       </div>
       <div className="flex flex-row items-center mt-7">
