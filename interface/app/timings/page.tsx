@@ -95,63 +95,69 @@ export default function TimingsList() {
     return activityLevelNum;
   };
 
-  useEffect(() => { 
-    setLoading(true);
+  useEffect(() => {
     const setupTimeSlots = async () => {
-      const timeSlotsData = await getTimeSlots();
-      if (timeSlotsData.success) {
-        const timeSlots = timeSlotsData.data;
-        const promises = timeSlots.map(async (timeSlot: any) => {
-          if (!timeSlot.performerId) {
-            const spotInfo = allSpots.find((spot) => spot.spotId === timeSlot.spotId);
-            if (spotInfo) {
-              let convertedTime = new Date(timeSlot.startTime);
-              let convertedEndTime = new Date(timeSlot.endTime);
-              convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
-              convertedEndTime = new Date(convertedEndTime.getTime() + 0 * 60 * 60 * 1000);
-              const formattedTime = convertedTime.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true
-              });
-              const formattedEndTime = convertedEndTime.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true
-              });
-              const formattedDate = new Date(timeSlot.date).toLocaleDateString(
-                'en-US', 
-                { year: '2-digit', month: 'numeric', day: 'numeric' }
-              );
+      try {
+        setLoading(true); 
+        console.log("getting timeslots for timings");
+        const timeSlotsData = await getTimeSlots();
+        if (timeSlotsData.success) {
+          const timeSlots = timeSlotsData.data;
+          const promises = timeSlots.map(async (timeSlot: any) => {
+            if (!timeSlot.performerId) {
+              const spotInfo = allSpots.find((spot) => spot.spotId === timeSlot.spotId);
+              if (spotInfo) {
+                let convertedTime = new Date(timeSlot.startTime);
+                let convertedEndTime = new Date(timeSlot.endTime);
+                convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+                convertedEndTime = new Date(convertedEndTime.getTime() + 0 * 60 * 60 * 1000);
+                const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  hour12: true
+                });
+                const formattedEndTime = convertedEndTime.toLocaleTimeString('en-US', {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  hour12: true
+                });
+                const formattedDate = new Date(timeSlot.date).toLocaleDateString(
+                  'en-US', 
+                  { year: '2-digit', month: 'numeric', day: 'numeric' }
+                );
 
-              const activityLevel = await getPrediction(spotInfo, formattedTime, formattedDate);
-              return { 
-                ...timeSlot, 
-                startTime: formattedTime, 
-                endTime: formattedEndTime, 
-                activityLevel: activityLevel 
+                const activityLevel = await getPrediction(spotInfo, formattedTime, formattedDate);
+                return { 
+                  ...timeSlot, 
+                  startTime: formattedTime, 
+                  endTime: formattedEndTime, 
+                  activityLevel: activityLevel 
+                };
               };
-            };
-          } else {
-            return null;
-          }
-        });
+            } else {
+              return null;
+            }
+          });
 
-        const resolvedTimeSlots = (await Promise.all(promises)).filter(ts => ts !== null);
-        setAllTimeSlots(resolvedTimeSlots);
-        const currDate = new Date().toLocaleDateString(
-          'en-US', 
-          { 
-            month: '2-digit', day: '2-digit' 
-          }).slice(0, 5);
-        const filtered = resolvedTimeSlots.filter(timeSlot => timeSlot.date === currDate + '/2024');
-        setFilteredTimeSlots(filtered);
+          const resolvedTimeSlots = (await Promise.all(promises)).filter(ts => ts !== null);
+          setAllTimeSlots(resolvedTimeSlots);
+          const currDate = new Date().toLocaleDateString(
+            'en-US', 
+            { 
+              month: '2-digit', day: '2-digit' 
+            }).slice(0, 5);
+          const filtered = resolvedTimeSlots.filter(timeSlot => timeSlot.date === currDate + '/2024');
+          setFilteredTimeSlots(filtered);
+        }
+      } catch (error) {
+        console.error("Failed to load time slots:", error);
+      } finally {
+        console.log("done loading spots");
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    setupTimeSlots()
-      .catch((error) => console.log(error));
+    setupTimeSlots();
   }, []);
 
   useEffect(() => {
@@ -168,7 +174,6 @@ export default function TimingsList() {
 
   return (
     <>
-      <Loading isLoading={loading} />
       <ReserveSuccess 
         isOpen={signUpSuccess}
         onClose={() => setSignUpSuccess(false)}
@@ -178,6 +183,7 @@ export default function TimingsList() {
         onClose={() => setSignUpError(false)}
         availability={true}
       />
+      <Loading isLoading={loading} />
       <main className={`
         relative w-screen h-screen 
         ${loading ? 'opacity-50' : ''}

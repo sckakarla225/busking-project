@@ -17,9 +17,22 @@ interface Spot {
   reservations: Reservation[];
 }
 
+interface TimeSlot {
+  timeSlotId: string,
+  spotId: string,
+  performerId: string | null,
+  spotName: string,
+  spotRegion: string,
+  date: string,
+  startTime: string,
+  endTime: string,
+  activityLevel: number
+};
+
 interface SpotsState {
   // TODO: save map instance and viewport here too
   spots: Spot[],
+  timeSlots: TimeSlot[],
   selectedTime: string,
   selectedDate: string,
   selectedSpotName: string,
@@ -27,6 +40,7 @@ interface SpotsState {
 
 const initialState: SpotsState = {
   spots: [],
+  timeSlots: [],
   selectedTime: '',
   selectedDate: '',
   selectedSpotName: ''
@@ -40,6 +54,12 @@ export const spots = createSlice({
       return {
         ...state,
         spots: action.payload.spots
+      }
+    },
+    loadTimeSlots: (state, action: PayloadAction<{ timeSlots: TimeSlot[]}>) => {
+      return {
+        ...state,
+        timeSlots: action.payload.timeSlots
       }
     },
     changeSelectedTime: (state, action: PayloadAction<{ selectedTime: string }>) => {
@@ -69,6 +89,7 @@ export const spots = createSlice({
 export const { 
   loadSpots, 
   resetSpots,
+  loadTimeSlots,
   changeSelectedTime,
   changeSelectedDate,
   changeSelectedSpotName 

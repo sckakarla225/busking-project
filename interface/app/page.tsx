@@ -8,7 +8,6 @@ import { TbMapPinPlus } from 'react-icons/tb';
 
 import { 
   TimeSlider, 
-  Profile, 
   Key,
   SpotMarker,
   SpotPopup,
@@ -16,7 +15,11 @@ import {
   Navbar 
 } from '../components';
 import { useAppSelector, AppDispatch } from '@/redux/store';
-import { changeSelectedTime, changeSelectedDate } from '@/redux/reducers/spots';
+import { 
+  changeSelectedTime, 
+  changeSelectedDate,
+  loadTimeSlots 
+} from '@/redux/reducers/spots';
 import { predictSpots, getTimeSlots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
 import {
@@ -31,7 +34,6 @@ export default function Home() {
   const router = useRouter();
 
   const [spots, setSpots] = useState<any[]>([]);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isKeyOpen, setIsKeyOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -43,13 +45,8 @@ export default function Home() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const setupComplete = useAppSelector((state) => state.performer.setupComplete);
   const userId = useAppSelector((state) => state.auth.userId);
-  const email = useAppSelector((state) => state.auth.email);
-  const name = useAppSelector((state) => state.performer.name);
-  const dateJoined = useAppSelector((state) => state.performer.dateJoined);
-  const performanceStyles = useAppSelector((state) => state.performer.performanceStyles);
-  const currentSpot = useAppSelector((state) => state.performer.currentSpot);
-  const recentSpots = useAppSelector((state) => state.performer.recentSpots);
   const spotsInfo = useAppSelector((state) => state.spots.spots);
+  const timeSlots = useAppSelector((state) => state.spots.timeSlots);
 
   function getNextSevenDays(): string[] {
     const dates = [];
@@ -108,6 +105,26 @@ export default function Home() {
   }, [isAuthenticated, setupComplete, router]);
 
   useEffect(() => {
+    setLoading(true);
+    console.log("getting timeslots initial");
+    const setupTimeSlots = async () => {
+      const timeSlots = await getTimeSlots();
+      if (timeSlots.success) {
+        return timeSlots.data
+      } else {
+        return []
+      };
+    };
+
+    setupTimeSlots()
+      .then((timeSlots) => {
+        dispatch(loadTimeSlots({ timeSlots: timeSlots }));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
     logViewMapPage();
   }, []);
 
@@ -115,8 +132,6 @@ export default function Home() {
     setLoading(true);
     const setupPredictions = async (predictionInputs: any[], processedSpots: any[]) => {
       const predictions = await predictSpots(predictionInputs);
-      const timeSlots = await getTimeSlots();
-      
       if (predictions.data) {
         predictions.data.map((prediction: any) => {
           const parts = prediction.predictionKey.split("||");
@@ -141,8 +156,8 @@ export default function Home() {
             spotToUpdate.activity = activityLevel;
           };
 
-          if (timeSlots.success && spotToUpdate) {
-            const slots = timeSlots.data;
+          if (timeSlots.length !== 0 && spotToUpdate) {
+            const slots = timeSlots;
             let isAvailable = false;
             slots.map((slot: any) => {
               let convertedTime = new Date(slot.startTime);
@@ -161,7 +176,6 @@ export default function Home() {
                 selectedTime === formattedTime &&
                 formattedDate === slot.date
               ) {
-                console.log(spotToUpdate.activityLevel);
                 if (!slot.performerId) {
                   isAvailable = true;
                 }
@@ -209,21 +223,8 @@ export default function Home() {
   return (
     <>
       <Loading isLoading={loading} />
-      <Profile 
-        isOpen={isProfileOpen} 
-        onClose={() => setIsProfileOpen(false)}
-        name={name}
-        email={email}
-        dateJoined={dateJoined}
-        performanceStyles={performanceStyles}
-        currentSpot={currentSpot}
-        recentSpots={recentSpots}
-        startLoading={() => setLoading(true)} 
-        stopLoading={() => setLoading(false)}
-      />
       <main className={`
         relative w-screen h-screen 
-        ${isProfileOpen ? 'opacity-50' : ''}
         ${loading ? 'opacity-40' : ''}
       `}>
         <Navbar />
