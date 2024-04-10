@@ -10,7 +10,7 @@ const Key: React.FC<KeyProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute right-5 ml-40 h-40 top-36 inset-0 z-20 flex flex-col px-4 py-2 bg-spotlite-light-purple border-2 border-spotlite-light-purple border-opacity-80 rounded-md">
+    <div className="flex flex-col px-4 py-4 pb-6 pl-5 bg-spotlite-light-purple border-2 border-spotlite-light-purple border-opacity-80 rounded-md">
       <div className="flex flex-row justify-end">
         <LiaTimesSolid size={15} color="black" onClick={onClose} />
       </div>

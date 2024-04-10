@@ -53,7 +53,7 @@ const TimeSlider: React.FC<TimeSliderProps> = ({ updateSelectedTime, logTime }) 
             const index = value + i - 3;
             if (index >= 0 && index <= 11) {
               return (
-                <span key={i} className={`absolute ${i === 3 ? 'text-slate-100 font-semibold text-sm' : 'text-slate-300 font-medium text-xs'}`} style={{ left: `calc(${(i / 6) * 100}% - 10px)`, top: 5 }}>
+                <span key={i} className={`absolute ${i === 3 ? 'text-slate-100 font-semibold text-sm' : 'text-slate-300 font-medium text-xs'}`} style={{ left: `calc(${(i / 6) * 100}% - 5px)`, top: 5 }}>
                   {formatTime(index).split(' ')[0]} <br />
                   {formatTime(index).split(' ')[1]}
                 </span>

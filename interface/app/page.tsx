@@ -19,7 +19,7 @@ import { useAppSelector, AppDispatch } from '@/redux/store';
 import { changeSelectedTime, changeSelectedDate } from '@/redux/reducers/spots';
 import { predictSpots, getTimeSlots } from '@/api';
 import { MAPBOX_API_KEY } from '@/constants';
-import { 
+import {
   logViewMapPage, 
   logSpotClicked,
   logTimeViewed,
@@ -50,29 +50,6 @@ export default function Home() {
   const currentSpot = useAppSelector((state) => state.performer.currentSpot);
   const recentSpots = useAppSelector((state) => state.performer.recentSpots);
   const spotsInfo = useAppSelector((state) => state.spots.spots);
-
-  function convertTime12to24(time12h: string): [number, number] {
-    const [time, modifier] = time12h.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
-    if (modifier === 'PM' && hours !== 12) {
-      hours += 12;
-    } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
-    }
-  
-    return [hours, minutes];
-  }
-
-  function checkTimeWithinReservation(startTime: Date, endTime: Date, givenTime: string): boolean {
-      const givenDateTime = new Date(
-        startTime.getFullYear(),
-        startTime.getMonth(),
-        startTime.getDate(),
-        ...convertTime12to24(givenTime)
-      );
-
-      return givenDateTime >= startTime && givenDateTime <= endTime;
-  }
 
   function getNextSevenDays(): string[] {
     const dates = [];
@@ -190,7 +167,7 @@ export default function Home() {
                 }
               };
             });
-            spotToUpdate.availability = isAvailable; // Change this back to isAvailable
+            spotToUpdate.availability = isAvailable;
           };
         })
       };
@@ -253,7 +230,7 @@ export default function Home() {
         <div className="absolute top-20 left-5 z-10 flex flex-row items-center space-x-3">
           <div className="relative">
             <select
-              className="appearance-none bg-spotlite-light-purple text-white text-xs font-bold py-3 pl-4 pr-8 rounded leading-tight focus:outline-none"
+              className="appearance-none bg-spotlite-light-purple text-white text-xs md:text-sm font-bold py-3 pl-4 pr-8 rounded leading-tight focus:outline-none"
               name="date"
               id="date-selector"
               style={{
@@ -276,7 +253,7 @@ export default function Home() {
           </div>
           <div className="px-3 py-2 border-4 border-opacity-80 border-spotlite-light-purple bg-spotlite-light-purple rounded-lg">
             <div className="flex flex-row items-center justify-center">
-              <p className="text-white font-semibold text-xs">{selectedTime}</p>
+              <p className="text-white font-semibold text-xs md:text-sm">{selectedTime}</p>
             </div>
           </div>
         </div>
@@ -292,7 +269,9 @@ export default function Home() {
             <p className="text-white font-eau-medium text-sm ml-2">Key</p>
           </div>
         </button>
-        <Key isOpen={isKeyOpen} onClose={() => setIsKeyOpen(!isKeyOpen)} />
+        <div className="absolute right-5 top-36 z-10">
+          <Key isOpen={isKeyOpen} onClose={() => setIsKeyOpen(!isKeyOpen)} />
+        </div>
         <div className="absolute bottom-32 px-5 z-10 w-full">
           <TimeSlider 
             updateSelectedTime={(newTime) => setSelectedTime(newTime)}

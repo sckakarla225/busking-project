@@ -112,29 +112,29 @@ export default function Profile() {
           <div className="flex flex-row items-center my-3">
             <Image src={'/logos/spotlite-icon.png'} alt="logo" width={75} height={75} />
             <div className="flex flex-col ml-5">
-              <h1 className="text-black font-eau-medium text-lg">{performerName}</h1>
-              <h1 className="text-black font-eau-light text-sm mt-2">&quot;{description}&quot;</h1>
+              <h1 className="text-black font-eau-medium text-lg md:text-xl">{performerName}</h1>
+              <h1 className="text-black font-eau-light text-sm md:text-base mt-2">&quot;{description}&quot;</h1>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between mt-5">
-            <h1 className="text-black font-eau-medium text-xs">Date Joined: {dateJoined} </h1>
-            <h1 className="text-black font-eau-medium text-xs">{performerEmail}</h1>
+            <h1 className="text-black font-eau-medium text-xs md:text-sm">Date Joined: {dateJoined} </h1>
+            <h1 className="text-black font-eau-medium text-xs md:text-sm">{performerEmail}</h1>
           </div>
           <div className="flex flex-col mt-5">
             <div className="flex flex-row items-center">
-              <h1 className="text-black font-eau-regular text-sm">My Performance Styles</h1>
+              <h1 className="text-black font-eau-regular text-sm md:text-base">My Performance Styles</h1>
             </div>
             <div className="flex flex-row flex-wrap mt-3">
               {performanceStyles.map((item: any, index) => (
                 <div key={index} className="rounded bg-spotlite-dark-purple py-2 px-2 mr-2 mb-2 w-auto">
-                  <h1 className="text-xs text-white font-eau-regular">{item}</h1>
+                  <h1 className="text-xs md:text-sm text-white font-eau-regular">{item}</h1>
                 </div>
               ))}
             </div>
           </div>
           <div className="flex flex-col mt-5">
             <div className="flex flex-row items-center">
-              <h1 className="text-black font-eau-regular text-sm">Upcoming Bookings</h1>
+              <h1 className="text-black font-eau-regular text-sm md:text-base">Upcoming Bookings</h1>
             </div>
             <div className="w-full rounded-sm bg-slate-50 border-2 border-slate-100 h-72 mt-3 p-2 overflow-y-auto scroll-smooth snap-none touch-pan-y">
               {reservations.length !== 0 ? (
@@ -159,7 +159,7 @@ export default function Profile() {
                 </>
               ) : (
                 <>
-                  <h1 className="text-sm font-eau-medium m-5">
+                  <h1 className="text-sm md:text-base font-eau-medium m-5">
                     No bookings found. Browse the map and sign up for a time-slot to get started!
                   </h1>
                 </>
@@ -169,7 +169,7 @@ export default function Profile() {
           </div>
           <div className="flex flex-col mt-7">
             <div className="flex flex-row items-center mb-3">
-              <h1 className="text-black font-eau-regular text-sm">My Social Media</h1>
+              <h1 className="text-black font-eau-regular text-sm md:text-base">My Social Media</h1>
             </div>
             {socialMediaHandles.length !== 0 ? (
               <>
@@ -180,14 +180,14 @@ export default function Profile() {
                       <div className="flex flex-row items-center justify-center p-2 rounded-md bg-spotlite-light-purple">
                         <IconComponent size={20} color="white" />
                       </div>
-                      <h1 className="ml-3 font-eau-medium text-sm">@{handle.handle}</h1>
+                      <h1 className="ml-3 font-eau-medium text-sm md:text-base">@{handle.handle}</h1>
                     </div>
                   )
                 })}
               </>
             ) : (
               <>
-                <h1 className="text-base font-eau-medium text-black">None</h1>
+                <h1 className="text-base md:text-lg font-eau-medium text-black">None</h1>
               </>
             )}
             
