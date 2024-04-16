@@ -1,5 +1,5 @@
 
-Current Model Metrics (+- 0.002):
+Current Prediction Model Metrics (+- 0.002):
 Test accuracy: 0.9994600415229797
 Test loss: 0.002019639126956463
 695/695 [==============================] - 0s 223us/step
@@ -443,3 +443,39 @@ ALL FILTERED SPOTS:
     'yEkE8BZOv113CHA75bHP': ['N', 'S', 'NE'], 
     'ynyCb81uJjQLfvozvpK1': ['N', 'W', 'E', 'SE', 'NE', 'NW'], 
     'yy2A9GMazFHmDOslObzy': ['N', 'S', 'W', 'E', 'NW']
+
+
+-------------------------------------------------------------------
+
+Situational Dataset Features:
+- Location properties:
+    - Size (int)
+    - Enclosing (bool)
+    - Spaciousness (category)
+    - Walkways (int)
+- Nearby Sounds properties:
+    - Speaker Noise (category)
+    - Street Noise (category)
+    - Indoor Noise (category)
+- Event properties (for each event):
+    - Name (string)
+    - Types (string)
+    - Descriptions (string)
+    - Relevant Timings (string)
+    - Venue (string)
+    - Size (category)
+    - Themes (string)
+    - Holidays (string)
+- POI Details (for each POI):
+    - Name (string)
+    - Types (string)
+    - Size/Capacities (category)
+    - Descriptions (string)
+    - Outdoor Seating (bool)
+    - Interests (string)
+- Demographics of people (linked to events & POIs):
+    - Interests (string)
+    - Age groups (string)
+    - Music genres (string)
+    - Cultures (+ background) (string)
+    - Relationships (family, couples, etc) (string)

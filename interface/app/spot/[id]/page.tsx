@@ -8,7 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { 
   MdLogout, 
-  MdKeyboardArrowLeft 
+  MdKeyboardArrowLeft,
+  MdEvent 
 } from 'react-icons/md';
 
 import { 
@@ -16,7 +17,9 @@ import {
   SpotGraphics,
   ReserveError,
   ReserveSuccess,
-  Loading 
+  Loading,
+  WeatherInfo,
+  RelevantEvents 
 } from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
 import { predictSpot, getTimeSlots } from '@/api';
@@ -46,6 +49,8 @@ export default function Spot(
   const [activityLevel, setActivityLevel] = useState<number | null>(null);
   const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
   const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
+  const [weatherOpen, setWeatherOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   function getDayOfWeek(dateStr: string): string {
@@ -206,15 +211,12 @@ export default function Spot(
                 color="white"
                 onClick={() => router.back()} 
               />
-              <Link href="/" className="flex items-center ml-5">
-                <Image src={'/logos/spotlite-icon.png'} alt="logo" width={30} height={30} />
-              </Link>
             </div>
-            <MdLogout 
+            <MdEvent 
               size={20} 
               color="white" 
               className="ml-4"
-              onClick={() => logoutUser()} 
+              // onClick={() => logoutUser()} 
             />
           </div>
         </nav>

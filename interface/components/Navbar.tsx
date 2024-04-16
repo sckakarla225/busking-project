@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { MdLogout } from 'react-icons/md';
 import { FaListUl } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 import { signOut } from 'firebase/auth';
 
 import { auth } from '@/firebase/firebaseConfig';
@@ -36,6 +37,14 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           <Link href="/" className="flex items-center cursor-pointer">
             <Image src={'/logos/spotlite-icon.png'} alt="logo" width={30} height={30} />
           </Link>
+          <FaStar 
+            size={20}
+            className={`
+              ml-4 cursor-pointer
+              ${pathname == '/picks' ? 'text-spotlite-orange' : 'text-white'}
+            `}
+            onClick={() => router.push('/picks')}
+          />
           <FaListUl 
             size={20}
             className={`

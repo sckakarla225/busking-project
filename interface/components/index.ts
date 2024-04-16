@@ -13,6 +13,10 @@ import Carousel from './Carousel';
 import Navbar from './Navbar';
 import ReservationView from './ReservationView';
 import TimeSlotView from './TimeSlotView';
+import ViewSpot from './ViewSpot';
+import RelevantEvents from "./RelevantEvents";
+import WeatherInfo from "./WeatherInfo";
+import Pick from './Pick';
 
 export { 
   TimeSlider, 
@@ -30,4 +34,8 @@ export {
   Navbar,
   ReservationView,
   TimeSlotView,
+  ViewSpot,
+  RelevantEvents,
+  WeatherInfo,
+  Pick
 };
