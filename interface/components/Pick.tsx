@@ -45,7 +45,7 @@ const Pick: React.FC<PickProps> = ({
       <h1 className="text-black font-eau-regular text-xs mt-4">Nearby Events:</h1>
       <div className="flex flex-row flex-wrap mt-2">
         {events.map((event: string, index) => (
-          <div 
+          <div
             key={index} 
             className={`rounded py-2 px-3 mr-2 w-auto mb-2 bg-spotlite-light-purple`}
           >

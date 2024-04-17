@@ -17,6 +17,7 @@ import ViewSpot from './ViewSpot';
 import RelevantEvents from "./RelevantEvents";
 import WeatherInfo from "./WeatherInfo";
 import Pick from './Pick';
+import EventInfo from "./EventInfo";
 
 export { 
   TimeSlider, 
@@ -37,5 +38,6 @@ export {
   ViewSpot,
   RelevantEvents,
   WeatherInfo,
-  Pick
+  Pick,
+  EventInfo
 };

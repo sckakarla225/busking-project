@@ -5,9 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter, redirect } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image';
-import Link from 'next/link';
 import { 
-  MdLogout, 
   MdKeyboardArrowLeft,
   MdEvent 
 } from 'react-icons/md';
@@ -188,6 +186,17 @@ export default function Spot(
   return (
     <>
       <Loading isLoading={loading} />
+      <WeatherInfo 
+        isOpen={weatherOpen}
+        onClose={() => setWeatherOpen(false)}
+        temperature={63}
+        winds={'Light'}
+        sunCoverage={'Great'}
+      />
+      <RelevantEvents 
+        isOpen={eventsOpen}
+        onClose={() => setEventsOpen(false)}
+      />
       <ReserveSuccess 
         isOpen={reserveSuccessOpen}
         onClose={() => setReserveSuccessOpen(false)}
@@ -198,7 +207,9 @@ export default function Spot(
         availability={spotAvailability}
       />
       <main className={`
-        relative w-screen h-screen 
+        relative w-screen h-screen
+        ${weatherOpen ? 'opacity-70' : ''}
+        ${eventsOpen ? 'opacity-70' : ''} 
         ${reserveSuccessOpen ? 'opacity-50' : ''}
         ${reserveErrorOpen ? 'opacity-50': ''}
         ${loading ? 'opacity-40': ''}
@@ -212,12 +223,20 @@ export default function Spot(
                 onClick={() => router.back()} 
               />
             </div>
-            <MdEvent 
-              size={20} 
-              color="white" 
-              className="ml-4"
-              // onClick={() => logoutUser()} 
-            />
+            <div className="flex flex-row items-center">
+              <Image 
+                src={'/weather/partly-cloudy.png'} 
+                alt="weather" 
+                width={25} 
+                height={25}
+                onClick={() => setWeatherOpen(true)} 
+              />
+              <MdEvent 
+                size={20}  
+                className={`ml-4 ${eventsOpen ? 'text-spotlite-orange' : 'text-white'}`}
+                onClick={() => setEventsOpen(true)} 
+              />
+            </div> 
           </div>
         </nav>
         <div className="absolute bottom-20 z-10 px-16 w-full mx-auto">
