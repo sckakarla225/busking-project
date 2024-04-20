@@ -92,6 +92,7 @@ export default function CityHome() {
                         activityLevel={timeSlot.activityLevel}
                         reserveSuccess={() => {}}
                         reserveFail={() => {}}
+                        isIdeal={true}
                       />
                     )
                   }

@@ -125,7 +125,7 @@ export default function PicksList() {
             </div>
           </div>
           <div className="mt-5">
-            {filteredPicks.map((pick: any) => {
+            {filteredPicks.map((pick: any, index) => {
               let convertedTime = new Date(pick.startTime);
               let convertedEndTime = new Date(pick.endTime);
               convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
@@ -142,6 +142,7 @@ export default function PicksList() {
               });
               return (
                 <Pick
+                  key={index}
                   timeSlotId={pick.timeSlotId} 
                   spotId={pick.spotId}
                   spotName={pick.spotName}

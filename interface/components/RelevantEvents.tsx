@@ -20,8 +20,6 @@ const RelevantEvents: React.FC<RelevantEventsProps> = ({
   latitude,
   longitude 
 }) => {
-  if (!isOpen) return null;
-
   const selectedDate = useAppSelector((state) => state.spots.selectedDate);
   const [loading, setLoading] = useState(true);
   const [nearbyEvents, setNearbyEvents] = useState<Event[]>([]);
@@ -44,6 +42,8 @@ const RelevantEvents: React.FC<RelevantEventsProps> = ({
       .catch(() => setLoading(false));
   }, [latitude, longitude]);
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-20 flex justify-center py-28 px-5">
       <div className="flex flex-row">
@@ -58,8 +58,9 @@ const RelevantEvents: React.FC<RelevantEventsProps> = ({
             <h1 className="text-black text-base font-eau-medium text-left">Nearby Events:</h1>
             <div className="flex flex-col mt-4">
               {nearbyEvents && nearbyEvents.length !== 0 ? (
-                nearbyEvents.map((event: Event) => (
+                nearbyEvents.map((event: Event, index) => (
                   <EventInfo 
+                    key={index}
                     eventName={event.name}
                     eventVenue={event.venue}
                     distanceFromSpot={75}
