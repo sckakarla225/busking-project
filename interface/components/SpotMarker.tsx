@@ -1,13 +1,15 @@
 import React from 'react';
+import { FaStar } from 'react-icons/fa';
 
 interface SpotMarkerProps {
   size: number,
   availability: boolean,
   activity: number,
+  ideal: boolean
 };
 
 const SpotMarker: React.FC<SpotMarkerProps> = ({
-  availability, activity
+  availability, activity, ideal
 }) => {
   return (
     // <div 
@@ -22,16 +24,24 @@ const SpotMarker: React.FC<SpotMarkerProps> = ({
     <div 
       className={`
         bg-slate-100 border-4 border-spotlite-dark-purple mt-20 rounded-full flex items-center justify-center h-12 w-12
-        ${!availability && 'bg-spotlite-light-purple'}
+        ${!availability && 'hidden'}
       `}
     >
-      {availability && activity == 3 && (
-        <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center">
-          <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave"></div>
+      {availability && ideal ? (
+        <div className="flex flex-row items-center justify-center">
+          <FaStar size={30} className="text-spotlite-pink" />
         </div>
-      )}
-      {availability && activity == 2 && (
-        <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center"></div>
+      ) : (
+        <>
+          {availability && activity == 3 && (
+            <div className="w-[75%] h-[75%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center">
+              <div className="w-[60%] h-[60%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave"></div>
+            </div>
+          )}
+          {availability && activity == 2 && (
+            <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-4 border-spotlite-light-purple animate-wave flex items-center justify-center"></div>
+          )}
+        </>
       )}
     </div>
   ) 

@@ -5,10 +5,9 @@ import { useDispatch } from 'react-redux';
 import { useRouter, redirect } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import Image from 'next/image';
-import Link from 'next/link';
 import { 
-  MdLogout, 
-  MdKeyboardArrowLeft 
+  MdKeyboardArrowLeft,
+  MdEvent 
 } from 'react-icons/md';
 
 import { 
@@ -16,10 +15,14 @@ import {
   SpotGraphics,
   ReserveError,
   ReserveSuccess,
-  Loading 
+  Loading,
+  RelevantEvents 
 } from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
-import { predictSpot, getTimeSlots } from '@/api';
+import { 
+  predictSpot, 
+  getTimeSlots
+} from '@/api';
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { logout } from '@/redux/reducers/auth';
 import { resetUser } from '@/redux/reducers/performer';
@@ -46,6 +49,7 @@ export default function Spot(
   const [activityLevel, setActivityLevel] = useState<number | null>(null);
   const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
   const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   function getDayOfWeek(dateStr: string): string {
@@ -183,6 +187,12 @@ export default function Spot(
   return (
     <>
       <Loading isLoading={loading} />
+      <RelevantEvents 
+        isOpen={eventsOpen}
+        onClose={() => setEventsOpen(false)}
+        latitude={spotLatitude}
+        longitude={spotLongitude}
+      />
       <ReserveSuccess 
         isOpen={reserveSuccessOpen}
         onClose={() => setReserveSuccessOpen(false)}
@@ -193,7 +203,8 @@ export default function Spot(
         availability={spotAvailability}
       />
       <main className={`
-        relative w-screen h-screen 
+        relative w-screen h-screen
+        ${eventsOpen ? 'opacity-70' : ''} 
         ${reserveSuccessOpen ? 'opacity-50' : ''}
         ${reserveErrorOpen ? 'opacity-50': ''}
         ${loading ? 'opacity-40': ''}
@@ -206,16 +217,20 @@ export default function Spot(
                 color="white"
                 onClick={() => router.back()} 
               />
-              <Link href="/" className="flex items-center ml-5">
-                <Image src={'/logos/spotlite-icon.png'} alt="logo" width={30} height={30} />
-              </Link>
             </div>
-            <MdLogout 
-              size={20} 
-              color="white" 
-              className="ml-4"
-              onClick={() => logoutUser()} 
-            />
+            <div className="flex flex-row items-center">
+              {/* <Image 
+                src={'/weather/partly-cloudy.png'} 
+                alt="weather" 
+                width={25} 
+                height={25}
+              /> */}
+              <MdEvent 
+                size={20}  
+                className={`ml-4 ${eventsOpen ? 'text-spotlite-orange' : 'text-white'}`}
+                onClick={() => setEventsOpen(true)} 
+              />
+            </div> 
           </div>
         </nav>
         <div className="absolute bottom-20 z-10 px-16 w-full mx-auto">

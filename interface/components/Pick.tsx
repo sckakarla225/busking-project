@@ -1,36 +1,39 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { FaStreetView, FaStar } from 'react-icons/fa';
+import { FaStar, FaStreetView } from 'react-icons/fa';
 
+import { 
+  changeSelectedDate,
+  changeSelectedTime 
+} from '@/redux/reducers/spots';
 import { useAppSelector, AppDispatch } from '@/redux/store';
-import { changeSelectedDate, changeSelectedTime } from '@/redux/reducers/spots';
 import { reserveTimeSlot } from '@/api';
 
-interface TimeSlotViewProps {
+interface PickProps {
   timeSlotId: string,
   spotId: string,
   spotName: string,
   spotRegion: string,
   date: string,
+  events: string[],
   startTime: string,
   endTime: string,
   activityLevel: number,
-  isIdeal: boolean,
   reserveSuccess: () => void,
   reserveFail: () => void,
 };
 
-const TimeSlotView: React.FC<TimeSlotViewProps> = ({
+const Pick: React.FC<PickProps> = ({
   timeSlotId,
   spotId,
   spotName,
   spotRegion,
   date,
+  events,
   startTime,
   endTime,
   activityLevel,
-  isIdeal,
   reserveSuccess,
   reserveFail
 }) => {
@@ -54,14 +57,14 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
   }
 
   return (
-    <div className="w-full md:w-4/5 md:mx-auto bg-slate-50 px-5 py-4 rounded-md mb-4">
+    <div className="w-full bg-slate-50 px-5 py-4 rounded-md mb-6">
       <div className="flex flex-row justify-between">
-        <div className="flex flex-col">
-          <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center">
+          <FaStar size={25} className="text-spotlite-pink" />
+          <div className="flex flex-col ml-3">
             <h1 className="font-eau-bold text-sm">{spotName}</h1>
-            {isIdeal && <FaStar size={20} className="text-spotlite-pink ml-2" />}
+            <h1 className="font-eau-light text-xs mt-1">{spotRegion}</h1>
           </div>
-          <h1 className="font-eau-light text-xs mt-2">{spotRegion}</h1>
         </div>
         <button 
           className="text-white font-semibold text-xs rounded-md bg-spotlite-dark-purple border-2 border-spotlite-dark-purple border-opacity-80 px-1 py-1 mt-4 flex flex-row justify-center w-10"
@@ -74,7 +77,25 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
         </button>
       </div>
       <h1 className="text-black font-eau-medium text-xs mt-4">Date: {date}</h1>
-      <div className="flex flex-row items-center justify-between space-x-2 mt-3">
+      <h1 className="text-black font-eau-regular text-xs mt-4">Nearby Events:</h1>
+      {events.length !== 0 ? (
+        <div className="flex flex-row flex-wrap mt-2">
+          {events.map((event: string, index) => (
+            <div
+              key={index} 
+              className={`rounded py-2 px-3 mr-2 w-auto mb-2 bg-spotlite-light-purple`}
+            >
+              <h1 className={`text-xs font-eau-regular text-white`}>
+                {event}
+              </h1>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <h1 className="font-eau-regular text-base mt-2">None</h1>
+      )}
+      
+      <div className="flex flex-row items-center justify-between space-x-2 mt-5">
         <div className="py-2 px-3 bg-slate-200 border-2 border-slate-300 border-opacity-50 flex flex-row items-center rounded-md">
           <h1 className="text-black font-semibold text-xs">{startTime}</h1>
         </div>
@@ -83,8 +104,8 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
           <h1 className="text-black font-semibold text-xs">{endTime}</h1>
         </div>
       </div>
-      <div className="flex flex-row items-center justify-between mt-7">
-        <div 
+      <div className="flex flex-row items-center justify-end mt-7">
+        {/* <div 
           className={`
             bg-slate-100 border-4 border-spotlite-dark-purple rounded-full flex items-center justify-center w-8 h-8
           `}
@@ -97,7 +118,7 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
           {activityLevel == 2 && (
             <div className="w-[50%] h-[50%] rounded-full bg-slate-100 border-2 border-spotlite-light-purple animate-wave flex items-center justify-center"></div>
           )}
-        </div>
+        </div> */}
         <button 
           type="submit"
           className={`
@@ -112,4 +133,4 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
   );
 };
 
-export default TimeSlotView;
+export default Pick;

@@ -10,9 +10,9 @@ import {
   TimeSlider, 
   Key,
   SpotMarker,
-  SpotPopup,
   Loading,
-  Navbar 
+  Navbar,
+  ViewSpot 
 } from '../components';
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { 
@@ -41,6 +41,7 @@ export default function Home() {
   );
   const [selectedSpot, setSelectedSpot] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [viewSpotActive, setViewSpotActive] = useState(false);
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const setupComplete = useAppSelector((state) => state.performer.setupComplete);
@@ -159,6 +160,7 @@ export default function Home() {
           if (timeSlots.length !== 0 && spotToUpdate) {
             const slots = timeSlots;
             let isAvailable = false;
+            let isIdeal = false;
             slots.map((slot: any) => {
               let convertedTime = new Date(slot.startTime);
               convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
@@ -179,10 +181,16 @@ export default function Home() {
                 if (!slot.performerId) {
                   isAvailable = true;
                 }
+                if (slot.isIdeal) {
+                  isIdeal = true;
+                }
               };
             });
             spotToUpdate.availability = isAvailable;
+            spotToUpdate.isIdeal = isIdeal;
           };
+
+          // spotToUpdate.availability = true;
         })
       };
 
@@ -222,10 +230,23 @@ export default function Home() {
 
   return (
     <>
+      <ViewSpot 
+        isOpen={viewSpotActive}
+        onClose={() => setViewSpotActive(!viewSpotActive)}
+        spotId={selectedSpot && selectedSpot.spotId}
+        spotName={selectedSpot && selectedSpot.name}
+        region={selectedSpot && selectedSpot.region}
+        selectedTime={selectedTime}
+        availability={selectedSpot && selectedSpot.availability}
+        activity={selectedSpot && selectedSpot.activity}
+        sound={1}
+        isIdeal={selectedSpot && selectedSpot.isIdeal}
+      />
       <Loading isLoading={loading} />
       <main className={`
         relative w-screen h-screen 
         ${loading ? 'opacity-40' : ''}
+        ${viewSpotActive ? 'opacity-80' : ''}
       `}>
         <Navbar />
         <div className="absolute top-20 left-5 z-10 flex flex-row items-center space-x-3">
@@ -303,6 +324,7 @@ export default function Home() {
                 onClick={(e) => {
                   e.originalEvent.stopPropagation();
                   setSelectedSpot(spot);
+                  setViewSpotActive(true);
                   logSpotClicked(userId, spot.spotId);
                 }}
               >
@@ -310,11 +332,12 @@ export default function Home() {
                   size={spot.spotSize} 
                   availability={spot.availability} 
                   activity={spot.activity}
+                  ideal={spot.isIdeal}
                 />
               </Marker>
             ))
           )}
-          {selectedSpot && (
+          {/* {selectedSpot && (
             <Popup 
               anchor="left" 
               latitude={selectedSpot.latitude} 
@@ -330,7 +353,7 @@ export default function Home() {
                 activity={selectedSpot.activity}
               />
             </Popup>
-          )}
+          )} */}
         </Map>
       </main>
     </>

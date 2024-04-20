@@ -9,6 +9,7 @@ interface TimeSlot extends Document {
   date: string,
   startTime: Date,
   endTime: Date,
+  isIdeal?: Boolean
 };
 
 const TimeSlotSchema = new Schema<TimeSlot>({
@@ -19,7 +20,8 @@ const TimeSlotSchema = new Schema<TimeSlot>({
   spotRegion: { type: String, required: true },
   date: { type: String, required: true },
   startTime: { type: Date, required: true },
-  endTime: { type: Date, required: true }
+  endTime: { type: Date, required: true },
+  isIdeal: { type: Boolean, required: false }
 }, {
   collection: 'time-slots'
 });

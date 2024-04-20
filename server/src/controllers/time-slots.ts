@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
+import { parse, isWithinInterval } from 'date-fns';
 import { Request, Response } from 'express';
 import { TimeSlotModel } from '../models/time-slots';
 import { UserModel } from '../models/user'
 import { SpotModel } from '../models/spots';
+import { EventModel } from '../models/events';
 import { getPredictions } from '../models/predictions';
 import { 
   createTimeFromString, 
@@ -148,7 +150,7 @@ const generateTimeSlots = async (req: Request, res: Response) => {
       }
 
       const sortedPredictions = sortPredictions(predictions);
-      return sortedPredictions.slice(0, 3).map(async (prediction) => {
+      return sortedPredictions.slice(0, 5).map(async (prediction) => {
         const parts = prediction.predictionKey.split('||');
         const startTimeStr = parts[3];
         const endTimeStr = getNextHour(startTimeStr);
@@ -188,10 +190,117 @@ const generateTimeSlots = async (req: Request, res: Response) => {
   }
 };
 
+
+const filterIdealTimeSlots = async (req: Request, res: Response) => {
+  try {
+    const timeSlots = await TimeSlotModel.find();
+
+    for (const timeSlot of timeSlots) {
+      const spotInfo = await SpotModel.findOne({ spotId: timeSlot.spotId });
+      if (!spotInfo) {
+        res.status(404).send("Error getting spot info.");
+        return;
+      }
+      const spotLatitude = spotInfo.latitude;
+      const spotLongitude = spotInfo.longitude;
+      const events = await EventModel.find({
+        date: timeSlot.date,
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [spotLongitude, spotLatitude]
+            },
+            $maxDistance: 100
+          }
+        }
+      });
+
+      const timeSlotStartDate = timeSlot.startTime;
+      const timeSlotEndDate = timeSlot.endTime;
+      for (const event of events) {
+        const formattedStartTime = createTimeFromString(event.startTime);
+        const formattedEndTime = createTimeFromString(event.endTime);
+        if (
+          isWithinInterval(timeSlotStartDate, { start: formattedStartTime, end: formattedEndTime }) ||
+          isWithinInterval(timeSlotEndDate, { start: formattedStartTime, end: formattedEndTime })
+        ) {
+          console.log("found an ideal timeslot");
+          timeSlot.isIdeal = true;
+          await timeSlot.save();
+          break;
+        };
+      };
+    }
+    res.send("Time slots processed successfully.");
+  } catch (error) {
+    console.error('Error processing time slots:', error);
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("Unknown error has occurred.");
+    }
+  }
+};
+
+const getIdealTimeSlots = async (req: Request, res: Response) => {
+  try {
+    const timeSlots = await TimeSlotModel.find({ isIdeal: true });
+    const formattedTimeSlots: any[] = [];
+    
+    for (const timeSlot of timeSlots) {
+      const spotInfo = await SpotModel.findOne({ spotId: timeSlot.spotId });
+      if (!spotInfo) {
+        res.status(404).send("Error getting spot info.");
+        return;
+      }
+      const spotLatitude = spotInfo.latitude;
+      const spotLongitude = spotInfo.longitude;
+      const events = await EventModel.find({
+        date: timeSlot.date,
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [spotLongitude, spotLatitude]
+            },
+            $maxDistance: 100
+          }
+        }
+      });
+
+      const nearbyEventStrings: string[] = [];
+      events.map((event) => nearbyEventStrings.push(event.name));
+      const timeSlotToAdd = {
+        timeSlotId: timeSlot.timeSlotId,
+        spotId: timeSlot.spotId,
+        spotName: timeSlot.spotName,
+        spotRegion: timeSlot.spotRegion,
+        date: timeSlot.date,
+        startTime: timeSlot.startTime,
+        endTime: timeSlot.endTime,
+        isIdeal: timeSlot.isIdeal ? timeSlot.isIdeal : false,
+        nearbyEvents: nearbyEventStrings
+      };
+      formattedTimeSlots.push(timeSlotToAdd);
+    };
+    
+    res.status(200).send(formattedTimeSlots);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(500).send("Unknown error has occurred.");
+    }
+  }
+}
+
 export {
   createTimeSlots,
   getTimeSlots,
   reserveTimeSlot,
   freeTimeSlot,
-  generateTimeSlots
+  generateTimeSlots,
+  filterIdealTimeSlots,
+  getIdealTimeSlots
 };
