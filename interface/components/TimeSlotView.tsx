@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { FaStreetView } from 'react-icons/fa';
+import { FaStreetView, FaStar } from 'react-icons/fa';
 
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { changeSelectedDate, changeSelectedTime } from '@/redux/reducers/spots';
@@ -16,6 +16,7 @@ interface TimeSlotViewProps {
   startTime: string,
   endTime: string,
   activityLevel: number,
+  isIdeal: boolean,
   reserveSuccess: () => void,
   reserveFail: () => void,
 };
@@ -29,6 +30,7 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
   startTime,
   endTime,
   activityLevel,
+  isIdeal,
   reserveSuccess,
   reserveFail
 }) => {
@@ -55,7 +57,10 @@ const TimeSlotView: React.FC<TimeSlotViewProps> = ({
     <div className="w-full md:w-4/5 md:mx-auto bg-slate-50 px-5 py-4 rounded-md mb-4">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          <h1 className="font-eau-bold text-sm">{spotName}</h1>
+          <div className="flex flex-row items-center">
+            <h1 className="font-eau-bold text-sm">{spotName}</h1>
+            {isIdeal && <FaStar size={20} className="text-spotlite-pink ml-2" />}
+          </div>
           <h1 className="font-eau-light text-xs mt-2">{spotRegion}</h1>
         </div>
         <button 

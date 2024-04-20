@@ -9,6 +9,8 @@ import usersRouter from './routes/user';
 import spotsRouter from './routes/spots';
 import predictionsRouter from './routes/predictions';
 import timeSlotsRouter from './routes/time-slots';
+import weatherRouter from './routes/weather';
+import eventsRouter from './routes/events';
 
 dotenv.config();
 
@@ -21,6 +23,8 @@ app.use('/users', usersRouter);
 app.use('/spots', spotsRouter);
 app.use('/predictions', predictionsRouter);
 app.use('/time-slots', timeSlotsRouter);
+app.use('/weather', weatherRouter);
+app.use('/events', eventsRouter);
 
 app.post('/test', (req, res) => {
     res.status(200).send('POST request to the homepage');

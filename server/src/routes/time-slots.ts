@@ -4,7 +4,9 @@ import {
   createTimeSlots,
   reserveTimeSlot,
   freeTimeSlot,
-  generateTimeSlots
+  generateTimeSlots,
+  filterIdealTimeSlots,
+  getIdealTimeSlots
 } from '../controllers/time-slots';
 
 const router = express.Router();
@@ -14,5 +16,7 @@ router.post('/create', createTimeSlots);
 router.post('/reserve', reserveTimeSlot);
 router.put('/free', freeTimeSlot);
 router.post('/generate', generateTimeSlots);
+router.put('/filter', filterIdealTimeSlots);
+router.get('/ideal', getIdealTimeSlots);
 
 export default router;

@@ -20,6 +20,7 @@ import {
   reserveTimeSlot,
   cancelTimeSlot
 } from './timeslots';
+import { getNearbyEvents } from './events';
 
 export {
   getUser,
@@ -35,5 +36,6 @@ export {
   predictSpots,
   getTimeSlots,
   reserveTimeSlot,
-  cancelTimeSlot
+  cancelTimeSlot,
+  getNearbyEvents
 };

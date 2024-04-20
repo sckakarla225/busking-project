@@ -16,11 +16,13 @@ import {
   ReserveError,
   ReserveSuccess,
   Loading,
-  WeatherInfo,
   RelevantEvents 
 } from '@/components';
 import { auth } from '@/firebase/firebaseConfig';
-import { predictSpot, getTimeSlots } from '@/api';
+import { 
+  predictSpot, 
+  getTimeSlots
+} from '@/api';
 import { useAppSelector, AppDispatch } from '@/redux/store';
 import { logout } from '@/redux/reducers/auth';
 import { resetUser } from '@/redux/reducers/performer';
@@ -47,7 +49,6 @@ export default function Spot(
   const [activityLevel, setActivityLevel] = useState<number | null>(null);
   const [reserveErrorOpen, setReserveErrorOpen] = useState(false);
   const [reserveSuccessOpen, setReserveSuccessOpen] = useState(false);
-  const [weatherOpen, setWeatherOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -186,16 +187,11 @@ export default function Spot(
   return (
     <>
       <Loading isLoading={loading} />
-      <WeatherInfo 
-        isOpen={weatherOpen}
-        onClose={() => setWeatherOpen(false)}
-        temperature={63}
-        winds={'Light'}
-        sunCoverage={'Great'}
-      />
       <RelevantEvents 
         isOpen={eventsOpen}
         onClose={() => setEventsOpen(false)}
+        latitude={spotLatitude}
+        longitude={spotLongitude}
       />
       <ReserveSuccess 
         isOpen={reserveSuccessOpen}
@@ -208,7 +204,6 @@ export default function Spot(
       />
       <main className={`
         relative w-screen h-screen
-        ${weatherOpen ? 'opacity-70' : ''}
         ${eventsOpen ? 'opacity-70' : ''} 
         ${reserveSuccessOpen ? 'opacity-50' : ''}
         ${reserveErrorOpen ? 'opacity-50': ''}
@@ -224,13 +219,12 @@ export default function Spot(
               />
             </div>
             <div className="flex flex-row items-center">
-              <Image 
+              {/* <Image 
                 src={'/weather/partly-cloudy.png'} 
                 alt="weather" 
                 width={25} 
                 height={25}
-                onClick={() => setWeatherOpen(true)} 
-              />
+              /> */}
               <MdEvent 
                 size={20}  
                 className={`ml-4 ${eventsOpen ? 'text-spotlite-orange' : 'text-white'}`}

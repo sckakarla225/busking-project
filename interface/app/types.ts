@@ -37,5 +37,18 @@ export interface TimeSlot {
   date: string,
   startTime: string,
   endTime: string,
-  activityLevel: number
+  activityLevel: number,
+  isIdeal?: boolean,
+};
+
+export interface Event {
+  date: string,
+  name: string,
+  venue: string,
+  address: string,
+  startTime: string,
+  endTime: string,
+  details: string,
+  tags: string[],
+  location: Object
 };

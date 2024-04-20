@@ -10,7 +10,6 @@ import {
   TimeSlider, 
   Key,
   SpotMarker,
-  SpotPopup,
   Loading,
   Navbar,
   ViewSpot 
@@ -161,6 +160,7 @@ export default function Home() {
           if (timeSlots.length !== 0 && spotToUpdate) {
             const slots = timeSlots;
             let isAvailable = false;
+            let isIdeal = false;
             slots.map((slot: any) => {
               let convertedTime = new Date(slot.startTime);
               convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
@@ -181,10 +181,16 @@ export default function Home() {
                 if (!slot.performerId) {
                   isAvailable = true;
                 }
+                if (slot.isIdeal) {
+                  isIdeal = true;
+                }
               };
             });
             spotToUpdate.availability = isAvailable;
+            spotToUpdate.isIdeal = isIdeal;
           };
+
+          // spotToUpdate.availability = true;
         })
       };
 
@@ -234,7 +240,7 @@ export default function Home() {
         availability={selectedSpot && selectedSpot.availability}
         activity={selectedSpot && selectedSpot.activity}
         sound={1}
-        isIdeal={true}
+        isIdeal={selectedSpot && selectedSpot.isIdeal}
       />
       <Loading isLoading={loading} />
       <main className={`
@@ -326,6 +332,7 @@ export default function Home() {
                   size={spot.spotSize} 
                   availability={spot.availability} 
                   activity={spot.activity}
+                  ideal={spot.isIdeal}
                 />
               </Marker>
             ))

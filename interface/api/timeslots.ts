@@ -90,8 +90,34 @@ const cancelTimeSlot = async (timeSlotId: string, performerId: string) => {
   }
 };
 
+const getPicks = async () => {
+  try {
+    const { data } : any = await axios.get(
+      API_ENDPOINT + `/time-slots/ideal`, 
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+    return { success: true, data: data };
+  } catch (error: any) {
+    let errorMessage = 'An unknown error has occurred';
+    if (error.response) {
+      if (error.response.status == 404) {
+        errorMessage = 'Time slot and/or user not found';
+      } else if (error.response.status = 500) {
+        errorMessage = 'Internal server error';
+      };
+      return { success: false, error: errorMessage };
+    }
+    return { success: false, error: errorMessage };
+  }
+};
+
 export {
   getTimeSlots,
   reserveTimeSlot,
-  cancelTimeSlot
+  cancelTimeSlot,
+  getPicks
 };

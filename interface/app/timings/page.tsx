@@ -162,15 +162,24 @@ export default function TimingsList() {
 
   useEffect(() => {
     setLoading(true);
-    const filtered = allTimeSlots.filter(timeSlot => timeSlot.date === selectedDate + '/2024');
+    let filtered = allTimeSlots.filter(timeSlot => timeSlot.date === selectedDate + '/2024');
     if (selectedSpotName !== 'All Spots') {
-      const filteredAgain = filtered.filter(timeSlot => timeSlot.spotName === selectedSpotName);
-      setFilteredTimeSlots(filteredAgain);
-    } else {
-      setFilteredTimeSlots(filtered);
-    };
+      filtered = filtered.filter(timeSlot => timeSlot.spotName === selectedSpotName);
+    }
+    
+    filtered.sort((a, b) => b.isIdeal === true ? 1 : -1);
+    setFilteredTimeSlots(filtered);
     setLoading(false);
-  }, [selectedDate, selectedSpotName]);
+    // setLoading(true);
+    // const filtered = allTimeSlots.filter(timeSlot => timeSlot.date === selectedDate + '/2024');
+    // if (selectedSpotName !== 'All Spots') {
+    //   const filteredAgain = filtered.filter(timeSlot => timeSlot.spotName === selectedSpotName);
+    //   setFilteredTimeSlots(filteredAgain);
+    // } else {
+    //   setFilteredTimeSlots(filtered);
+    // };
+    // setLoading(false);
+  }, [selectedDate, selectedSpotName, allTimeSlots]);
 
   return (
     <>
@@ -253,6 +262,7 @@ export default function TimingsList() {
                         startTime={timeSlot.startTime}
                         endTime={timeSlot.endTime}
                         activityLevel={timeSlot.activityLevel}
+                        isIdeal={timeSlot.isIdeal ? timeSlot.isIdeal : false}
                         reserveSuccess={() => setSignUpSuccess(true)}
                         reserveFail={() => setSignUpError(true)}
                       />

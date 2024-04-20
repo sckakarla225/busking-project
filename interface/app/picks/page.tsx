@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { 
   Loading, 
@@ -9,12 +9,40 @@ import {
   ReserveError,
   Pick 
 } from '@/components';
+import { getPicks } from '@/api/timeslots';
 
 export default function PicksList() {
   const [loading, setLoading] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
   const [selectedDate, setSelectedDate] = useState('04/19/2024');
+  const [allPicks, setAllPicks] = useState<any[]>([]);
+  const [filteredPicks, setFilteredPicks] = useState<any[]>([]);
+
+  useEffect(() => {
+    const setupPicks = async () => {
+      const picks = await getPicks();
+      if (picks.success) {
+        return picks.data;
+      } else {
+        return [];
+      };
+    };
+
+    setupPicks()
+      .then((picks: any[]) => {
+        setAllPicks(picks);
+        const filtered = picks.filter((pick) => pick.date === selectedDate);
+        setFilteredPicks(filtered);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    const filtered = allPicks.filter((pick) => pick.date === selectedDate);
+    setFilteredPicks(filtered);
+  }, [selectedDate]);
 
   return (
     <>
@@ -97,42 +125,37 @@ export default function PicksList() {
             </div>
           </div>
           <div className="mt-5">
-            <Pick 
-              spotId={''}
-              spotName={'Raleigh Convention Center'}
-              spotRegion={'Fayetteville Street'}
-              date={selectedDate}
-              events={[
-                'PrideExpo 2024', 'First Friday', 'Head Shaving Event'
-              ]}
-              startTime={'4:00 PM'}
-              endTime={'5:00 PM'}
-              activityLevel={3}
-            />
-            <Pick 
-              spotId={''}
-              spotName={'Raleigh Convention Center'}
-              spotRegion={'Fayetteville Street'}
-              date={selectedDate}
-              events={[
-                'PrideExpo 2024', 'First Friday', 'Head Shaving Event'
-              ]}
-              startTime={'4:00 PM'}
-              endTime={'5:00 PM'}
-              activityLevel={3}
-            />
-            <Pick 
-              spotId={''}
-              spotName={'Raleigh Convention Center'}
-              spotRegion={'Fayetteville Street'}
-              date={selectedDate}
-              events={[
-                'PrideExpo 2024', 'First Friday', 'Head Shaving Event'
-              ]}
-              startTime={'4:00 PM'}
-              endTime={'5:00 PM'}
-              activityLevel={3}
-            />
+            {filteredPicks.map((pick: any) => {
+              let convertedTime = new Date(pick.startTime);
+              let convertedEndTime = new Date(pick.endTime);
+              convertedTime = new Date(convertedTime.getTime() + 0 * 60 * 60 * 1000);
+              convertedEndTime = new Date(convertedEndTime.getTime() + 0 * 60 * 60 * 1000);
+              const formattedTime = convertedTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              const formattedEndTime = convertedEndTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+              });
+              return (
+                <Pick
+                  timeSlotId={pick.timeSlotId} 
+                  spotId={pick.spotId}
+                  spotName={pick.spotName}
+                  spotRegion={pick.spotRegion}
+                  date={pick.date}
+                  events={pick.nearbyEvents}
+                  startTime={formattedTime}
+                  endTime={formattedEndTime}
+                  activityLevel={3}
+                  reserveSuccess={() => setSignUpSuccess(true)}
+                  reserveFail={() => setSignUpError(true)}
+                />
+              );
+            })}
           </div>
         </section>
       </main>

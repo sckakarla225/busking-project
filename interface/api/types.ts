@@ -76,3 +76,10 @@ export interface PredictionInput {
   time: string,
   day: string
 }
+
+// Events
+export interface NearbyEvent {
+  date: string,
+  latitude: number,
+  longitude: number
+};
