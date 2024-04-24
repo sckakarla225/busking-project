@@ -15,7 +15,7 @@ export default function PicksList() {
   const [loading, setLoading] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('04/19/2024');
+  const [selectedDate, setSelectedDate] = useState('04/26/2024');
   const [allPicks, setAllPicks] = useState<any[]>([]);
   const [filteredPicks, setFilteredPicks] = useState<any[]>([]);
 
@@ -64,63 +64,63 @@ export default function PicksList() {
       `}>
         <Navbar />
         <section className="px-10 md:px-96 py-28">
-          <h1 className="font-eau-bold text-xl text-black">Your Picks for 4/19 - 4/21</h1>
+          <h1 className="font-eau-bold text-xl text-black">Your Picks for 4/26 - 4/28</h1>
           <div className="flex flex-row items-center mt-5 justify-between">
             <div 
               className={`
                 px-4 py-2 cursor-pointer rounded-md border-2
-                ${selectedDate == '04/19/2024' 
+                ${selectedDate == '04/26/2024' 
                   ? 'bg-spotlite-dark-purple border-spotlite-dark-purple border-opacity-50'
                   : 'bg-slate-100 border-slate-200'
                 }
               `}
-              onClick={() => setSelectedDate('04/19/2024')}
+              onClick={() => setSelectedDate('04/26/2024')}
             >
               <h1 
                 className={`
                   font-medium text-xs
-                  ${selectedDate == '04/19/2024' ? 'text-white' : 'text-gray-700'}
+                  ${selectedDate == '04/26/2024' ? 'text-white' : 'text-gray-700'}
                 `}
               >
-                Fri, 4/19
+                Fri, 4/26
               </h1>
             </div>
             <div 
               className={`
                 px-4 py-2 cursor-pointer rounded-md border-2
-                ${selectedDate == '04/20/2024' 
+                ${selectedDate == '04/27/2024' 
                   ? 'bg-spotlite-dark-purple border-spotlite-dark-purple border-opacity-50'
                   : 'bg-slate-100 border-slate-200'
                 }
               `}
-              onClick={() => setSelectedDate('04/20/2024')}
+              onClick={() => setSelectedDate('04/27/2024')}
             >
               <h1 
                 className={`
                   font-medium text-xs
-                  ${selectedDate == '04/20/2024' ? 'text-white' : 'text-gray-700'}
+                  ${selectedDate == '04/27/2024' ? 'text-white' : 'text-gray-700'}
                 `}
               >
-                Sat, 4/20
+                Sat, 4/27
               </h1>
             </div>
             <div 
               className={`
                 px-4 py-2 cursor-pointer rounded-md border-2
-                ${selectedDate == '04/21/2024' 
+                ${selectedDate == '04/28/2024' 
                   ? 'bg-spotlite-dark-purple border-spotlite-dark-purple border-opacity-50'
                   : 'bg-slate-100 border-slate-200'
                 }
               `}
-              onClick={() => setSelectedDate('04/21/2024')}
+              onClick={() => setSelectedDate('04/28/2024')}
             >
               <h1 
                 className={`
                   font-medium text-xs
-                  ${selectedDate == '04/21/2024' ? 'text-white' : 'text-gray-700'}
+                  ${selectedDate == '04/28/2024' ? 'text-white' : 'text-gray-700'}
                 `}
               >
-                Sun, 4/21
+                Sun, 4/28
               </h1>
             </div>
           </div>

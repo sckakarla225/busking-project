@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { parse, isWithinInterval } from 'date-fns';
+import { isWithinInterval } from 'date-fns';
 import { Request, Response } from 'express';
 import { TimeSlotModel } from '../models/time-slots';
 import { UserModel } from '../models/user'
@@ -11,7 +11,8 @@ import {
   getDayOfWeek, 
   sortPredictions,
   getNextHour,
-  reformatDateString 
+  reformatDateString,
+  isWithinPriorityTime 
 } from '../utils';
 
 const createTimeSlots = async (req: Request, res: Response) => {
@@ -140,17 +141,50 @@ const generateTimeSlots = async (req: Request, res: Response) => {
     const predictionsTasks = spots.map(async (spot: any) => {
       const predictionKeys = times.map((time: string) => `${spot.spotId}||${spot.latitude}||${spot.longitude}||${time}||${date}||${dayOfWeek}`);
       const predictionsData = await getPredictions(predictionKeys);
-      if (!predictionsData) {
-        throw new Error("Error generating predictions");
+
+      if (!predictionsData || predictionsData.predictions.length === 0) {
+        throw new Error("Error generating predictions or no predictions found");
       }
 
-      const predictions = predictionsData.predictions;
-      if (predictions.length === 0) {
-        throw new Error("No predictions found");
-      }
+      const sortedPredictions = sortPredictions(predictionsData.predictions);
+      const predictionsWithEventCount = await Promise.all(
+        sortedPredictions.map(async (prediction) => {
+          const parts = prediction.predictionKey.split('||');
+          const spotLongitude = parseFloat(parts[2]);
+          const spotLatitude = parseFloat(parts[1]);
+          const events = await EventModel.find({
+            date,
+            location: {
+              $near: {
+                $geometry: {
+                  type: "Point",
+                  coordinates: [spotLongitude, spotLatitude],
+                },
+                $maxDistance: 150,
+              },
+            },
+          });
+          const numEvents = events.length;
+          return { ...prediction, numEvents };
+        })
+      );
 
-      const sortedPredictions = sortPredictions(predictions);
-      return sortedPredictions.slice(0, 5).map(async (prediction) => {
+      predictionsWithEventCount.sort((a, b) => {
+        const aTime = a.predictionKey.split('||')[3];
+        const bTime = b.predictionKey.split('||')[3];
+        const aIsPrioritized = isWithinPriorityTime(aTime);
+        const bIsPrioritized = isWithinPriorityTime(bTime);
+
+        if (aIsPrioritized && !bIsPrioritized) {
+          return -1;
+        }
+        if (!aIsPrioritized && bIsPrioritized) {
+          return 1;
+        }
+        return b.numEvents - a.numEvents;
+      });
+
+      return predictionsWithEventCount.slice(0, 3).map(async (prediction) => {
         const parts = prediction.predictionKey.split('||');
         const startTimeStr = parts[3];
         const endTimeStr = getNextHour(startTimeStr);
@@ -158,6 +192,7 @@ const generateTimeSlots = async (req: Request, res: Response) => {
         const formattedEndTime = createTimeFromString(endTimeStr);
         const formattedDate = reformatDateString(date);
         const timeSlotId = uuidv4();
+        
         const timeSlotToAdd = {
           timeSlotId: timeSlotId,
           spotId: spot.spotId,
@@ -166,7 +201,7 @@ const generateTimeSlots = async (req: Request, res: Response) => {
           date: formattedDate,
           startTime: formattedStartTime,
           endTime: formattedEndTime,
-        }
+        };
         const newTimeSlot = new TimeSlotModel(timeSlotToAdd);
         await newTimeSlot.save();
 
@@ -186,10 +221,11 @@ const generateTimeSlots = async (req: Request, res: Response) => {
     res.status(200).send(generatedTimeSlots);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error instanceof Error ? error.message : "Unknown error has occurred");
+    res.status(500).send(
+      error instanceof Error ? error.message : "Unknown error has occurred"
+    );
   }
 };
-
 
 const filterIdealTimeSlots = async (req: Request, res: Response) => {
   try {
@@ -211,7 +247,7 @@ const filterIdealTimeSlots = async (req: Request, res: Response) => {
               type: "Point",
               coordinates: [spotLongitude, spotLatitude]
             },
-            $maxDistance: 100
+            $maxDistance: 150
           }
         }
       });
@@ -257,14 +293,14 @@ const getIdealTimeSlots = async (req: Request, res: Response) => {
       const spotLatitude = spotInfo.latitude;
       const spotLongitude = spotInfo.longitude;
       const events = await EventModel.find({
-        date: timeSlot.date,
+        date: timeSlot.date, // prediction's date here
         location: {
           $near: {
             $geometry: {
               type: "Point",
-              coordinates: [spotLongitude, spotLatitude]
+              coordinates: [spotLongitude, spotLatitude] // prediction's longitude and latitude here
             },
-            $maxDistance: 100
+            $maxDistance: 150
           }
         }
       });

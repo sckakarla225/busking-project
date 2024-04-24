@@ -449,15 +449,18 @@ ALL FILTERED SPOTS:
 
 Situational Dataset Features:
 - Location properties:
+** Sources: Manual **
     - Size (int)
     - Enclosing (bool)
     - Spaciousness (category)
     - Walkways (int)
 - Nearby Sounds properties:
+** Sources: Manual **
     - Speaker Noise (category)
     - Street Noise (category)
     - Indoor Noise (category)
 - Event properties (for each event):
+** Sources: downtownraleigh.org, visitraleigh.org, eventbrite.com **
     - Name (string)
     - Types (string)
     - Descriptions (string)
@@ -467,6 +470,7 @@ Situational Dataset Features:
     - Themes (string)
     - Holidays (string)
 - POI Details (for each POI):
+** Sources: downtownraleigh.org, Google Maps API **
     - Name (string)
     - Types (string)
     - Size/Capacities (category)

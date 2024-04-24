@@ -2,7 +2,8 @@ import {
   createTimeFromString, 
   getDayOfWeek,
   getNextHour,
-  reformatDateString 
+  reformatDateString,
+  isWithinPriorityTime 
 } from "./time";
 import { sortPredictions } from "./predict";
 
@@ -11,5 +12,6 @@ export {
   getDayOfWeek,
   sortPredictions,
   getNextHour,
-  reformatDateString
+  reformatDateString,
+  isWithinPriorityTime
 };
