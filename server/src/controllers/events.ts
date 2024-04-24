@@ -18,7 +18,7 @@ const createEvents = async (req: Request, res: Response) => {
   };
 
   try {
-    const filePath = path.join(__dirname, 'data', 'events.json');
+    const filePath = path.join(__dirname, 'data', 'new-events.json');
     const data = await fs.readFile(filePath, 'utf8');
     const events = JSON.parse(data);
     const uploadedEvents: any[] = [];
